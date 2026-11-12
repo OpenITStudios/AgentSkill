@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtemp, appendFile, mkdir, writeFile, rm } from 'node:fs/promises';
+import { mkdtemp, appendFile, mkdir, writeFile, rm, cp, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -64,6 +64,35 @@ test('packaging refuses existing paths and writes inside canonical repository', 
     const insideRepo = run('package', join(ROOT, 'unwanted-bundle'));
     assert.notEqual(insideRepo.status, 0);
     assert.match(insideRepo.stderr, /PACKAGE BLOCKED/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('an undeclared shared policy module fails inventory validation', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-inventory-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    await writeFile(join(snapshot, '.agent-standard/core/unregistered.md'), '# unregistered\n');
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /CORE INVENTORY/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('offline bundle staging refuses a parent symlink redirected to source', { skip: process.platform === 'win32' }, async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-redirect-'));
+  try {
+    await symlink(ROOT, join(parent, 'redirect'), 'dir');
+    const bad = run('package', join(parent, 'redirect', 'new-output'));
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /PACKAGE BLOCKED/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }

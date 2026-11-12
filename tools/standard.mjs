@@ -6,7 +6,7 @@
  */
 import { createHash } from 'node:crypto';
 import {
-  readFile, writeFile, mkdir, lstat, readdir
+  readFile, writeFile, mkdir, lstat, readdir, realpath
 } from 'node:fs/promises';
 import { dirname, join, resolve, relative, isAbsolute, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -40,6 +40,34 @@ function sha256(bytes) {
 
 async function readJson(path, base = ROOT) {
   return JSON.parse(await readFile(join(base, path), 'utf8'));
+}
+
+async function ensureRegularPortableFile(base, name) {
+  const checked = safeRelativePath(name);
+  let cursor = base;
+  for (const segment of checked.split('/')) {
+    cursor = join(cursor, segment);
+    const state = await lstat(cursor);
+    ensure(!state.isSymbolicLink(), 'SYMLINK BLOCKED: ' + checked);
+  }
+  const state = await lstat(cursor);
+  ensure(state.isFile(), 'NOT REGULAR FILE: ' + checked);
+}
+
+async function ensureCompletePortableInventory(manifest) {
+  const core = manifest.entries.filter(e => e.kind === 'core').map(e => e.source).sort();
+  const dirents = await readdir(join(ROOT, '.agent-standard/core'), { withFileTypes: true });
+  ensure(dirents.every(e => e.isFile() && e.name.endsWith('.md')), 'CORE INVENTORY: unexpected directory or non-Markdown file');
+  const present = dirents.map(e => '.agent-standard/core/' + e.name).sort();
+  ensure(JSON.stringify(core) === JSON.stringify(present), 'CORE INVENTORY: unlisted or missing shared module');
+  const index = await readFile(join(ROOT, '.agent-standard/core/INDEX.md'), 'utf8');
+  for (const file of present) {
+    ensure(index.includes(file.split('/').at(-1)), 'CORE INDEX: missing module entry ' + file);
+  }
+  const skills = manifest.entries.filter(e => e.kind === 'skill').map(e => e.source.split('/')[2]).sort();
+  const skillDirs = await readdir(join(ROOT, 'skills/core'), { withFileTypes: true });
+  ensure(skillDirs.every(e => e.isDirectory()), 'SKILL INVENTORY: unexpected top-level file');
+  ensure(JSON.stringify(skillDirs.map(e => e.name).sort()) === JSON.stringify(skills), 'SKILL INVENTORY: unlisted shared skill');
 }
 
 function validateProfile(profile) {
@@ -106,6 +134,7 @@ async function validateCanonical() {
     ensure(!srcSeen.has(source) && !dstSeen.has(target), 'duplicate distribution path: ' + source + ' -> ' + target);
     srcSeen.add(source);
     dstSeen.add(target);
+    await ensureRegularPortableFile(ROOT, source);
     const bytes = await readFile(join(ROOT, source));
     ensure(bytes.length > 0, 'empty source: ' + source);
     if (entry.kind === 'skill') {
@@ -122,6 +151,7 @@ async function validateCanonical() {
   }
   ensure(dstSeen.has('AGENTS.md') && dstSeen.has('GITHUB_RULES.md'), 'missing portable root rules');
   ensure(skillCount >= 3, 'minimum core skills missing');
+  await ensureCompletePortableInventory(manifest);
 
   const schema = await readJson('schemas/repository-profile.schema.json');
   ensure(schema && schema.properties && schema.properties.holds && schema.properties.branchPolicy, 'profile schema missing guards');
@@ -156,10 +186,26 @@ function preventRepoOutput(output) {
   ensure(diff === '..' || diff.startsWith('..' + sep) || isAbsolute(diff), 'PACKAGE BLOCKED: output cannot be inside the canonical repository');
 }
 
+async function preventRedirectedRepoOutput(target) {
+  // A lexical outside-repo path can still enter the repo through a symlink.
+  let ancestor = dirname(target);
+  while (!(await pathExists(ancestor))) {
+    const next = dirname(ancestor);
+    ensure(next !== ancestor, 'PACKAGE BLOCKED: no existing ancestor');
+    ancestor = next;
+  }
+  const state = await lstat(ancestor);
+  ensure(state.isDirectory() && !state.isSymbolicLink(), 'PACKAGE BLOCKED: symlink/non-directory parent');
+  const actualAncestor = await realpath(ancestor);
+  const projectedTarget = resolve(actualAncestor, relative(ancestor, target));
+  preventRepoOutput(projectedTarget);
+}
+
 async function packageBundle(rawTarget, validated) {
   ensure(typeof rawTarget === 'string' && rawTarget.length > 0, 'package requires a fresh output directory');
   const target = resolve(rawTarget);
   preventRepoOutput(target);
+  await preventRedirectedRepoOutput(target);
   ensure((await pathExists(target)) === null, 'package destination already exists (no overwrite): ' + target);
   await mkdir(target, { recursive: true });
   const files = {};
@@ -188,12 +234,16 @@ async function packageBundle(rawTarget, validated) {
 async function verifyParity(rawTarget, validated) {
   ensure(typeof rawTarget === 'string' && rawTarget.length > 0, 'verify requires a target directory');
   const target = resolve(rawTarget);
+  const state = await lstat(target);
+  ensure(state.isDirectory() && !state.isSymbolicLink(), 'VERIFY BLOCKED: target must be a real directory');
+  await ensureRegularPortableFile(target, '.agent-standard/standard.lock.json');
   const lock = await readJson('.agent-standard/standard.lock.json', target);
   ensure(lock.schemaVersion === 1 && lock.standard === validated.manifest.name && lock.version === validated.manifest.version, 'lock/version mismatch');
   ensure(lock.files && typeof lock.files === 'object' && !Array.isArray(lock.files), 'lock files missing');
   const expectedNames = validated.manifest.entries.map(e => e.target).sort();
   ensure(JSON.stringify(Object.keys(lock.files).sort()) === JSON.stringify(expectedNames), 'lock path list differs from canonical manifest');
   for (const entry of validated.manifest.entries) {
+    await ensureRegularPortableFile(target, entry.target);
     const actual = await readFile(join(target, entry.target));
     const source = await readFile(join(ROOT, entry.source));
     const liveHash = sha256(actual), sourceHash = sha256(source);

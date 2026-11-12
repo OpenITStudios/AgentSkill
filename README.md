@@ -58,7 +58,7 @@ node tools/standard.mjs package /absolute/path/to/NEW-empty-bundle-dir
 node tools/standard.mjs verify /absolute/path/to/bundle-or-adopted-repo
 ```
 
-`validate` checks the canonical source, manifest, skill metadata, profile and eval cases. `package` creates an **offline staging bundle only**, with `standard.lock.json` and SHA-256 checksums. `verify` checks installed file identity against the current canonical source and lock. These static checks cannot assert an agent followed the instructions, that Codex/OpenCode actually loaded them, or that any native project tests passed.
+`validate` checks the complete canonical module/skill inventory, manifest, skill metadata, profile and eval cases. `package` creates an **offline staging bundle only**, with `standard.lock.json` and SHA-256 checksums. `verify` checks target file identity against the current canonical source and lock, rejects symlinked files and alternate-host skill shadow paths. These static checks cannot assert an agent followed the instructions, that Codex/OpenCode actually loaded them, or that any native project tests passed.
 
 ## Adoption rules
 
