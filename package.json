@@ -1,0 +1,11 @@
+{
+  "name": "oits-agent-standard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "OpenITStudios portable agent governance foundation; no runtime dependency",
+  "scripts": {
+    "check": "node tools/standard.mjs validate",
+    "test": "node --test tests/*.test.mjs"
+  }
+}
