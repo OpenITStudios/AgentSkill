@@ -44,7 +44,7 @@ Node.js 20+:
 
 ```bash
 node tools/standard.mjs validate
-node --test tests/*.test.mjs
+node --test tests/standard.test.mjs
 node tools/standard.mjs package /absolute/path/to/NEW-empty-bundle-dir
 node tools/standard.mjs verify /absolute/path/to/bundle-or-adopted-repo
 ```
