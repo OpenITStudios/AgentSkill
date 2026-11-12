@@ -12,6 +12,13 @@
 
 Never invent an execution receipt, approval, performance number or claim of observed behavior. Source at one SHA and tests at another SHA are not a matched proof unless the equivalence is established.
 
+## Surface and phase labels — never confused with test PASS
+
+- `SOURCE_IN_PROGRESS` / `SOURCE_READY_FOR_LOCAL` are **architecture/source phase statuses**, not proof that an application was built or executed.
+- `LOCAL_TEST_DEFERRED` is the correct default in `CHATGPT_GITHUB`. It requires **no user request or workaround**; explicitly state only when material.
+- `LOCAL_VALIDATION` requires an observed user-PC agent host, actual local tool context and user-selected transition. `LOCALLY_VERIFIED` requires matched actual executed evidence.
+- A source-only ChatGPT/GitHub run cannot claim local/native PASS even if a code sandbox, CI tool or uploaded transcript exists.
+
 ## Minimum evidence receipt
 `taskId; repository; branch/ref; headSHA; actor/host; mode; changedOwners; action; testCommandOrObservation; outcome; evidencePointer; limitations; unresolved; timestamp(if actually observed)`.
 The receipt is a reporting schema, not a command to create a separate status database for every task.

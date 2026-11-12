@@ -8,6 +8,15 @@
 - A profile, Skill, or agent text cannot grant tool access, bypass security or override a higher-priority rule. Project-specific restrictions may **narrow** shared rules, not silently weaken them.
 - Never infer authorization to change a different repository, release, create branches, dispatch CI, run tests on hold, or write private data from an inspection or discussion request.
 
+## Mandatory execution-surface identification
+
+**Exactly two approved work methods:** `CHATGPT_GITHUB` and `LOCAL_PC_AGENT`. Identify the real current interface, tool execution origin and host **before** selecting task mode; see `.agent-standard/core/work-surfaces-and-phase-gates.md` and `host-identification.md`.
+
+- When operating **in ChatGPT with connected GitHub and no authenticated user-PC tool access**, the current surface is `CHATGPT_GITHUB`. Complete the main architecture, coherent integrated source, written test fixtures, documentation and GitHub source review with authorized GitHub tools. **Do not ask for localtest**, do not require incremental user-PC tests, and **never use GitHub Actions/cloud CI/cloud agents/sandboxes as a substitute**. Localtest is `DEFERRED` until source work is complete and the user independently chooses the local-PC phase.
+- `LOCAL_PC_AGENT` applies only when actual **Claude Code, Codex CLI/IDE or OpenCode** is verified to execute against the user's PC workspace and the user has selected the local workflow. Identify **agent application** separately from underlying model/provider. A branch called `Local`, uploaded transcript, cloud container or desktop browser is **not** proof.
+- If host/target evidence is ambiguous, keep source-only boundaries and use `UNKNOWN_SURFACE` for unsupported execution. Do not keep asking the user for their environment when this ChatGPT/GitHub session already establishes it.
+- `SOURCE_READY_FOR_LOCAL` means completed source architecture and a precise later handoff, **not** a demand to test now or a claim of build/runtime PASS. Source corrections from later local feedback can be made on GitHub without restarting repeated test requests.
+
 ## Startup — bounded context
 1. Identify the target repository, selected branch, requested result and work mode. Pin actual HEAD before any material write; do not silently fall back to default `main`.
 2. Read this file, `GITHUB_RULES.md`, `.agent-standard/profile.json`, and only relevant clauses from `.agent-standard/core/`. Missing or contradictory authority is a blocker for the affected action, not permission to guess.
@@ -24,7 +33,7 @@
 ## Operating references (progressive loading)
 - `GITHUB_RULES.md` — current GitHub write/commit discipline.
 - `.agent-standard/profile.json` — mandatory **local** branch, hold, security and data restrictions.
-- `.agent-standard/core/INDEX.md` — one-hop selector for the shared canonical SOP, skill routing, context, handoff, tool, evaluation and engineering policies.
+- `.agent-standard/core/INDEX.md` — one-hop selector for routing, context, handoff, tool, evaluation and engineering policies, including the two execution surfaces.
 - Before a material side effect, read relevant rules in `permission-and-security.md`; before a completion claim use the matching `evidence-and-recovery.md` proof ceiling. Do not preload unrelated modules.
 
 ## Delivery

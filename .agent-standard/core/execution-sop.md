@@ -2,6 +2,14 @@
 
 **Owner:** AgentSkill. **Status:** normative v0.1.0-draft. A task need not execute every stage; stages are logical checks, not demands for extra artifacts.
 
+## 0. Identify the actual work surface — before task mode
+
+- `CHATGPT_GITHUB`: ChatGPT conversation using GitHub for complete source architecture/integration. **No localtest request, no GitHub Actions/cloud CI workaround.** Never stop early to demand localtest while available source work remains.
+- `LOCAL_PC_AGENT`: actual user-PC workspace controlled by a verified Claude Code, Codex CLI/IDE or OpenCode session, with separately chosen `LOCAL_VALIDATION` phase. Only this surface can provide actual user-PC execution proof.
+- `UNKNOWN_SURFACE`: fail closed for local execution; finish safe read/source work.
+
+See `work-surfaces-and-phase-gates.md` and `host-identification.md`. A model name, repo URL or branch `Local` does not define the work surface.
+
 ## 1. BOOT and current authority
 Capture `repo`, `selectedRef`, `currentHead`, `userGoal`, `userScope`, `taskMode`, `profileVersion`, available tools and active holds. A read-only request needs no mutation pipeline. Resolve the present owner from actual source, not recency of commits.
 
@@ -23,6 +31,10 @@ Resolve first wrong semantic owner. Read root/profile, relevant canonical docume
 
 ## 5. EXECUTE only authorized effects
 Before each mutation perform the action-level preflight in `permission-and-security.md`. Check selected ref, current HEAD, file owner and hold. Prefer one coherent change, no duplicate state or framework stacking. Changes with irreversible effects need the actual platform's approval capability and user authorization.
+
+## Source-to-local phase transition (not automatic)
+
+Do not impose a localtest step between source features. In ChatGPT/GitHub, finish agreed architecture and integration, document source-only evidence, author relevant tests, and produce one source-ready handoff when genuinely complete. Do not demand immediate user action. Local validation starts only when the user explicitly chooses an actual local PC agent and the prepared source revision is reconciled.
 
 ## 6. VERIFY using a proof ceiling
 Use `evidence-and-recovery.md`. Source-level inspection can prove source properties only; an authored test cannot prove executable behavior. If tests are held, do not run them. Verify negative cases, preservation of critical invariants and affected consumers at the available level; never dilute a gate.

@@ -4,6 +4,8 @@ This index is a **selector**, not a new agent/router. Shared root `AGENTS.md` de
 
 | Owner document | Trigger / question it answers | Load rule |
 | --- | --- | --- |
+| `work-surfaces-and-phase-gates.md` | Are we working in ChatGPT+GitHub source-only, or actual local PC; is localtest admitted yet? | **required at the start of every repository-development session** |
+| `host-identification.md` | What client (ChatGPT/Claude Code/Codex/OpenCode), model and actual tool origin are present? | required for host transitions, local claims or conflicting evidence |
 | `execution-sop.md` | Which mode/stage and how to finish? | for multi-step work; skip full read for obvious bounded tasks |
 | `permission-and-security.md` | Is this particular side effect allowed? | **required before material mutation** or when permissions conflict |
 | `evidence-and-recovery.md` | What can be claimed, and how to recover? | when making completion claims, tests unavailable, or session interrupted |
@@ -17,7 +19,7 @@ This index is a **selector**, not a new agent/router. Shared root `AGENTS.md` de
 
 ## Authority
 
-- Root: task classification, basic safety and user scope.
+- Root: actual execution surface, task classification, basic safety and user scope.
 - Local profile: currently permitted branch, CI/test holds and protected data; not copied with core.
 - This index: **where** to find the answer.
 - One owner module: **what** contract governs that question.
