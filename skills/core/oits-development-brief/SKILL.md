@@ -24,3 +24,8 @@ Classify source/test/tool/permission/native cause; fix the first wrong owner. If
 
 ## Core references
 Use `.agent-standard/core/engineering-and-review-methods.md` for one combined quality review and conditional deep diagnosis; use `handoff-and-state.md` only when several owners genuinely participate; use `tool-contracts-and-reliability.md` when capabilities, receipts or retries are material. Root/profile permissions always govern.
+
+
+## Two-surface execution boundary
+
+For all tasks in ChatGPT+GitHub, use `.agent-standard/core/work-surfaces-and-phase-gates.md` and `host-identification.md`. Complete available source architecture and review, **never require user localtest or replace it with GitHub Actions/cloud CI**. Actual local-PC validation belongs to a later user-selected Claude Code/Codex CLI/OpenCode session; a source report or this Skill does not authorize it.

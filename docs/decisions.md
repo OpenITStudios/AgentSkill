@@ -38,3 +38,10 @@ Decision: consolidate routing, context, method lenses, handoff, evaluation and t
 
 ## ADR-008: One primary owner; specialist handoff is an operation, not a new agent
 Decision: retain one final-result owner; domain specialist support returns a typed, bounded packet. No automatic eight-agent method council, plugin deployment, or duplicate status database.
+
+
+## ADR-009: Exactly two approved execution surfaces
+Decision: `CHATGPT_GITHUB` owns full architecture/source development, GitHub source operations and static review. `LOCAL_PC_AGENT` owns user-PC toolchain/localtest/native acceptance only after source readiness and explicit user phase transition. Never request localtest during source development; never use GitHub Actions, CI, cloud agents or hosted sandboxes as substitute. A branch named Local and a desktop browser are not machine evidence.
+
+## ADR-010: Identify actual host application and tool origin separately
+Decision: `host_app` (ChatGPT, Codex CLI, Claude Code, OpenCode), model provider, interface and tool execution origin are separate dimensions. Claude model inside OpenCode is OpenCode. Hosted Codex/Claude/OpenCode environments are not the user's PC. Host adapters are portable and version-conditional; do not assume automatic AGENTS loading or scripts/hooks installed. Official-source research: `docs/research/two-surfaces-official-sources.md`.

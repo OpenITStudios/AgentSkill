@@ -33,9 +33,11 @@ This is an observation/routing contract, **not cryptographic attestation**. A JS
 
 ## Agent adapters — exact product mechanics
 
-- `docs/adapters/codex-cli.md` — local Codex; `AGENTS.md`/overrides; distinguish Codex Cloud.
-- `docs/adapters/claude-code.md` — Claude Code local; `CLAUDE.md` and `AGENTS.md` priority/version checks; hooks only if installed and authorized.
-- `docs/adapters/opencode.md` — OpenCode local; actual server target, model/provider separation, AGENTS and skill ID shadowing/permissions.
+- Canonical AgentSkill source: `docs/adapters/codex-cli.md`, `claude-code.md` and `opencode.md`.
+- Distributed, byte-identical host reference guides: `.agent-standard/adapters/codex-cli.md`, `claude-code.md` and `opencode.md`.
+- Codex CLI: `AGENTS.md`/overrides, distinguish Codex Cloud.
+- Claude Code: `CLAUDE.md` and `AGENTS.md` loading/version checks; hooks only if installed and authorized.
+- OpenCode: actual server/agent target, model/provider separation, AGENTS/skill ID shadowing and versioned permissions.
 
 Never install all adapters in every repo, or create three competing AGENTS files. The **core standard is byte-identical**; host adapters merely explain how to load and enforce it in their own client.
 

@@ -23,3 +23,8 @@ Repository/ref/HEAD; owners inspected; direct evidence; conflict matrix; adoptio
 
 ## Core references
 For multiple repos or ambiguous skill ownership, consult `.agent-standard/core/decision-routing-and-ownership.md` and `context-and-session-continuity.md` via the root policy index. Preserve confidentiality when source repositories are private; see the public research ledger's publication boundary. Never escalate inspection into a write.
+
+
+## Two-surface execution boundary
+
+For all tasks in ChatGPT+GitHub, use `.agent-standard/core/work-surfaces-and-phase-gates.md` and `host-identification.md`. Complete available source architecture and review, **never require user localtest or replace it with GitHub Actions/cloud CI**. Actual local-PC validation belongs to a later user-selected Claude Code/Codex CLI/OpenCode session; a source report or this Skill does not authorize it.

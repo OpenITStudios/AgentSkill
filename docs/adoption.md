@@ -32,3 +32,14 @@ The actual branches, branch permissions and holds must be re-read at pilot time.
 
 ## Rollback
 Keep exact pre-adoption ref and blob authority, create no ad hoc branches for transport, and revert only within explicit target permissions and safe concurrency checks. Document preserved local restrictions and affected consumers. STOP when parity, source receipt and authorized acceptance are complete.
+
+
+## Mandatory two-method migration safety
+
+The downstream root must carry the `CHATGPT_GITHUB` / `LOCAL_PC_AGENT` distinction **unchanged**. The project profile must satisfy the immutable `workflowPolicy` defaults:
+- `requestLocaltestFromChatGPT = false`;
+- `localTestDuringSourcePhase = false`;
+- `githubActionsOrCloudTestSubstitution = false`;
+- `localValidationRequiresExplicitTransition = true`.
+
+Complete all GitHub-source architecture/integration before writing one source-ready handoff. Do not solicit localtest as a migration prerequisite. Codex CLI, Claude Code, and OpenCode can receive adapted loader documentation from the portable `.agent-standard/adapters/` package, but no local host has been activated simply by adopting files. Actual executable proof requires the user's separately selected and verified PC-local context.

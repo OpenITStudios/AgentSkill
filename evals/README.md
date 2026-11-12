@@ -19,3 +19,8 @@ No live model evaluations are executed as part of this foundation.
 ## Consolidated behavior coverage (cases GOV-029–GOV-044)
 
 These cases extend the original baseline for context reloading, private-source handling, native proof freshness, overlong Skills, method-selection abstention, canonical owner isolation, speculation about token cost, unknown-outcome idempotency, source trust and cross-owner handoff. They remain **normative oracles only**; real model traces require separately authorized execution.
+
+
+## Execution-surface and host identity coverage (GOV-045–GOV-066)
+
+Cases verify the two different work methods, **no ChatGPT localtest demands**, no GitHub Actions/cloud test substitutes, completion of primary architecture before localtest, delayed handoff, exact native host/tool origin, agent application vs model provider, and version-specific Claude Code/OpenCode instruction loading. These are **expected outcomes only**; no case was executed on a real local agent during source design.
