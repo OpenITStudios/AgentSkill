@@ -117,3 +117,25 @@ test('rejects unsafe two-surface policy profile even without executing a model',
     await rm(parent, { recursive: true, force: true });
   }
 });
+
+test('staging parity cannot masquerade as adopted host without a local profile', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-adoption-gate-'));
+  const dest = join(parent, 'bundle');
+  try {
+    const p = run('package', dest);
+    assert.equal(p.status, 0, p.stderr);
+    const staged = run('verify', dest);
+    assert.equal(staged.status, 0, staged.stderr);
+    assert.match(staged.stdout, /STAGING ONLY; NOT ADOPTED/);
+    const lockPath = join(dest, '.agent-standard/standard.lock.json');
+    const lock = JSON.parse(await (await import('node:fs/promises')).readFile(lockPath, 'utf8'));
+    lock.status = 'ADOPTED';
+    lock.sourceCommit = 'a'.repeat(40);
+    await writeFile(lockPath, JSON.stringify(lock));
+    const invalid = run('verify', dest);
+    assert.notEqual(invalid.status, 0);
+    assert.match(invalid.stderr, /ADOPTION PROFILE REQUIRED/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});

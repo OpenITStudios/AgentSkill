@@ -251,6 +251,16 @@ async function verifyParity(rawTarget, validated) {
   const lock = await readJson('.agent-standard/standard.lock.json', target);
   ensure(lock.schemaVersion === 1 && lock.standard === validated.manifest.name && lock.version === validated.manifest.version, 'lock/version mismatch');
   ensure(lock.files && typeof lock.files === 'object' && !Array.isArray(lock.files), 'lock files missing');
+  const staged = lock.status === 'STAGED_NOT_INSTALLED';
+  ensure(staged || lock.status === 'ADOPTED', 'invalid lock status: not staged or adopted');
+  if (staged) {
+    ensure(lock.sourceCommit === null, 'staging lock must not claim a committed adoption');
+  } else {
+    ensure(typeof lock.sourceCommit === 'string' && /^[0-9a-f]{40}$/.test(lock.sourceCommit), 'ADOPTION SOURCE SHA REQUIRED');
+    ensure((await pathExists(join(target, '.agent-standard/profile.json'))) !== null, 'ADOPTION PROFILE REQUIRED');
+    await ensureRegularPortableFile(target, '.agent-standard/profile.json');
+    validateProfile(await readJson('.agent-standard/profile.json', target));
+  }
   const expectedNames = validated.manifest.entries.map(e => e.target).sort();
   ensure(JSON.stringify(Object.keys(lock.files).sort()) === JSON.stringify(expectedNames), 'lock path list differs from canonical manifest');
   for (const entry of validated.manifest.entries) {
@@ -267,7 +277,7 @@ async function verifyParity(rawTarget, validated) {
       }
     }
   }
-  process.stdout.write('PARITY PASS: ' + expectedNames.length + ' canonical files match SHA-256. SOURCE ONLY; not behavioral/native proof.\n');
+  process.stdout.write('PARITY PASS: ' + (staged ? 'STAGING ONLY; NOT ADOPTED' : 'ADOPTED PROFILE PRESENT; effective host not verified') + '; ' + expectedNames.length + ' canonical files match SHA-256. SOURCE ONLY; not behavioral/native proof.\n');
 }
 
 async function main() {

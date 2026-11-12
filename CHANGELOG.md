@@ -20,3 +20,5 @@
 - Add host identity rules (application distinct from model/provider and execution origin), Codex/Claude Code/OpenCode version-aware adapters, and source-to-local handoff template.
 - Add profile/schema guardrails, portable bundle adapters and 22 more normative cases (66 total).
 - No localtest, hosted CI, native test, behavioral model trial or cross-repo rollout performed.
+
+- Tighten bundle parity report: staging is not adopted; a purported adopted target must have a source commit and a validated two-surface profile. Additional regression case authored, not executed.
