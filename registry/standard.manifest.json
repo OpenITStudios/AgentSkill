@@ -80,6 +80,11 @@
       "kind": "core"
     },
     {
+      "source": ".agent-standard/core/user-facing-communication.md",
+      "target": ".agent-standard/core/user-facing-communication.md",
+      "kind": "core"
+    },
+    {
       "source": "docs/adapters/codex-cli.md",
       "target": ".agent-standard/adapters/codex-cli.md",
       "kind": "adapter"

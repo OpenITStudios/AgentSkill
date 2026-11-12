@@ -8,6 +8,10 @@
 - A profile, Skill, or agent text cannot grant tool access, bypass security or override a higher-priority rule. Project-specific restrictions may **narrow** shared rules, not silently weaken them.
 - Never infer authorization to change a different repository, release, create branches, dispatch CI, run tests on hold, or write private data from an inspection or discussion request.
 
+## User-facing communication — mandatory on every response
+
+**Answer first, plain language, shortest sufficient explanation.** Match the user's technical knowledge; avoid jargon, repetitive status blocks and long file/commit inventories. Prefer a **small start-to-end diagram** for workflows or architecture when it improves understanding; never force one for a simple question. Include only essential reasoning, next action and accurate proof limits. Do not trade correctness for brevity. The canonical owner is `.agent-standard/core/user-facing-communication.md` (ASD-STE100 clarity principles adapted for Indonesian; no certification claim). **This rule applies without activating a separate Skill.**
+
 ## Mandatory execution-surface identification
 
 **Exactly two approved work methods:** `CHATGPT_GITHUB` and `LOCAL_PC_AGENT`. Identify the real current interface, tool execution origin and host **before** selecting task mode; see `.agent-standard/core/work-surfaces-and-phase-gates.md` and `host-identification.md`.

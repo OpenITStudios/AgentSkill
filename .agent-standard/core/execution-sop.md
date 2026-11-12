@@ -40,6 +40,7 @@ Do not impose a localtest step between source features. In ChatGPT/GitHub, finis
 Use `evidence-and-recovery.md`. Source-level inspection can prove source properties only; an authored test cannot prove executable behavior. If tests are held, do not run them. Verify negative cases, preservation of critical invariants and affected consumers at the available level; never dilute a gate.
 
 ## 7. REPORT and STOP
+**User-facing presentation must follow `user-facing-communication.md`:** answer first; write for the reader, not for the tool log; use a compact start-to-end diagram for complex flows when it is clearer; make technical details optional and never obscure uncertainty or source-only proof.
 Return concise: goal/result, repository/ref+SHA, changed owner/files, checks actually run and outcomes, pending proof, known risk, next authorized dependency. STOP when the goal is met, action denied, approval genuinely required, a blocker cannot be resolved safely, or retries no longer add evidence.
 
 ## Failure and recovery

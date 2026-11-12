@@ -4,6 +4,7 @@ This index is a **selector**, not a new agent/router. Shared root `AGENTS.md` de
 
 | Owner document | Trigger / question it answers | Load rule |
 | --- | --- | --- |
+| `user-facing-communication.md` | How to answer clearly, briefly and with a useful diagram when needed? | **mandatory for every user-facing answer; root carries the concise rule** |
 | `work-surfaces-and-phase-gates.md` | Are we working in ChatGPT+GitHub source-only, or actual local PC; is localtest admitted yet? | **required at the start of every repository-development session** |
 | `host-identification.md` | What client (ChatGPT/Claude Code/Codex/OpenCode), model and actual tool origin are present? | required for host transitions, local claims or conflicting evidence |
 | `execution-sop.md` | Which mode/stage and how to finish? | for multi-step work; skip full read for obvious bounded tasks |
