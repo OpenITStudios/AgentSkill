@@ -28,3 +28,7 @@ Cases verify the two different work methods, **no ChatGPT localtest demands**, n
 ## User understanding and visual explanations (GOV-067–GOV-084)
 
 `communication-rubric.json` defines response-quality gates and future human evaluation of time to correct understanding. Cases distinguish simple direct replies, diagrams for actual workflows, jargon reduction, requested technical depth and essential factual limitations. This is **normative source only**, not a completed readability study or model PASS.
+
+## Method activation coverage (GOV-085–GOV-108)
+
+The eight legacy methods have positive and negative cases. For material source changes, Karpathy and Ponytail are evaluated as **one** combined pass. Pstack, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock must be selectively used or rejected. An authored evaluation corpus is not an executed model comparison.

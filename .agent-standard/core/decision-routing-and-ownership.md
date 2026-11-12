@@ -30,6 +30,10 @@ Select the **semantic owner of the requested final deliverable**, not the progra
 
 An implementation technology alone does not justify a new Skill. No separate Skills merely for TypeScript, Rust, packaging, screenshots or a one-off fix unless repeated work demonstrates a distinct **reusable semantic responsibility**.
 
+## Methods are not Skills
+
+After identifying the **one primary semantic owner**, a material source change gets the **Karpathy + Ponytail single-pass** check from `.agent-standard/methods.json`. Use a conditional lens (Pstack, Harness², DeepSeek Harness, REA, UI UX Pro Max, or Matt Pocock) only for its positive trigger, and skip it on its negative trigger. A method is **not** a new installed Skill, agent, permission, mode or alternative project router.
+
 ## Conditional skill selection
 
 1. Resolve mode and final output.

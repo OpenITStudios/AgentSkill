@@ -2,6 +2,10 @@
 
 **State:** proposal; no product repository has adopted this version. Existing rules cannot be overwritten without lossless classification of their restrictions.
 
+## Shared methods in adoption
+
+Move historical Karpathy, Ponytail, Pstack/Poteto, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock **general working principles** to the single byte-identical `.agent-standard/methods.json` and shared engineering procedure. Preserve local project skill taxonomy, source owner, workstream holds and actual tool permissions. Remove duplicated generic method blocks from older AGENTS only **after** their restrictions are mapped and adoption is explicitly authorized. Do not change existing project repositories as a side effect of maintaining AgentSkill.
+
 ## Classification before migration
 For every source repository pin the **user-selected working branch and HEAD**; read root/nearest AGENTS, GitHub rules, local skills, permission files, live branch restrictions, test/CI holds, privacy rules and workstream pauses. Classify each directive:
 - `CORE` — belongs in AgentSkill shared policy, identical for all.

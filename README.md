@@ -10,6 +10,12 @@ AgentSkill is the canonical source for **how OpenITStudios agents work**: portab
 
 Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-communication.md). The evaluation rubric is [communication-rubric.json](evals/communication-rubric.json). Both are **source-level standards**; improvements in user reading time have not yet been measured.
 
+## Shared engineering methods
+
+**Karpathy + Ponytail are one mandatory compact pass for material code changes.** Six other methods are **optional**, used only when they help a specific task. This retains the useful rules of older OpenITStudios repositories without installing eight agents or making every reply technical.
+
+[Method catalog](docs/methods/README.md) · [Portable registry](registry/methods.json) · [Migration ledger](docs/research/method-migration-ledger.md)
+
 ## The two supported work methods — non-negotiable
 
 | Surface | Actual environment | Primary goal | Verification |
@@ -50,6 +56,7 @@ An `AGENTS.md` cannot grant capabilities, overwrite platform instructions or sil
 - `.agent-standard/profile.json` — **this repo's** policy profile, not for copying verbatim.
 - `skills/core/` — the three v1 baseline skills.
 - `registry/standard.manifest.json` — exact distribution paths and current standard version.
+- `registry/methods.json` — eight source-pinned methods with activation, rejection, safety, and cases; distributed as `.agent-standard/methods.json`.
 - `schemas/repository-profile.schema.json` — reference format for project policy profiles.
 - `evals/cases.json` — normative routing, security, evidence and recovery cases, **not executed model results**.
 - `tools/standard.mjs` — dependency-free local static validator, bundle packager and parity checker.

@@ -13,7 +13,7 @@ This index is a **selector**, not a new agent/router. Shared root `AGENTS.md` de
 | `skill-authoring.md` | How to create/adapt a portable Skill safely? | only for Skill changes |
 | `decision-routing-and-ownership.md` | Which one owner/skill owns the result, and what must not activate? | if intent, owner or skill routing is non-trivial |
 | `context-and-session-continuity.md` | What to load, reuse, exclude and preserve through compaction? | on complex/long tasks or context recovery |
-| `engineering-and-review-methods.md` | Which engineering lens, design/review rigor or root-cause method helps? | for material development or methodology comparison |
+| `engineering-and-review-methods.md` + `.agent-standard/methods.json` | Which Karpathy/Ponytail baseline checks and conditional methods really apply? | One default pass for source changes; **only load one relevant optional method** |
 | `handoff-and-state.md` | How to transfer one specialist's facts to another without duplicate truth? | on cross-owner work, stage transition or UNKNOWN_OUTCOME |
 | `evaluation-and-improvement.md` | How to measure behavioral improvement against frozen baseline? | for agent rules, skill or harness quality work |
 | `tool-contracts-and-reliability.md` | How to diagnose tool capabilities, receipts, errors and retries? | for tool/session design, real side effects or unreliable execution |

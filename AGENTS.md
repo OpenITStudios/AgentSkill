@@ -29,6 +29,7 @@
 
 ## Work discipline
 - Define goal, scope/non-goals, acceptance, known constraints, actual capabilities and a STOP condition. Use a full specification only for material ambiguous or cross-owner changes.
+- For material source changes, use **Karpathy + Ponytail as ONE compact engineering pass**: check assumptions, the smallest complete solution, affected callers/security and falsifiable acceptance. Other reviewed methods are **conditional**, not always-active Skills, plugins or subagents; use the exact trigger/negative trigger in `.agent-standard/methods.json` and procedure in `.agent-standard/core/engineering-and-review-methods.md`.
 - Prefer the smallest **complete** and compatible change. Preserve existing behavior, security, data formats, test holds, branch policy and product-specific quality gates. Do not add duplicate routers, control planes or truth stores.
 - Observe → reason → act only within allowed scope → verify using evidence → report → STOP. Repeated failure triggers root-cause diagnosis, not permission to weaken a gate.
 - External tools are selected by actual availability, not by labels or wishes. A GitHub source inspection is not a terminal, installed app, native runtime or executed test.

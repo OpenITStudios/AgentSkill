@@ -85,6 +85,11 @@
       "kind": "core"
     },
     {
+      "source": "registry/methods.json",
+      "target": ".agent-standard/methods.json",
+      "kind": "method_registry"
+    },
+    {
       "source": "docs/adapters/codex-cli.md",
       "target": ".agent-standard/adapters/codex-cli.md",
       "kind": "adapter"

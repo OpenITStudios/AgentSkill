@@ -22,6 +22,10 @@ Use for an authorized complex change that cannot safely proceed from a known bou
 ## Failure and STOP
 Classify source/test/tool/permission/native cause; fix the first wrong owner. If tools or approval are absent, finish safe independent work and report unresolved proof explicitly. Never manufacture PASS, start CI on hold, add unsolicited branches or continue after the outcome is achieved.
 
+## Method selection within this Skill
+
+Use the **Karpathy + Ponytail combined pass** for code changes; check assumptions, minimal complete source, callers/security and actual source-level proof. For difficult diagnosis or domain ambiguity, select **at most one relevant optional method** from `.agent-standard/methods.json` (e.g. Pstack for difficult investigation, Matt Pocock for domain or interface conflicts). Do not install external Skills, force localtest or add a second task router.
+
 ## Core references
 Use `.agent-standard/core/engineering-and-review-methods.md` for one combined quality review and conditional deep diagnosis; use `handoff-and-state.md` only when several owners genuinely participate; use `tool-contracts-and-reliability.md` when capabilities, receipts or retries are material. Root/profile permissions always govern.
 

@@ -29,3 +29,9 @@
 - Adopt ASD-STE100 clarity principles for Indonesian without claiming formal compliance; preserve key uncertainty and proof distinctions.
 - Distribute the communication policy 1:1 (22 portable files); add a normative understanding rubric and 18 response cases (84 total).
 - Add static authoring checks and two regression tests to protect the rule; no localtest, cloud CI, model trial or human reading-time experiment was executed.
+
+## 0.1.0-draft — Cross-repository method consolidation
+- Centralize eight recurring engineering-method references in one source-pinned portable registry.
+- Make Karpathy + Ponytail one minimal **complete** code review pass, without duplicate review agents.
+- Route six optional methods by positive/negative triggers within existing owners; keep project-domain skills local.
+- Add 24 normative method-selection cases (108 total) and a legacy migration ledger; no localtest/CI/cloud/model benchmark was run.
