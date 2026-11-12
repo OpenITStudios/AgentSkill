@@ -51,4 +51,4 @@ An external method referenced in Agent Rules is **not installed**. A source revi
 
 For hypothesis-driven debugging use: **expected → observed → competing explanations → discriminating evidence → first wrong owner → minimal fix → affected consumers**. For complex changes preserve architectural boundaries; avoid speculative frameworks.
 
-Read [Method Catalog](../../docs/methods/README.md) in AgentSkill for a human overview. In an adopted repository the operative data is the local, byte-identical `.agent-standard/methods.json`, not a remote GitHub link.
+For a readable overview, see AgentSkill's central `docs/methods/README.md` when working in that source repository. In an adopted repository the authoritative method data is the local, byte-identical `.agent-standard/methods.json`; do not assume the central docs folder was copied.
