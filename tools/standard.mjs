@@ -207,6 +207,16 @@ async function validateCanonical() {
   }
   ensure(dstSeen.has('AGENTS.md') && dstSeen.has('GITHUB_RULES.md'), 'missing portable root rules');
   ensure(skillCount >= 3, 'minimum core skills missing');
+  const continuityPath = '.agent-standard/core/commit-continuity-and-recovery.md';
+  ensure(srcSeen.has(continuityPath) && dstSeen.has(continuityPath), 'COMMIT CONTINUITY: portable policy missing');
+  const githubPolicy = await readFile(join(ROOT, 'GITHUB_RULES.md'), 'utf8');
+  const rootPolicy = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
+  const continuity = await readFile(join(ROOT, continuityPath), 'utf8');
+  ensure(githubPolicy.includes('## Commit quality and cross-chat continuity') && rootPolicy.includes('## Commit continuity') && continuity.includes('## How to continue a task in another ChatGPT conversation'), 'COMMIT CONTINUITY: source policies not linked');
+  for (const field of ['Goal','Work','State','Proof','Decision','Unresolved','Next']) {
+    ensure(continuity.includes('`' + field + '`') || continuity.includes(field + ':'), 'COMMIT CONTINUITY: missing field ' + field);
+  }
+  await ensureRegularPortableFile(ROOT, 'tools/commit-message-check.mjs');
   ensure(manifest.entries.filter(e => e.kind === 'method_registry').length === 1, 'METHOD REGISTRY: exactly one portable registry is required');
   const communicationPath = '.agent-standard/core/user-facing-communication.md';
   ensure(srcSeen.has(communicationPath) && dstSeen.has(communicationPath), 'MANDATORY COMMUNICATION POLICY: distribution entry missing');
