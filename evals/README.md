@@ -24,3 +24,7 @@ These cases extend the original baseline for context reloading, private-source h
 ## Execution-surface and host identity coverage (GOV-045–GOV-066)
 
 Cases verify the two different work methods, **no ChatGPT localtest demands**, no GitHub Actions/cloud test substitutes, completion of primary architecture before localtest, delayed handoff, exact native host/tool origin, agent application vs model provider, and version-specific Claude Code/OpenCode instruction loading. These are **expected outcomes only**; no case was executed on a real local agent during source design.
+
+## User understanding and visual explanations (GOV-067–GOV-084)
+
+`communication-rubric.json` defines response-quality gates and future human evaluation of time to correct understanding. Cases distinguish simple direct replies, diagrams for actual workflows, jargon reduction, requested technical depth and essential factual limitations. This is **normative source only**, not a completed readability study or model PASS.

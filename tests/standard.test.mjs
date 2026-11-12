@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 66 normative cases validate', () => {
+test('canonical source, skill metadata and 84 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /66 normative cases/);
+  assert.match(r.stdout, /84 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -135,6 +135,45 @@ test('staging parity cannot masquerade as adopted host without a local profile',
     const invalid = run('verify', dest);
     assert.notEqual(invalid.status, 0);
     assert.match(invalid.stderr, /ADOPTION PROFILE REQUIRED/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('portable communication rule cannot disappear from the shared root', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-communication-policy-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    const rootFile = join(snapshot, 'AGENTS.md');
+    const source = await (await import('node:fs/promises')).readFile(rootFile, 'utf8');
+    await writeFile(rootFile, source.replace('## User-facing communication', '## Optional communication'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /MANDATORY COMMUNICATION POLICY/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('communication rubric must remain normative and measured claims cannot be predeclared', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-communication-eval-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    const rubricFile = join(snapshot, 'evals/communication-rubric.json');
+    const rubric = JSON.parse(await (await import('node:fs/promises')).readFile(rubricFile, 'utf8'));
+    rubric.status = 'MODEL_EVALUATION_PASSED';
+    await writeFile(rubricFile, JSON.stringify(rubric));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /invalid communication rubric identity/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }

@@ -29,3 +29,8 @@ Use `.agent-standard/core/evaluation-and-improvement.md` for frozen baseline/can
 ## Two-surface execution boundary
 
 For all tasks in ChatGPT+GitHub, use `.agent-standard/core/work-surfaces-and-phase-gates.md` and `host-identification.md`. Complete available source architecture and review, **never require user localtest or replace it with GitHub Actions/cloud CI**. Actual local-PC validation belongs to a later user-selected Claude Code/Codex CLI/OpenCode session; a source report or this Skill does not authorize it.
+
+
+## User communication quality
+
+When the task concerns answer length, readability, jargon or visual explanation, use the **mandatory** `.agent-standard/core/user-facing-communication.md` as the policy owner; this Skill only helps **review and improve** it. Add positive, negative and pressure cases to `evals/cases.json`, use `evals/communication-rubric.json` for a separate accuracy/comprehension assessment and never claim saved reading time without observed comparable results. Ordinary response generation needs **no activation** of this Skill.

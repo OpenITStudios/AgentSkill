@@ -41,3 +41,12 @@ A text transcript cannot itself prove a command ran; include runner/host or GitH
 `Observed failure → first wrong owner → minimal correction → updated negative case → static check → authorized repeated host evaluation → compare baseline → publish/rollback/hold → STOP`.
 
 Do not silently turn research methodology into a new mandatory evaluation agent or enabled CI workflow. The existing `evals/cases.json` is a normative, **not executed**, corpus.
+
+
+## User-facing communication evaluation — mandatory when changing response rules
+
+The canonical instruction owner is `.agent-standard/core/user-facing-communication.md`. Use `evals/communication-rubric.json` to check: answer-first, plain language, visual usefulness and accuracy, correct limits, next-action clarity, request-fit and repetition. **Factual integrity and critical safety/proof limits are hard gates**, never offset by fewer words.
+
+For future authorized empirical comparison, compare the **same facts and request** in old vs candidate answers: time to locate the correct answer, correct paraphrase, correct next action, retention of material limitations, unnecessary follow-up questions and whether a small diagram improves comprehension. Evaluate nontechnical and expert users separately based on observed needs, not guessed identity.
+
+A shorter Markdown file, fewer words or more visuals does **not** prove faster understanding. Until actual trials exist, report `NORMATIVE_NOT_MEASURED`.

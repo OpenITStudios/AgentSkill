@@ -161,6 +161,22 @@ async function validateCanonical() {
   }
   ensure(dstSeen.has('AGENTS.md') && dstSeen.has('GITHUB_RULES.md'), 'missing portable root rules');
   ensure(skillCount >= 3, 'minimum core skills missing');
+  const communicationPath = '.agent-standard/core/user-facing-communication.md';
+  ensure(srcSeen.has(communicationPath) && dstSeen.has(communicationPath), 'MANDATORY COMMUNICATION POLICY: distribution entry missing');
+  const rootInstructions = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
+  ensure(rootInstructions.includes('## User-facing communication') && rootInstructions.includes(communicationPath), 'MANDATORY COMMUNICATION POLICY: root instruction missing');
+  const communication = await readFile(join(ROOT, communicationPath), 'utf8');
+  ensure(communication.includes('Answer first') && communication.includes('ASD-STE100') && communication.includes('Diagram-first'), 'MANDATORY COMMUNICATION POLICY: content incomplete');
+  const rubric = await readJson('evals/communication-rubric.json');
+  ensure(rubric && rubric.schemaVersion === 1 && rubric.status === 'NORMATIVE_NOT_MEASURED' && rubric.standardPath === communicationPath, 'invalid communication rubric identity');
+  ensure(Array.isArray(rubric.dimensions) && rubric.dimensions.length >= 6, 'insufficient communication quality dimensions');
+  const rubricIds = new Set();
+  for (const dimension of rubric.dimensions) {
+    ensure(dimension && typeof dimension.id === 'string' && !rubricIds.has(dimension.id), 'invalid/duplicate communication dimension');
+    rubricIds.add(dimension.id);
+    ensure(['hard_gate','quality'].includes(dimension.type) && typeof dimension.question === 'string' && dimension.question.length > 10 && typeof dimension.evidence === 'string' && dimension.evidence.length > 10, 'invalid communication rubric criteria');
+  }
+
   ensure(manifest.entries.filter(e => e.kind === 'adapter').length === 3, 'three canonical agent host adapters required');
   await ensureCompletePortableInventory(manifest);
 

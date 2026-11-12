@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "title": "OpenITStudios User Communication Quality Rubric",
+  "status": "NORMATIVE_NOT_MEASURED",
+  "standardPath": ".agent-standard/core/user-facing-communication.md",
+  "intent": "Measure time to correct understanding, rather than shortest text or prettiest formatting.",
+  "dimensions": [
+    {
+      "id": "answer_first",
+      "type": "hard_gate",
+      "question": "Can the reader find the actual answer at the start?",
+      "evidence": "First two sentences directly resolve the primary request."
+    },
+    {
+      "id": "plain_language",
+      "type": "quality",
+      "question": "Can a nonexpert understand necessary terms without extra research?",
+      "evidence": "Uses familiar language; essential jargon explained once."
+    },
+    {
+      "id": "visual_fit",
+      "type": "quality",
+      "question": "Does the diagram/table help this request, or add work?",
+      "evidence": "Meaningful workflows get a clear start-to-end visual when useful; simple tasks do not."
+    },
+    {
+      "id": "diagram_accuracy",
+      "type": "hard_gate",
+      "question": "Are all diagram stages and arrows grounded and understandable?",
+      "evidence": "No invented transitions; one reading order and readable labels."
+    },
+    {
+      "id": "factual_integrity",
+      "type": "hard_gate",
+      "question": "Are changes, evidence level and limitations represented correctly?",
+      "evidence": "No false testing/permission claim or important caveat omitted."
+    },
+    {
+      "id": "action_clarity",
+      "type": "quality",
+      "question": "Does the reader know what changed or what they should do next?",
+      "evidence": "Outcome and one genuinely necessary next step are explicit."
+    },
+    {
+      "id": "redundancy",
+      "type": "quality",
+      "question": "Does repeating a point add any new decision value?",
+      "evidence": "No needless preamble, duplicate conclusion or technical metadata dump."
+    },
+    {
+      "id": "request_fit",
+      "type": "hard_gate",
+      "question": "Does the answer meet the requested depth and format?",
+      "evidence": "Short by default; technical details included when explicitly requested."
+    }
+  ],
+  "evaluationPlan": {
+    "method": "Future authorized human or host evaluation on fixed task pairs (old vs revised answer), not automatic completion claims.",
+    "compare": [
+      "time_to_find_main_answer",
+      "correct_paraphrase_of_result",
+      "correct_next_action",
+      "critical_caveat_recall",
+      "number_of_clarifying_followups",
+      "subjective_visual_helpfulness"
+    ],
+    "safeguards": [
+      "Blind review where possible",
+      "Record user experience level without assuming it from demographics",
+      "Separate trivial queries from multistep workflows",
+      "Use the same factual source/evidence for both answer styles",
+      "Any misleading claim or omitted critical limit is a hard failure"
+    ],
+    "costNote": "Word count and reading time estimates are proxies; no reduction claim until actual comparable evidence exists."
+  }
+}
