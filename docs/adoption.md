@@ -48,3 +48,8 @@ Complete all GitHub-source architecture/integration before writing one source-re
 ## Staging vs real adoption status
 
 A generated `STAGED_NOT_INSTALLED` lock is **not** evidence that a host has adopted or loaded the rules. The offline verifier distinguishes this state from `ADOPTED`. Adopted status requires an explicit 40-character pinned source commit, a complete destination-specific `.agent-standard/profile.json` that passes policy validation, all canonical hashes, and no detected alternate-host core skill shadow. That static check still does **not** prove actual Claude Code/Codex/OpenCode instruction loading or behavioral compliance. No automatic installer, GitHub Actions or remote test runner is supplied.
+
+
+## Mandatory communication contract during migration
+
+Preserve the portable `AGENTS.md` statement and `.agent-standard/core/user-facing-communication.md` file unchanged. Each host may render diagrams differently, so the response policy allows a short arrow diagram or compact table where visual output is unavailable; do not install an image engine just for formatting. Evaluation cases `GOV-067`–`GOV-084` must remain normative until actually tested against host outputs and users. A shorter response is not acceptable if it drops proof limits, relevant caveats, source attribution or requested technical depth.

@@ -45,3 +45,8 @@ Decision: `CHATGPT_GITHUB` owns full architecture/source development, GitHub sou
 
 ## ADR-010: Identify actual host application and tool origin separately
 Decision: `host_app` (ChatGPT, Codex CLI, Claude Code, OpenCode), model provider, interface and tool execution origin are separate dimensions. Claude model inside OpenCode is OpenCode. Hosted Codex/Claude/OpenCode environments are not the user's PC. Host adapters are portable and version-conditional; do not assume automatic AGENTS loading or scripts/hooks installed. Official-source research: `docs/research/two-surfaces-official-sources.md`.
+
+
+## ADR-011: Required user-facing answer quality, distinct from internal work detail
+
+Decision: every user-facing response should begin with the actual answer, use language suited to the reader, and be as short as possible **without loss of essential precision**. For a real workflow, prefer a small start-to-end diagram; for a simple answer, avoid visual clutter. Use ASD-STE100 **clarity principles only**, adapted for Indonesian (not a claim of conformity/certification). The policy owner is `.agent-standard/core/user-facing-communication.md`, carried in the root `AGENTS.md` and the 1:1 manifest. Quality is measured by **time to correct understanding and action**, not just word count. Until empirical comparisons exist, it is source-reviewed and `NORMATIVE_NOT_MEASURED`.

@@ -22,3 +22,10 @@
 - No localtest, hosted CI, native test, behavioral model trial or cross-repo rollout performed.
 
 - Tighten bundle parity report: staging is not adopted; a purported adopted target must have a source commit and a validated two-surface profile. Additional regression case authored, not executed.
+
+
+## 0.1.0-draft — User-facing communication standard
+- Make an answer-first, plain-language and diagram-when-useful policy mandatory in shared root rules and SOP.
+- Adopt ASD-STE100 clarity principles for Indonesian without claiming formal compliance; preserve key uncertainty and proof distinctions.
+- Distribute the communication policy 1:1 (22 portable files); add a normative understanding rubric and 18 response cases (84 total).
+- Add static authoring checks and two regression tests to protect the rule; no localtest, cloud CI, model trial or human reading-time experiment was executed.

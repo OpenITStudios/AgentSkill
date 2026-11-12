@@ -4,6 +4,12 @@
 
 AgentSkill is the canonical source for **how OpenITStudios agents work**: portable instructions, reusable core skills, operating procedures, permission boundaries and conformance cases. It is **not** a new multi-agent runtime or a replacement for Codex, OpenCode, repository-specific skills, or the product's testing engine.
 
+## How agents must answer users
+
+**Answer first → small diagram when a flow needs one → essential detail → stop.** Write in familiar language, especially for nontechnical readers. Do not repeat information or dump long technical file lists. A diagram is preferred for a real process, **not** for a simple one-line answer. Accuracy, citations, permission and test limitations remain mandatory.
+
+Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-communication.md). The evaluation rubric is [communication-rubric.json](evals/communication-rubric.json). Both are **source-level standards**; improvements in user reading time have not yet been measured.
+
 ## The two supported work methods — non-negotiable
 
 | Surface | Actual environment | Primary goal | Verification |
@@ -39,7 +45,8 @@ An `AGENTS.md` cannot grant capabilities, overwrite platform instructions or sil
 ## Repository layout
 
 - `AGENTS.md`, `GITHUB_RULES.md` — portable baseline used by any adopted repo.
-- `.agent-standard/core/INDEX.md` — canonical one-hop selector for execution surfaces, agent host recognition, routing, context, methods, handoff, evaluation and tool reliability; load modules on demand.
+- `.agent-standard/core/user-facing-communication.md` — **mandatory answer contract** for short, plain-language and diagram-assisted responses.
+- `.agent-standard/core/INDEX.md` — canonical selector for execution surfaces, host identity, routing, context, handoff, evaluation and tools; load other modules only when needed.
 - `.agent-standard/profile.json` — **this repo's** policy profile, not for copying verbatim.
 - `skills/core/` — the three v1 baseline skills.
 - `registry/standard.manifest.json` — exact distribution paths and current standard version.
