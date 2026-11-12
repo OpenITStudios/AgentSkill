@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const MANIFEST_PATH = 'registry/standard.manifest.json';
 const PROFILE_PATH = '.agent-standard/profile.json';
-const ALLOWED_KINDS = new Set(['root', 'core', 'skill', 'adapter']);
+const ALLOWED_KINDS = new Set(['root', 'core', 'skill', 'adapter', 'method_registry']);
 const ALLOWED_LEVELS = new Set([
   'L0_STATIC', 'L1_ROUTING', 'L2_WORKFLOW', 'L3_ADVERSARIAL'
 ]);
@@ -128,6 +128,50 @@ function validateSkill(text, entry, seen) {
   ensure(text.includes('## ') && text.length > fm[0].length + 100, 'skill procedure missing: ' + entry.source);
 }
 
+
+async function validateMethodRegistry(evals) {
+  const data = await readJson('registry/methods.json');
+  const schema = await readJson('schemas/method-registry.schema.json');
+  ensure(schema && schema.properties && schema.properties.methods && schema.properties.defaultEngineeringPass, 'METHOD REGISTRY: missing schema controls');
+  ensure(data.schemaVersion === 1 && data.id === 'oits-engineering-method-registry', 'METHOD REGISTRY: invalid registry identity');
+  ensure(data.version === '0.1.0-draft' && data.status === 'SOURCE_REVIEWED_NOT_HOST_TESTED', 'METHOD REGISTRY: unproven status or version');
+  const owner = '.agent-standard/core/engineering-and-review-methods.md';
+  ensure(data.canonicalOwner === owner, 'METHOD REGISTRY: unexpected procedure owner');
+  ensure(Array.isArray(data.defaultEngineeringPass) && JSON.stringify(data.defaultEngineeringPass) === JSON.stringify(['karpathy-guidelines','ponytail']), 'METHOD REGISTRY: default Karpathy/Ponytail pass must stay combined');
+  ensure(data.defaultPassMode === 'single-compact-review', 'METHOD REGISTRY: duplicate baseline review not allowed');
+  ensure(data.commonConstraints && Object.values(data.commonConstraints).length === 6 && Object.values(data.commonConstraints).every(x => x === true), 'METHOD REGISTRY: safety constraints cannot be weakened');
+  ensure(Array.isArray(data.methods) && data.methods.length === 8, 'METHOD REGISTRY: exact eight reviewed methods required');
+  const required = ['karpathy-guidelines','ponytail','pstack-poteto','harness2','deepseek-harness','rea','ui-ux-pro-max','matt-pocock'];
+  const observed = data.methods.map(m => m.id);
+  ensure(JSON.stringify(observed) === JSON.stringify(required), 'METHOD REGISTRY: missing, duplicated or reordered method');
+  const cases = new Map(evals.cases.map(c => [c.id,c]));
+  const linkedCaseIds = new Set();
+  for (const [i, method] of data.methods.entries()) {
+    ensure(method.group === (i < 2 ? 'baseline' : 'conditional'), 'METHOD REGISTRY: invalid activation class ' + method.id);
+    ensure(method.state === 'POLICY_ADAPTED_SOURCE_ONLY', 'METHOD REGISTRY: unverified method claims ' + method.id);
+    for (const field of ['triggers','negativeTriggers','procedure','sourceOnlyEvidence','prohibitions']) {
+      const values = method[field];
+      ensure(Array.isArray(values) && values.length >= (field === 'procedure' ? 3 : 1) && values.every(v => typeof v === 'string' && v.length > 10), 'METHOD REGISTRY: missing operational ' + field + ' for ' + method.id);
+    }
+    ensure(method.caseIds && method.caseIds.positive !== method.caseIds.negative, 'METHOD REGISTRY: positive/negative cases must differ for ' + method.id);
+    for (const id of [method.caseIds.positive,method.caseIds.negative]) {
+      ensure(typeof id === 'string' && cases.has(id) && !linkedCaseIds.has(id), 'METHOD REGISTRY: missing or shared eval case ' + String(id));
+      linkedCaseIds.add(id);
+      const testCase = cases.get(id);
+      ensure(['L1_ROUTING','L2_WORKFLOW','L3_ADVERSARIAL'].includes(testCase.level), 'METHOD REGISTRY: unsupported case level ' + id);
+    }
+    const p = method.provenance;
+    ensure(p && typeof p.repository === 'string' && p.repository.includes('/') && typeof p.reviewedPath === 'string' && p.reviewedPath.length > 3, 'METHOD REGISTRY: invalid provenance path');
+    ensure(typeof p.revision === 'string' && /^[0-9a-f]{40}$/.test(p.revision), 'METHOD REGISTRY: unpinned source revision ' + method.id);
+    ensure(p.url === 'https://github.com/' + p.repository + '/blob/' + p.revision + '/' + p.reviewedPath, 'METHOD REGISTRY: source reference mismatch ' + method.id);
+    ensure(p.copyPolicy === 'REFERENCE_PATTERN_ONLY_REVIEW_LICENSE_BEFORE_COPY', 'METHOD REGISTRY: external code/prompt copying not authorized');
+  }
+  const root = await readFile(join(ROOT,'AGENTS.md'),'utf8');
+  ensure(root.includes('.agent-standard/methods.json') && root.includes('Karpathy + Ponytail'), 'METHOD REGISTRY: root is missing mandatory conditional routing');
+  const procedure = await readFile(join(ROOT,owner),'utf8');
+  ensure(procedure.includes('.agent-standard/methods.json') && procedure.includes('Karpathy + Ponytail'), 'METHOD REGISTRY: source owner not linked');
+}
+
 async function validateCanonical() {
   const manifest = await readJson(MANIFEST_PATH);
   ensure(manifest.schemaVersion === 1 && manifest.name === 'oits-agent-standard', 'invalid standard manifest identity');
@@ -155,12 +199,15 @@ async function validateCanonical() {
       ensure(source.startsWith('.agent-standard/core/') && target === source, 'invalid core policy target');
     } else if (entry.kind === 'adapter') {
       ensure(source.startsWith('docs/adapters/') && source.endsWith('.md') && target === source.replace('docs/adapters/', '.agent-standard/adapters/'), 'invalid host adapter target');
+    } else if (entry.kind === 'method_registry') {
+      ensure(source === 'registry/methods.json' && target === '.agent-standard/methods.json', 'invalid method registry distribution target');
     } else {
       ensure(['AGENTS.md','GITHUB_RULES.md'].includes(source) && target === source, 'invalid root policy target');
     }
   }
   ensure(dstSeen.has('AGENTS.md') && dstSeen.has('GITHUB_RULES.md'), 'missing portable root rules');
   ensure(skillCount >= 3, 'minimum core skills missing');
+  ensure(manifest.entries.filter(e => e.kind === 'method_registry').length === 1, 'METHOD REGISTRY: exactly one portable registry is required');
   const communicationPath = '.agent-standard/core/user-facing-communication.md';
   ensure(srcSeen.has(communicationPath) && dstSeen.has(communicationPath), 'MANDATORY COMMUNICATION POLICY: distribution entry missing');
   const rootInstructions = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
@@ -200,6 +247,7 @@ async function validateCanonical() {
     ensure(['low','medium','high','critical'].includes(c.severity), 'invalid severity: ' + c.id);
   }
   ensure(levels.size === 4, 'evaluation coverage must span L0-L3');
+  await validateMethodRegistry(evals);
   return { manifest, caseCount: evals.cases.length, skillCount };
 }
 

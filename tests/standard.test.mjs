@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 84 normative cases validate', () => {
+test('canonical source, skill metadata and 108 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /84 normative cases/);
+  assert.match(r.stdout, /108 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -174,6 +174,83 @@ test('communication rubric must remain normative and measured claims cannot be p
     const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /invalid communication rubric identity/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+
+test('method registry remains pinned and preserves one Karpathy/Ponytail default pass', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-method-gate-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    const file = join(snapshot, 'registry/methods.json');
+    const methods = JSON.parse(await (await import('node:fs/promises')).readFile(file, 'utf8'));
+    methods.defaultEngineeringPass = ['ponytail','karpathy-guidelines'];
+    await writeFile(file, JSON.stringify(methods));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /METHOD REGISTRY: default Karpathy\/Ponytail pass/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('method registry rejects missing activation and negative trigger', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-method-negative-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    const file = join(snapshot, 'registry/methods.json');
+    const methods = JSON.parse(await (await import('node:fs/promises')).readFile(file, 'utf8'));
+    methods.methods[2].negativeTriggers = [];
+    await writeFile(file, JSON.stringify(methods));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /METHOD REGISTRY: missing operational negativeTriggers/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('method references must pin actual eval IDs and may not permit unreviewed copying', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-method-provenance-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    const file = join(snapshot, 'registry/methods.json');
+    const methods = JSON.parse(await (await import('node:fs/promises')).readFile(file, 'utf8'));
+    methods.methods[7].provenance.copyPolicy = 'COPY_WITHOUT_REVIEW';
+    await writeFile(file, JSON.stringify(methods));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /external code\/prompt copying not authorized/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('offline staging bundle method catalog is checked byte-for-byte', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-method-parity-'));
+  const target = join(parent, 'bundle');
+  try {
+    const pack = run('package', target);
+    assert.equal(pack.status, 0, pack.stderr);
+    assert.equal(run('verify', target).status, 0);
+    await appendFile(join(target, '.agent-standard/methods.json'), '\nUNAUTHORIZED CHANGE\n');
+    const bad = run('verify', target);
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /PARITY DRIFT: .agent-standard\/methods.json/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
