@@ -153,7 +153,7 @@ async function pathExists(p) {
 
 function preventRepoOutput(output) {
   const diff = relative(ROOT, output);
-  ensure(diff !== '' && diff !== '..' && !diff.startsWith('..' + sep) && !isAbsolute(diff), 'PACKAGE BLOCKED: output cannot be inside the canonical repository');
+  ensure(diff === '..' || diff.startsWith('..' + sep) || isAbsolute(diff), 'PACKAGE BLOCKED: output cannot be inside the canonical repository');
 }
 
 async function packageBundle(rawTarget, validated) {
