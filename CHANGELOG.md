@@ -35,3 +35,8 @@
 - Make Karpathy + Ponytail one minimal **complete** code review pass, without duplicate review agents.
 - Route six optional methods by positive/negative triggers within existing owners; keep project-domain skills local.
 - Add 24 normative method-selection cases (108 total) and a legacy migration ledger; no localtest/CI/cloud/model benchmark was run.
+
+## 0.1.0-draft — GitHub commit continuity
+- Add one portable commit body/recovery policy for material source work, adapting existing project practices and adding Goal/Next clarity.
+- Link root AGENTS, GitHub rules, execution SOP and context recovery to the topic-scoped history protocol.
+- Include before/after examples and a concise commit template. Do not rewrite previous history, infer runtime proof, or start CI/localtest.

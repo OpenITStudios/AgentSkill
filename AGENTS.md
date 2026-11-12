@@ -41,5 +41,11 @@
 - `.agent-standard/core/INDEX.md` — one-hop selector for routing, context, handoff, tool, evaluation and engineering policies, including the two execution surfaces.
 - Before a material side effect, read relevant rules in `permission-and-security.md`; before a completion claim use the matching `evidence-and-recovery.md` proof ceiling. Do not preload unrelated modules.
 
+## Commit continuity — mandatory for material Git changes
+
+For every **material** source/policy change, write a meaningful conventional commit subject and concise `Goal / Work / State / Proof / Decision / Unresolved / Next` body. Keep a stable **work topic**, what was preserved, actual evidence ceiling and one safe next source step. See `.agent-standard/core/commit-continuity-and-recovery.md`. Do not require such a body for a purely trivial typo.
+
+On a new chat or "lanjutkan", **recover the user's current topic first**, pin the selected branch/HEAD, inspect bounded *topic-relevant* commits and current canonical source, then reconcile the body's Next/State with newer changes and active holds. Never auto-switch to the latest GitHub commit's unrelated topic; `Next` is advisory, not authorization. Do not create a second status database or request localtest to restore continuity.
+
 ## Delivery
 State the exact repository/ref, changed scope, actual verification actor and result, unresolved proof, and STOP status. Claim no runtime/model/native PASS without evidence from that environment. If verification is held, explicitly say **NOT_EXECUTED**. Structural parity does **not** imply behavioral parity.

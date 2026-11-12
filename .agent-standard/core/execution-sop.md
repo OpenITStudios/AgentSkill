@@ -10,6 +10,10 @@
 
 See `work-surfaces-and-phase-gates.md` and `host-identification.md`. A model name, repo URL or branch `Local` does not define the work surface.
 
+## Continuity boot for returning GitHub tasks
+
+When the user says "lanjutkan" or starts a new conversation, use `commit-continuity-and-recovery.md`: derive the **same topic** from the user, pin the selected ref/HEAD, read relevant old commit continuity fields plus current source/holds, and resume the smallest permitted work. The newest Git commit may belong to a different topic; never follow it blindly.
+
 ## 1. BOOT and current authority
 Capture `repo`, `selectedRef`, `currentHead`, `userGoal`, `userScope`, `taskMode`, `profileVersion`, available tools and active holds. A read-only request needs no mutation pipeline. Resolve the present owner from actual source, not recency of commits.
 
@@ -38,6 +42,10 @@ Do not impose a localtest step between source features. In ChatGPT/GitHub, finis
 
 ## 6. VERIFY using a proof ceiling
 Use `evidence-and-recovery.md`. Source-level inspection can prove source properties only; an authored test cannot prove executable behavior. If tests are held, do not run them. Verify negative cases, preservation of critical invariants and affected consumers at the available level; never dilute a gate.
+
+## Material Git commit
+
+For a coherent material source delivery, write the short `Goal / Work / State / Proof / Decision / Unresolved / Next` commit body at the **actual proof ceiling**, with a stable work topic and safe next step. This is a history receipt, not permission for automatic localtest, CI, release, branch creation or background work. See `commit-continuity-and-recovery.md`.
 
 ## 7. REPORT and STOP
 **User-facing presentation must follow `user-facing-communication.md`:** answer first; write for the reader, not for the tool log; use a compact start-to-end diagram for complex flows when it is clearer; make technical details optional and never obscure uncertainty or source-only proof.

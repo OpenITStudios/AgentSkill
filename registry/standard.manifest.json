@@ -85,6 +85,11 @@
       "kind": "core"
     },
     {
+      "source": ".agent-standard/core/commit-continuity-and-recovery.md",
+      "target": ".agent-standard/core/commit-continuity-and-recovery.md",
+      "kind": "core"
+    },
+    {
       "source": "registry/methods.json",
       "target": ".agent-standard/methods.json",
       "kind": "method_registry"

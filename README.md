@@ -10,6 +10,16 @@ AgentSkill is the canonical source for **how OpenITStudios agents work**: portab
 
 Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-communication.md). The evaluation rubric is [communication-rubric.json](evals/communication-rubric.json). Both are **source-level standards**; improvements in user reading time have not yet been measured.
 
+## GitHub commit continuity for ChatGPT
+
+Every material commit now documents **why the change exists, what was done, the honest evidence limit, what remains, and one safe next step**. A new ChatGPT session recovers the *user's current topic* from relevant commit history plus current source; it never assumes the latest unrelated commit is the user's goal.
+
+- [Commit continuity rules](.agent-standard/core/commit-continuity-and-recovery.md)
+- [Readable before/after examples](docs/examples/commit-continuity.md)
+- [Compact commit template](docs/templates/commit-message.md)
+
+A material change follows a short `Goal / Work / State / Proof / Decision / Unresolved / Next` body; a trivial typo may use just a clear subject. More detail stays in GitHub, not in long chat responses. **No CI/cloud/localtest required** for this source-only continuity work.
+
 ## Shared engineering methods
 
 **Karpathy + Ponytail are one mandatory compact pass for material code changes.** Six other methods are **optional**, used only when they help a specific task. This retains the useful rules of older OpenITStudios repositories without installing eight agents or making every reply technical.

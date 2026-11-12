@@ -36,6 +36,10 @@ Every stage must name its input identity, accepted output, required proof and ou
 
 **Correction convergence:** `Observed mismatch → owning stage → bounded correction → necessary dependent checks → updated receipt`. Count only verified changes toward progress; tool calls or reported completion alone do not prove convergence.
 
+## Material Git commits as bounded continuation receipts
+
+For long-running development, commit coherent source units and retain `Goal / Work / State / Proof / Decision / Unresolved / Next`. The stable `Work` topic supports history navigation; the exact Git diff holds file-level details. `Next` is **advisory only**, and a checkpoint or commit cannot authorize branch promotion, localtest, CI, external send or other effect. Current product source, branch authority and user intent always win. The complete format belongs to `commit-continuity-and-recovery.md`, not a second state system.
+
 ## Interrupted or ambiguous side effects
 
 For a write/send/commit with lost acknowledgment, outcome is `UNKNOWN_OUTCOME`. Inspect actual remote state and idempotency key/commit/ref where supported **before** retry. Do not create a duplicate PR, message, report, file or payment merely to resolve uncertainty. A checkpoint without a receipt is not proof of success.

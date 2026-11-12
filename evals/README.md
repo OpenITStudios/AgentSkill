@@ -32,3 +32,7 @@ Cases verify the two different work methods, **no ChatGPT localtest demands**, n
 ## Method activation coverage (GOV-085–GOV-108)
 
 The eight legacy methods have positive and negative cases. For material source changes, Karpathy and Ponytail are evaluated as **one** combined pass. Pstack, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock must be selectively used or rejected. An authored evaluation corpus is not an executed model comparison.
+
+## GitHub commit continuity and context recovery (GOV-109 onward)
+
+Source-only cases check meaningful subject + typed material body, truthful Proof and status, stable topic, one safe Next, and topic-scoped continuation in a new ChatGPT chat. No case requires or claims localtest, GitHub Actions or cloud verification.

@@ -24,6 +24,12 @@ Always respect selected branch and project holds. A repo branch named `Local` ne
 - If the expected SHA moved, **stop and reconcile current history**. No force push or overwrite of concurrent work just to make the action pass.
 - One logical unit per commit; do not create staging branches or CI workflows merely as transport. Never assert a PR exists when working directly on one branch.
 
+## Commit quality and cross-chat continuity — required for material changes
+
+A GitHub commit must help a later ChatGPT session understand **why**, **what**, **what is proven**, and **what is next**. Use `type(scope): concrete outcome`, blank line, then these short fields in this order: `Goal`, `Work`, `State`, `Proof`, `Decision`, `Unresolved`, `Next`. Optional `Refs` may point to one or two current canonical documents. The `Work` field includes a stable topic for scoped history recovery. `State` uses `ACTIVE | BLOCKED | PAUSED | DONE`; `Proof` distinguishes exact source evidence and `NOT_EXECUTED`. For a trivial typo-only commit, a clear subject may suffice.
+
+**Do not write a long transcript or duplicate a status database.** For "lanjutkan", recover the **current user topic**, selected branch and pinned HEAD first; then inspect only relevant recent commit bodies and current source/holds. Never choose the newest unrelated commit as a new goal. `Next` is a suggestion, not user approval. If the commit message is incomplete, recover from actual diff/source instead of inventing fields or rewriting history. Refer to `.agent-standard/core/commit-continuity-and-recovery.md` for the full contract and examples.
+
 ## Execution contexts
 - `REMOTE_GITHUB`: exact source read/write and static inspection. No build/test/native proof without a real executor.
 - `LOCAL_CODE`: only verified commands on the actual user's PC when the local agent workflow and local-validation phase were selected; not a ChatGPT/cloud container.
