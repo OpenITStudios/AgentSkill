@@ -40,3 +40,6 @@
 - Add one portable commit body/recovery policy for material source work, adapting existing project practices and adding Goal/Next clarity.
 - Link root AGENTS, GitHub rules, execution SOP and context recovery to the topic-scoped history protocol.
 - Include before/after examples and a concise commit template. Do not rewrite previous history, infer runtime proof, or start CI/localtest.
+
+- Add 20 normative commit/recovery evaluation cases (128 total) and author offline format checks (no tests executed).
+- Keep the commit body more precise than the user-facing chat; preserve source and work-topic continuity without another status store.

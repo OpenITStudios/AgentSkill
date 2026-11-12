@@ -44,7 +44,7 @@ export function lintCommitMessage(rawMessage, options = {}) {
         errors.push('Unexpected commit field: ' + field);
         continue;
       }
-      if (found.has(field)) { errors.push('Duplicate commit field: ' + field); continue; }
+      if (found.has(field) && field !== 'Co-authored-by') { errors.push('Duplicate commit field: ' + field); continue; }
       if (!value) errors.push('Commit field is empty: ' + field);
       const index = CONTINUITY_FIELDS.indexOf(field);
       if (index >= 0) {
@@ -53,7 +53,11 @@ export function lintCommitMessage(rawMessage, options = {}) {
       } else {
         afterOptional = true;
       }
-      found.set(field, value);
+      if (field === 'Co-authored-by' && found.has(field)) {
+        found.set(field, found.get(field) + '; ' + value);
+      } else {
+        found.set(field, value);
+      }
       lastField = field;
     } else if (/^[ \t]{2,}\S/.test(line) && lastField !== null) {
       found.set(lastField, found.get(lastField) + ' ' + line.trim());

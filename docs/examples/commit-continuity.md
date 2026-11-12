@@ -66,3 +66,27 @@ docs(readme): correct a misspelled heading
 | A full transcript in commit | Wastes context and risks exposing data |
 | One commit for unrelated fixes | Makes history and rollback ambiguous |
 | `Next` not present on a material in-progress commit | New ChatGPT session cannot identify a safe continuation |
+
+## 6. How ChatGPT should resume when the latest commit belongs to another task
+
+**User:** "Lanjutkan perbaikan texture face scan di branch Local."
+
+**Observed example:** the latest GitHub commit discusses audio assets, while an earlier `Work: texture-face-scan` commit includes `State: ACTIVE`, `Unresolved` and `Next`.
+
+**Correct recovery:**
+
+```text
+User topic: texture-face-scan
+   ↓
+Pin Local HEAD and read root/profile
+   ↓
+Find recent Work: texture-face-scan commits
+   ↓
+Compare their decisions and Next with current texture source
+   ↓
+Continue the permitted texture source owner — not the audio feature
+```
+
+**Example short chat result:** "Saya lanjutkan texture face scan, bukan pekerjaan audio terbaru. Source dan batasan terakhir sudah diperiksa. Pekerjaan selanjutnya adalah menuntaskan integrasi tekstur; pengujian lokal tetap ditunda."
+
+This is a conceptual recovery illustration. It is not a claim that a real client session was resumed or localtest executed.

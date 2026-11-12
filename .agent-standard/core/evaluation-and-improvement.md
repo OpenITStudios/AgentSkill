@@ -50,3 +50,9 @@ The canonical instruction owner is `.agent-standard/core/user-facing-communicati
 For future authorized empirical comparison, compare the **same facts and request** in old vs candidate answers: time to locate the correct answer, correct paraphrase, correct next action, retention of material limitations, unnecessary follow-up questions and whether a small diagram improves comprehension. Evaluate nontechnical and expert users separately based on observed needs, not guessed identity.
 
 A shorter Markdown file, fewer words or more visuals does **not** prove faster understanding. Until actual trials exist, report `NORMATIVE_NOT_MEASURED`.
+
+## Commit and continuation quality
+
+The canonical contract is `commit-continuity-and-recovery.md`. For source-level policy checks, distinguish **structural** commit fields from actual subject/branch/source continuity. A clean `Goal/Work/State/Proof/Decision/Unresolved/Next` message is a *navigation aid*, not proof of correct code or user permission.
+
+Evaluate recovery with `GOV-109`–`GOV-128`: hand the agent the user’s original topic and repository branch, include a newer **unrelated** commit, and check that it reads topic-relevant commits plus current source, preserves holds and chooses only an authorized next action. Human/model behavioral outcomes remain **NOT_MEASURED** until an actual permitted host run.

@@ -318,3 +318,28 @@ test('trivial typo commit can omit material body only by explicit option', async
     await rm(parent, { recursive: true, force: true });
   }
 });
+
+
+test('repeat co-author trailers do not replace required continuity fields', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-commit-authors-'));
+  try {
+    const target = join(parent, 'message.txt');
+    await writeFile(target, [
+      'docs(policy): explain safe commit continuity',
+      '',
+      'Goal: Make the next ChatGPT session recover the intended task.',
+      'Work: git-continuity — improve commit metadata and context recovery.',
+      'State: DONE; SOURCE_INTEGRATION.',
+      'Proof: SOURCE_REVIEWED; NOT_EXECUTED.',
+      'Decision: Reuse Git history rather than adding a status database.',
+      'Unresolved: None for the scope of this documentation change.',
+      'Next: STOP',
+      'Co-authored-by: Example One <one@example.invalid>',
+      'Co-authored-by: Example Two <two@example.invalid>'
+    ].join('\n'));
+    const result = spawnSync(process.execPath, [join(ROOT, 'tools/commit-message-check.mjs'), target], { encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
