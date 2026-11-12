@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "name": "oits-agent-standard",
+  "version": "0.1.0-draft",
+  "state": "FOUNDATION_SOURCE_ONLY",
+  "entries": [
+    {
+      "source": "AGENTS.md",
+      "target": "AGENTS.md",
+      "kind": "root"
+    },
+    {
+      "source": "GITHUB_RULES.md",
+      "target": "GITHUB_RULES.md",
+      "kind": "root"
+    },
+    {
+      "source": ".agent-standard/core/execution-sop.md",
+      "target": ".agent-standard/core/execution-sop.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/permission-and-security.md",
+      "target": ".agent-standard/core/permission-and-security.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/evidence-and-recovery.md",
+      "target": ".agent-standard/core/evidence-and-recovery.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/skill-authoring.md",
+      "target": ".agent-standard/core/skill-authoring.md",
+      "kind": "core"
+    },
+    {
+      "source": "skills/core/oits-repository-audit/SKILL.md",
+      "target": ".agents/skills/oits-repository-audit/SKILL.md",
+      "kind": "skill"
+    },
+    {
+      "source": "skills/core/oits-development-brief/SKILL.md",
+      "target": ".agents/skills/oits-development-brief/SKILL.md",
+      "kind": "skill"
+    },
+    {
+      "source": "skills/core/oits-agent-quality-review/SKILL.md",
+      "target": ".agents/skills/oits-agent-quality-review/SKILL.md",
+      "kind": "skill"
+    }
+  ],
+  "profilePath": ".agent-standard/profile.json",
+  "casesPath": "evals/cases.json"
+}

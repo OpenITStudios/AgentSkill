@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenITStudios Repository Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "repository",
+    "activeBranch",
+    "branchPolicy",
+    "executionPolicy",
+    "permissions",
+    "protectedPaths",
+    "holds",
+    "dataPolicy"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    },
+    "activeBranch": {
+      "type": "string",
+      "minLength": 1
+    },
+    "branchPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "writableBranches",
+        "allowAutoBranch",
+        "allowAutoPromotion"
+      ],
+      "properties": {
+        "writableBranches": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowAutoBranch": {
+          "const": false
+        },
+        "allowAutoPromotion": {
+          "const": false
+        }
+      }
+    },
+    "executionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ci",
+        "tests",
+        "nativeProof"
+      ],
+      "properties": {
+        "ci": {
+          "enum": [
+            "disabled",
+            "manual_only",
+            "normal"
+          ]
+        },
+        "tests": {
+          "enum": [
+            "on_hold",
+            "allowed_when_available"
+          ]
+        },
+        "nativeProof": {
+          "const": "required_when_claimed"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "crossRepoWrites",
+        "mutatingActionsRequireUserIntent",
+        "releaseRequiresExplicitApproval"
+      ],
+      "properties": {
+        "crossRepoWrites": {
+          "const": false
+        },
+        "mutatingActionsRequireUserIntent": {
+          "const": true
+        },
+        "releaseRequiresExplicitApproval": {
+          "const": true
+        }
+      }
+    },
+    "protectedPaths": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "holds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "reason",
+          "paths",
+          "blockedActions",
+          "until"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "blockedActions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "write",
+                "test",
+                "ci",
+                "release",
+                "package",
+                "deploy",
+                "delete"
+              ]
+            }
+          },
+          "until": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "dataPolicy": {
+      "enum": [
+        "public-standards-only",
+        "private-repository",
+        "confidential-project"
+      ]
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

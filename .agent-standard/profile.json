@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "repository": "OpenITStudios/AgentSkill",
+  "activeBranch": "main",
+  "branchPolicy": {
+    "writableBranches": [
+      "main"
+    ],
+    "allowAutoBranch": false,
+    "allowAutoPromotion": false
+  },
+  "executionPolicy": {
+    "ci": "manual_only",
+    "tests": "allowed_when_available",
+    "nativeProof": "required_when_claimed"
+  },
+  "permissions": {
+    "crossRepoWrites": false,
+    "mutatingActionsRequireUserIntent": true,
+    "releaseRequiresExplicitApproval": true
+  },
+  "protectedPaths": [],
+  "holds": [],
+  "dataPolicy": "public-standards-only",
+  "note": "Repository bootstrap on main only. Do not infer write approval for downstream repositories."
+}
