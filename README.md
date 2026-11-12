@@ -28,7 +28,7 @@ An `AGENTS.md` cannot grant capabilities, overwrite platform instructions or sil
 ## Repository layout
 
 - `AGENTS.md`, `GITHUB_RULES.md` — portable baseline used by any adopted repo.
-- `.agent-standard/core/` — SOP, security/permissions, evidence/recovery and skill authoring.
+- `.agent-standard/core/INDEX.md` — canonical one-hop policy selector, routing, context, methods, handoff, evaluation and tool reliability; open modules only when needed.
 - `.agent-standard/profile.json` — **this repo's** policy profile, not for copying verbatim.
 - `skills/core/` — the three v1 baseline skills.
 - `registry/standard.manifest.json` — exact distribution paths and current standard version.
@@ -36,7 +36,16 @@ An `AGENTS.md` cannot grant capabilities, overwrite platform instructions or sil
 - `evals/cases.json` — normative routing, security, evidence and recovery cases, **not executed model results**.
 - `tools/standard.mjs` — dependency-free local static validator, bundle packager and parity checker.
 - `docs/adoption.md` — controlled migration, no automatic cross-repo writes.
-- `docs/decisions.md` — research decisions and tradeoffs.
+- `docs/decisions.md` — architectural decisions.
+- `docs/research/consolidation-ledger.md` — public-source provenance and exact pattern→owner decisions; no private source copied.
+
+## Unified operating model
+
+`Intent/authority → one semantic owner → smallest relevant Skill/context → permission/capability gate → coherent implementation → matched evidence → bounded handoff/recovery → STOP.`
+
+The central rule applies identically across domains. Minecraft, UI, Blockbench, financial and other domain procedures remain local project Skills; their evidence and protection constraints are preserved. This is a **semantic consolidation**, not a claim of measured host parity.
+
+See `.agent-standard/core/INDEX.md` and `docs/research/consolidation-ledger.md` for the new architecture and reviewed public sources.
 
 ## Local, explicitly invoked checks
 

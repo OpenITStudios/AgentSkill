@@ -21,12 +21,11 @@
 - External tools are selected by actual availability, not by labels or wishes. A GitHub source inspection is not a terminal, installed app, native runtime or executed test.
 - Preserve project intent and permissions across context compaction or session recovery. Never treat a summary as more authoritative than current source.
 
-## Mandatory operating references
-- `GITHUB_RULES.md` — git and mutation discipline.
-- `.agent-standard/core/execution-sop.md` — task routing and execution.
-- `.agent-standard/core/permission-and-security.md` — action-level preflight and trust boundaries.
-- `.agent-standard/core/evidence-and-recovery.md` — honest proof and bounded recovery.
-- `.agent-standard/core/skill-authoring.md` — core skill creation and routing.
+## Operating references (progressive loading)
+- `GITHUB_RULES.md` — current GitHub write/commit discipline.
+- `.agent-standard/profile.json` — mandatory **local** branch, hold, security and data restrictions.
+- `.agent-standard/core/INDEX.md` — one-hop selector for the shared canonical SOP, skill routing, context, handoff, tool, evaluation and engineering policies.
+- Before a material side effect, read relevant rules in `permission-and-security.md`; before a completion claim use the matching `evidence-and-recovery.md` proof ceiling. Do not preload unrelated modules.
 
 ## Delivery
 State the exact repository/ref, changed scope, actual verification actor and result, unresolved proof, and STOP status. Claim no runtime/model/native PASS without evidence from that environment. If verification is held, explicitly say **NOT_EXECUTED**. Structural parity does **not** imply behavioral parity.

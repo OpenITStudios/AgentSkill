@@ -15,3 +15,7 @@ Each case has `id`, `level`, `title`, `request`, `context`, `expected`, `forbidd
 Pin (a) standard version/SHA, (b) target repo/ref SHA, (c) host/model/version/config, (d) exact effective instruction paths, and (e) case fixtures. Execute repeated trials in isolated disposable state, record tool calls, refusals, outcome, cost and unsupported capabilities. Compare baseline to candidate with both specification and safety scoring. Do not collect secrets or private user content into a public eval corpus.
 
 No live model evaluations are executed as part of this foundation.
+
+## Consolidated behavior coverage (cases GOV-029–GOV-044)
+
+These cases extend the original baseline for context reloading, private-source handling, native proof freshness, overlong Skills, method-selection abstention, canonical owner isolation, speculation about token cost, unknown-outcome idempotency, source trust and cross-owner handoff. They remain **normative oracles only**; real model traces require separately authorized execution.

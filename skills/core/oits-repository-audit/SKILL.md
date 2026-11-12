@@ -20,3 +20,6 @@ Repository/ref/HEAD; owners inspected; direct evidence; conflict matrix; adoptio
 
 ## Proof and STOP
 `SOURCE_REVIEWED` is the highest claim without a real executor. No commits, PRs, issues, CI dispatch, branch edits, migrations or data exports on a read-only audit. STOP when the requested review is explained or the permission boundary prevents further evidence.
+
+## Core references
+For multiple repos or ambiguous skill ownership, consult `.agent-standard/core/decision-routing-and-ownership.md` and `context-and-session-continuity.md` via the root policy index. Preserve confidentiality when source repositories are private; see the public research ledger's publication boundary. Never escalate inspection into a write.

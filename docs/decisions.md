@@ -32,3 +32,9 @@ Decision: static checks must detect malformed manifests, duplicated skill IDs, m
 - OWASP MCP Security Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html
 
 No third-party source code or proprietary prompt collection is vendored here.
+
+## ADR-007: Curate reusable legacy patterns; do not aggregate full project policies
+Decision: consolidate routing, context, method lenses, handoff, evaluation and tool reliability under `.agent-standard/core/INDEX.md`. Shared policy modules are byte-identical in adopting repos, while domain Skills and branch/test/data holds remain local. The source-by-source public ledger is `docs/research/consolidation-ledger.md`. No copies of private source or third-party prompt dumps.
+
+## ADR-008: One primary owner; specialist handoff is an operation, not a new agent
+Decision: retain one final-result owner; domain specialist support returns a typed, bounded packet. No automatic eight-agent method council, plugin deployment, or duplicate status database.

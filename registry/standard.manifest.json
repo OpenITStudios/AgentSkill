@@ -35,6 +35,41 @@
       "kind": "core"
     },
     {
+      "source": ".agent-standard/core/INDEX.md",
+      "target": ".agent-standard/core/INDEX.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/decision-routing-and-ownership.md",
+      "target": ".agent-standard/core/decision-routing-and-ownership.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/context-and-session-continuity.md",
+      "target": ".agent-standard/core/context-and-session-continuity.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/engineering-and-review-methods.md",
+      "target": ".agent-standard/core/engineering-and-review-methods.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/handoff-and-state.md",
+      "target": ".agent-standard/core/handoff-and-state.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/evaluation-and-improvement.md",
+      "target": ".agent-standard/core/evaluation-and-improvement.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/tool-contracts-and-reliability.md",
+      "target": ".agent-standard/core/tool-contracts-and-reliability.md",
+      "kind": "core"
+    },
+    {
       "source": "skills/core/oits-repository-audit/SKILL.md",
       "target": ".agents/skills/oits-repository-audit/SKILL.md",
       "kind": "skill"

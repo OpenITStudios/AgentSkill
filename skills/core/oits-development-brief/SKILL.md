@@ -21,3 +21,6 @@ Use for an authorized complex change that cannot safely proceed from a known bou
 
 ## Failure and STOP
 Classify source/test/tool/permission/native cause; fix the first wrong owner. If tools or approval are absent, finish safe independent work and report unresolved proof explicitly. Never manufacture PASS, start CI on hold, add unsolicited branches or continue after the outcome is achieved.
+
+## Core references
+Use `.agent-standard/core/engineering-and-review-methods.md` for one combined quality review and conditional deep diagnosis; use `handoff-and-state.md` only when several owners genuinely participate; use `tool-contracts-and-reliability.md` when capabilities, receipts or retries are material. Root/profile permissions always govern.
