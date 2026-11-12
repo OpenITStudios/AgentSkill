@@ -62,6 +62,7 @@ async function ensureCompletePortableInventory(manifest) {
   ensure(JSON.stringify(core) === JSON.stringify(present), 'CORE INVENTORY: unlisted or missing shared module');
   const index = await readFile(join(ROOT, '.agent-standard/core/INDEX.md'), 'utf8');
   for (const file of present) {
+    if (file.endsWith('/INDEX.md')) continue; // The selector need not link to itself.
     ensure(index.includes(file.split('/').at(-1)), 'CORE INDEX: missing module entry ' + file);
   }
   const skills = manifest.entries.filter(e => e.kind === 'skill').map(e => e.source.split('/')[2]).sort();
