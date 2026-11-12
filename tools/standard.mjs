@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const MANIFEST_PATH = 'registry/standard.manifest.json';
 const PROFILE_PATH = '.agent-standard/profile.json';
-const ALLOWED_KINDS = new Set(['root', 'core', 'skill']);
+const ALLOWED_KINDS = new Set(['root', 'core', 'skill', 'adapter']);
 const ALLOWED_LEVELS = new Set([
   'L0_STATIC', 'L1_ROUTING', 'L2_WORKFLOW', 'L3_ADVERSARIAL'
 ]);
@@ -65,6 +65,10 @@ async function ensureCompletePortableInventory(manifest) {
     if (file.endsWith('/INDEX.md')) continue; // The selector need not link to itself.
     ensure(index.includes(file.split('/').at(-1)), 'CORE INDEX: missing module entry ' + file);
   }
+  const adapters = manifest.entries.filter(e => e.kind === 'adapter').map(e => e.source).sort();
+  const adapterFiles = await readdir(join(ROOT, 'docs/adapters'), { withFileTypes: true });
+  ensure(adapterFiles.every(e => e.isFile() && e.name.endsWith('.md')), 'ADAPTER INVENTORY: invalid adapter source');
+  ensure(JSON.stringify(adapterFiles.map(e => 'docs/adapters/' + e.name).sort()) === JSON.stringify(adapters), 'ADAPTER INVENTORY: unlisted or missing agent host adapter');
   const skills = manifest.entries.filter(e => e.kind === 'skill').map(e => e.source.split('/')[2]).sort();
   const skillDirs = await readdir(join(ROOT, 'skills/core'), { withFileTypes: true });
   ensure(skillDirs.every(e => e.isDirectory()), 'SKILL INVENTORY: unexpected top-level file');
@@ -99,6 +103,9 @@ function validateProfile(profile) {
     ensure(typeof h.until === 'string' && h.until.length > 0, 'hold release rule required');
   }
   ensure(['public-standards-only','private-repository','confidential-project'].includes(profile.dataPolicy), 'invalid data policy');
+  const surface = profile.workflowPolicy;
+  ensure(surface && surface.sourceSurface === 'CHATGPT_GITHUB' && surface.localValidationSurface === 'LOCAL_PC_AGENT', 'invalid two-surface policy');
+  ensure(surface.localTestDuringSourcePhase === false && surface.requestLocaltestFromChatGPT === false && surface.githubActionsOrCloudTestSubstitution === false && surface.localValidationRequiresExplicitTransition === true, 'two-surface safety policy cannot be relaxed');
 }
 
 function validateSkill(text, entry, seen) {
@@ -146,12 +153,15 @@ async function validateCanonical() {
       skillCount++;
     } else if (entry.kind === 'core') {
       ensure(source.startsWith('.agent-standard/core/') && target === source, 'invalid core policy target');
+    } else if (entry.kind === 'adapter') {
+      ensure(source.startsWith('docs/adapters/') && source.endsWith('.md') && target === source.replace('docs/adapters/', '.agent-standard/adapters/'), 'invalid host adapter target');
     } else {
       ensure(['AGENTS.md','GITHUB_RULES.md'].includes(source) && target === source, 'invalid root policy target');
     }
   }
   ensure(dstSeen.has('AGENTS.md') && dstSeen.has('GITHUB_RULES.md'), 'missing portable root rules');
   ensure(skillCount >= 3, 'minimum core skills missing');
+  ensure(manifest.entries.filter(e => e.kind === 'adapter').length === 3, 'three canonical agent host adapters required');
   await ensureCompletePortableInventory(manifest);
 
   const schema = await readJson('schemas/repository-profile.schema.json');

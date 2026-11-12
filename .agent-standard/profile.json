@@ -10,8 +10,8 @@
     "allowAutoPromotion": false
   },
   "executionPolicy": {
-    "ci": "manual_only",
-    "tests": "allowed_when_available",
+    "ci": "disabled",
+    "tests": "on_hold",
     "nativeProof": "required_when_claimed"
   },
   "permissions": {
@@ -22,5 +22,13 @@
   "protectedPaths": [],
   "holds": [],
   "dataPolicy": "public-standards-only",
-  "note": "Repository bootstrap on main only. Do not infer write approval for downstream repositories."
+  "note": "AgentSkill source architecture development occurs in ChatGPT+GitHub; no localtest, cloud testing or GitHub Actions. Local validation only after user-selected PC agent handoff.",
+  "workflowPolicy": {
+    "sourceSurface": "CHATGPT_GITHUB",
+    "localValidationSurface": "LOCAL_PC_AGENT",
+    "localTestDuringSourcePhase": false,
+    "requestLocaltestFromChatGPT": false,
+    "githubActionsOrCloudTestSubstitution": false,
+    "localValidationRequiresExplicitTransition": true
+  }
 }

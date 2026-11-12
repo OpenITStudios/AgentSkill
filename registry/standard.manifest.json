@@ -70,6 +70,31 @@
       "kind": "core"
     },
     {
+      "source": ".agent-standard/core/work-surfaces-and-phase-gates.md",
+      "target": ".agent-standard/core/work-surfaces-and-phase-gates.md",
+      "kind": "core"
+    },
+    {
+      "source": ".agent-standard/core/host-identification.md",
+      "target": ".agent-standard/core/host-identification.md",
+      "kind": "core"
+    },
+    {
+      "source": "docs/adapters/codex-cli.md",
+      "target": ".agent-standard/adapters/codex-cli.md",
+      "kind": "adapter"
+    },
+    {
+      "source": "docs/adapters/claude-code.md",
+      "target": ".agent-standard/adapters/claude-code.md",
+      "kind": "adapter"
+    },
+    {
+      "source": "docs/adapters/opencode.md",
+      "target": ".agent-standard/adapters/opencode.md",
+      "kind": "adapter"
+    },
+    {
       "source": "skills/core/oits-repository-audit/SKILL.md",
       "target": ".agents/skills/oits-repository-audit/SKILL.md",
       "kind": "skill"

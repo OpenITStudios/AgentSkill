@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 44 normative cases validate', () => {
+test('canonical source, skill metadata and 66 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /44 normative cases/);
+  assert.match(r.stdout, /66 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -93,6 +93,26 @@ test('offline bundle staging refuses a parent symlink redirected to source', { s
     const bad = run('package', join(parent, 'redirect', 'new-output'));
     assert.notEqual(bad.status, 0);
     assert.match(bad.stderr, /PACKAGE BLOCKED/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('rejects unsafe two-surface policy profile even without executing a model', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-surface-policy-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, {
+      recursive: true,
+      filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules')
+    });
+    const file = join(snapshot, '.agent-standard/profile.json');
+    const profile = JSON.parse(await (await import('node:fs/promises')).readFile(file, 'utf8'));
+    profile.workflowPolicy.githubActionsOrCloudTestSubstitution = true;
+    await writeFile(file, JSON.stringify(profile));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /two-surface safety policy cannot be relaxed/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }

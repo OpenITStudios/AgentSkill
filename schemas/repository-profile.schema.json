@@ -12,7 +12,8 @@
     "permissions",
     "protectedPaths",
     "holds",
-    "dataPolicy"
+    "dataPolicy",
+    "workflowPolicy"
   ],
   "properties": {
     "schemaVersion": {
@@ -166,6 +167,38 @@
     },
     "note": {
       "type": "string"
+    },
+    "workflowPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceSurface",
+        "localValidationSurface",
+        "localTestDuringSourcePhase",
+        "requestLocaltestFromChatGPT",
+        "githubActionsOrCloudTestSubstitution",
+        "localValidationRequiresExplicitTransition"
+      ],
+      "properties": {
+        "sourceSurface": {
+          "const": "CHATGPT_GITHUB"
+        },
+        "localValidationSurface": {
+          "const": "LOCAL_PC_AGENT"
+        },
+        "localTestDuringSourcePhase": {
+          "const": false
+        },
+        "requestLocaltestFromChatGPT": {
+          "const": false
+        },
+        "githubActionsOrCloudTestSubstitution": {
+          "const": false
+        },
+        "localValidationRequiresExplicitTransition": {
+          "const": true
+        }
+      }
     }
   }
 }
