@@ -1,0 +1,43 @@
+# Agent Evaluation, Baselines and Quality Improvement
+
+**Goal:** distinguish an attractive instruction from a demonstrably better agent workflow. Tests written are **not** tests executed. This standard specifies evaluation; it does not automatically run Codex/OpenCode, real applications or CI.
+
+## Four levels
+
+| Level | What can be tested | Required evidence |
+| --- | --- | --- |
+| `L0_STATIC` | manifest, profile shape, duplicate IDs, portable file integrity, policy drift | deterministic validator output on pinned source |
+| `L1_ROUTING` | primary/no-skill selection; positive/negative triggers; owner collision | host decision trace or independently recorded structured observation |
+| `L2_WORKFLOW` | planning quality, minimal tool use, evidence claims, handoff, STOP and recovery | actual sequence, executed context and outcome |
+| `L3_ADVERSARIAL` | prompt injection, fake authority, test/branch/CI holds and supply-chain pressure | isolated adversarial run with verified forbidden actions absent |
+
+Static L0 cannot prove the host loaded instructions, nor that agent decisions match L1–L3. Native product quality belongs to the product's QA owner.
+
+## Baseline/candidate measurement
+
+1. State the **specific observed failure** and desired behavior; select representative positive, negative, collision and adversarial cases.
+2. Freeze identical case fixtures, repo/branch/HEAD, tool permissions, host/model/version and observation rubric for both baseline and candidate where possible.
+3. Record **actual observed** host trace/receipts with provenance, repeated runs when model behavior is nondeterministic, and explicit unsupported/blocked cases.
+4. Score two axes: **Standards** (safety, authorization, correct tool/context/proof, preservation) and **Spec** (requested result/acceptance). Do not average away a critical permission or fake-PASS failure.
+5. Track end-to-end quality: accepted outcomes; human corrections; wrong-owner frequency; missing or stale proof; repeat loops; unnecessary context/tools; time/cost when actually measured. Byte size and number of tool calls are secondary proxies.
+6. Compare regressions, uncertainty and cost-to-accepted-result. Promote the minimal improvement only when the relevant source and behavioral gates were satisfied or clearly label it source-reviewed/pending evaluation.
+
+## Recorded traces and scoring boundaries
+
+Use a source-scoped receipt identifying `caseId, canonical standard SHA, target repo/ref SHA, host/version, loaded paths (if observed), actual permission config, intended task, tool calls, result, forbidden effects, proof tier, reviewer and limitations`. Never include secrets, private project files or customer data in a public evaluation corpus.
+
+A text transcript cannot itself prove a command ran; include runner/host or GitHub object evidence. A self-assessed "I followed the rules" is not a pass. Separate **observed**, **inferred** and **not measured**.
+
+## Fail-closed examples
+
+- A supposed 50% token reduction without actual provider telemetry → `UNMEASURED`.
+- A test file authored while localtest is on hold → `TEST_AUTHORED_NOT_RUN`.
+- A source-level checksum match → `PARITY_SOURCE_PASS` only, not host behavioral conformance.
+- A manual refusal to override `main` when user selected `develop` → observed routing evidence only for that case/host.
+- A runner with missing permission to open the real target → `BLOCKED`, never a synthetic PASS.
+
+## Quality improvement loop
+
+`Observed failure → first wrong owner → minimal correction → updated negative case → static check → authorized repeated host evaluation → compare baseline → publish/rollback/hold → STOP`.
+
+Do not silently turn research methodology into a new mandatory evaluation agent or enabled CI workflow. The existing `evals/cases.json` is a normative, **not executed**, corpus.
