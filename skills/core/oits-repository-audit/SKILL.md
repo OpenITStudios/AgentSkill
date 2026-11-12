@@ -1,0 +1,22 @@
+---
+name: oits-repository-audit
+description: Inspect or compare repository rules, skills, permissions and architecture without modifying anything. Use for read-only requests such as "amati repo", review, inventory or cross-repository governance audit; not for implementation, testing on hold or automatic migration.
+---
+
+# Repository Audit — Read-only
+
+## Activate / decline
+Use when the authorized user requests observation, structural review, rules inventory, skill comparison or migration feasibility. **Do not activate** to implement features or to treat a discovered issue as consent for repair.
+
+## Procedure
+1. Identify exact repo(s), selected ref(s) and user scope. For each repo pin current HEAD and record read-access limits; do not guess that default `main` is the working branch.
+2. Read root/nearest `AGENTS.md`, `GITHUB_RULES.md`, local policy profile (if present), registries, skill names and evidence pointers. For missing sources verify against the exact ref before asserting absence.
+3. Classify each observed rule as `CORE`, `PROFILE`, `DOMAIN`, `HISTORY` or `CONFLICT`. Preserve existing branch/CI/test holds and privacy restrictions.
+4. Inspect actual skill triggers, IDs, nested instruction paths, owner collisions, missing proof, negative cases and instruction-loading risks. Read only affected files, not entire repository trees.
+5. Report findings with evidence by path/ref and an ordered bounded recommendation. Separate observed defects from hypotheses, and source inspection from executable proof.
+
+## Output
+Repository/ref/HEAD; owners inspected; direct evidence; conflict matrix; adoption implications; known unknowns; no-write confirmation; recommended next authorized action.
+
+## Proof and STOP
+`SOURCE_REVIEWED` is the highest claim without a real executor. No commits, PRs, issues, CI dispatch, branch edits, migrations or data exports on a read-only audit. STOP when the requested review is explained or the permission boundary prevents further evidence.
