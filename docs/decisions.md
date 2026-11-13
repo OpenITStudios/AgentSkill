@@ -65,3 +65,10 @@ Decision: formatting and a caller-supplied patch are insufficient to assert a Gi
 
 ## ADR-016: No mass rollout before branch/profile/nested-instruction audit
 Decision: the read-only inventory of 14 projects identified **0 installed central bundles**, 12 root GitHub Rules and 55 existing main Skills. Preserve nested AGENTS directories, branch and CI/test holds, active-status owners and project data; migrate only after per-repo explicit scope and conflict classification. A connector may reject an encoded slash inside a branch path; use paginated List Branches with exact-name matching and pin SHA rather than falling back to main. Private repository details are excluded from the public report at `docs/research/adoption-readiness-source-audit-2026-11-13.md`.
+
+ 
+## ADR-017: Adaptive workstream recovery with current source authority
+Decision: user topic and current selected branch/HEAD/status/source take precedence over chronological latest commit. Discover 30 branch-wide metadata records, expand cumulative coverage to 50/100 only when decision-critical history is missing, and follow older targeted Work/path/decision history without a count cutoff. Record legacy matches as inferred; resolve superseded decisions and checkpoint ancestry; re-pin before writes; require complete topic, owner, source, proof and permission gates. No new status database or runtime is introduced. Canonical owner: `.agent-standard/core/commit-continuity-and-recovery.md`. Model behavior remains unmeasured.
+
+## ADR-018: Stable process names and release milestone versioning
+Decision: use one meaningful AgentSkill package/release version, not "v1/v2/v3" for protocol iterations. Keep `0.1.0-draft` unchanged through ordinary source work and identify revisions by Git SHA/Work ID. Curate notable pending work under CHANGELOG [Unreleased]. Only an explicit, meaningful, compatibility-reviewed and user-approved release can change package/manifest version or initiate a tag/distribution. No automatic bump or release is permitted.

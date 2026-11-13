@@ -52,4 +52,4 @@ Compare topic decisions with current source
 Continue source only; no localtest request
 ```
 
-If the global newest commit belongs to audio, **do not switch**. If a path was renamed or a response is partial, broaden only as needed. If the old Next conflicts with a hold or newer source, the hold/new source wins. Do not rewrite old Git history merely to add v2 fields.
+If the global newest commit belongs to audio, **do not switch**. If a path was renamed or a response is partial, broaden only as needed. If the old Next conflicts with a hold or newer source, the hold/new source wins. Do not rewrite old Git history merely to add newly standardized fields.

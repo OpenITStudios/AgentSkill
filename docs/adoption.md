@@ -6,11 +6,11 @@
 
 Move historical Karpathy, Ponytail, Pstack/Poteto, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock **general working principles** to the single byte-identical `.agent-standard/methods.json` and shared engineering procedure. Preserve local project skill taxonomy, source owner, workstream holds and actual tool permissions. Remove duplicated generic method blocks from older AGENTS only **after** their restrictions are mapped and adoption is explicitly authorized. Do not change existing project repositories as a side effect of maintaining AgentSkill.
 
-## GitHub Continuity Protocol v2 adoption
+## GitHub continuity and context recovery adoption
 
 Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identically. New material commits use **NORMAL (five fields)** or **CRITICAL (seven fields)**; a **TRIVIAL** subject-only exception is allowed only after an actual safe single-word docs diff has been reviewed. Do not rewrite old history or delete its valid decisions.
 
-Each existing repo keeps its own branch, current status owner, workstream holds, private data controls and test policy. For ChatGPT recovery: **topic first**, selected branch/HEAD, current status section, small relevant commits scoped by `sha`/`path`, then current source and permission reconciliation. Old Next text is not a grant. No CI, cloud runner, auto tests, automatic rollout or new state database is part of this migration.
+Each repository retains its own branch, active status owner, holds, domain skills, privacy controls and native test policy. For ChatGPT recovery, start with **user topic → exact branch/HEAD → active owner/source → 30 branch-wide metadata → cumulative 50/100 if needed → targeted older Work/path/decision commits → reconcile source, proof and permission**. Prior Next is never a grant. No CI/cloud/localtest workaround, automatic rollout or new status database is part of adoption.
 
 ## Live source identity versus offline fixtures
 

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtemp, appendFile, mkdir, writeFile, rm, cp, symlink } from 'node:fs/promises';
+import { mkdtemp, appendFile, mkdir, writeFile, readFile, rm, cp, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,6 +18,23 @@ test('canonical source, skill metadata and 190 normative cases validate', () => 
   assert.match(r.stdout, /VALIDATE PASS/);
   assert.match(r.stdout, /190 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
+});
+
+test('context recovery is an unversioned policy and source version remains draft', async () => {
+  const [policy, pkgText, manifestText, changelog, rules] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8'),
+    readFile(join(ROOT, 'package.json'), 'utf8'),
+    readFile(join(ROOT, 'registry/standard.manifest.json'), 'utf8'),
+    readFile(join(ROOT, 'CHANGELOG.md'), 'utf8'),
+    readFile(join(ROOT, 'GITHUB_RULES.md'), 'utf8')
+  ]);
+  assert.match(policy, /^# GitHub Commit Continuity and Context Recovery/m);
+  assert.match(policy, /Adaptive workstream recovery/);
+  assert.match(policy, /30 branch-wide/);
+  assert.match(changelog, /## \[Unreleased\]/);
+  assert.match(rules, /## Version and release discipline/);
+  assert.equal(JSON.parse(pkgText).version, '0.1.0-draft');
+  assert.equal(JSON.parse(manifestText).version, '0.1.0-draft');
 });
 
 test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {

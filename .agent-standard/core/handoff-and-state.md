@@ -15,7 +15,7 @@
 | Git history | current commit graph and original blob authority |
 | Continuation | small, versioned checkpoint, **advisory only** |
 
-A summary, handoff note or stale issue cannot supersede actual source/permission.
+A summary, handoff note or stale issue cannot supersede actual source/permission. For recovered tasks, trace CURRENT/SUPERSEDED/CONFLICTED/UNKNOWN decisions back to current owner and evidence; a handoff packet is advisory, not a second state authority.
 
 ## Typed handoff (only on real cross-owner work)
 
