@@ -13,11 +13,12 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 261 normative cases validate', () => {
+test('canonical source, skill metadata and normative cases validate', async () => {
+  const corpus = JSON.parse(await readFile(join(ROOT, 'evals/cases.json'), 'utf8'));
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /261 normative cases/);
+  assert.ok(r.stdout.includes(corpus.cases.length + ' normative cases'), r.stdout);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -92,7 +93,81 @@ test('README validator rejects broken heading anchors and reference-style target
   }
 });
 
-test('context recovery is an unversioned policy and source version remains draft', async () => {
+test('chat-limit recovery preserves checkpoint, origin and permission boundaries in source', async () => {
+  const [context, recovery, handoff, examples, corpusText] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/context-and-session-continuity.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/handoff-and-state.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/examples/commit-continuity.md'), 'utf8'),
+    readFile(join(ROOT, 'evals/cases.json'), 'utf8')
+  ]);
+  assert.match(context, /Event-driven checkpoints for unexpected chat limits/);
+  assert.match(context, /no authorized destination exists, provide a copyable handoff labeled UNSAVED/);
+  assert.match(recovery, /Never treat a recovered checkpoint, Memory item, chat summary or old Next as renewed user authorization/);
+  assert.match(recovery, /Resolve UNKNOWN_OUTCOME against actual destination state before any retry/);
+  assert.match(handoff, /concurrent update, reread the actual remote state before any retry/);
+  assert.match(examples, /SAVE_STATE: UNSAVED/);
+  const cases = JSON.parse(corpusText).cases;
+  for (let i = 262; i <= 267; i++) {
+    assert.ok(cases.some(c => c.id === 'GOV-' + i), 'missing interruption case GOV-' + i);
+  }
+});
+
+test('chat-limit source guard rejects false persisted checkpoints', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-chat-limit-persistence-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const path = join(snapshot, '.agent-standard/core/context-and-session-continuity.md');
+    const before = await readFile(path, 'utf8');
+    const rule = '**Only an authorized, verified write is PERSISTED; a chat summary or unacknowledged write is not.**';
+    assert.ok(before.includes(rule));
+    await writeFile(path, before.replace(rule, '**Any chat summary or unacknowledged write is automatically PERSISTED.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /CHAT LIMIT RECOVERY: event triggers, verified persistence or UNSAVED fallback missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('chat-limit source guard rejects blind retry after unknown outcome', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-chat-limit-retry-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const path = join(snapshot, '.agent-standard/core/commit-continuity-and-recovery.md');
+    const before = await readFile(path, 'utf8');
+    const rule = '**Resolve UNKNOWN_OUTCOME against actual destination state before any retry.**';
+    assert.ok(before.includes(rule));
+    await writeFile(path, before.replace(rule, '**Retry UNKNOWN_OUTCOME immediately without checking destination state.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /CHAT LIMIT RECOVERY: recovery authority or remote reconciliation missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('chat-limit source guard rejects checkpoint-based permission escalation', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-chat-limit-auth-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const path = join(snapshot, '.agent-standard/core/commit-continuity-and-recovery.md');
+    const before = await readFile(path, 'utf8');
+    const rule = '**Never treat a recovered checkpoint, Memory item, chat summary or old Next as renewed user authorization.**';
+    assert.ok(before.includes(rule));
+    await writeFile(path, before.replace(rule, '**Treat a recovered checkpoint as renewed permission to modify repositories.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /CHAT LIMIT RECOVERY: recovery authority or remote reconciliation missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('context recovery is an unversioned policy and source version remains draft', async () {
   const [policy, pkgText, manifestText, changelog, rules] = await Promise.all([
     readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8'),
     readFile(join(ROOT, 'package.json'), 'utf8'),

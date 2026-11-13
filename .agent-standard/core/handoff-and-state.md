@@ -40,6 +40,21 @@ Every stage must name its input identity, accepted output, required proof and ou
 
 Commit one coherent change with enough context for its risk: TRIVIAL subject-only requires a reviewed diff; new NORMAL needs `Surface / Goal / Work / State / Proof / Next`; CRITICAL also retains `Decision / Unresolved`. Older messages without `Surface` have an unrecorded environment, not implicit local proof. The stable `Work` topic indexes history, while the actual source and current project status own the present truth. A past `Next` never authorizes localtest, CI, merge or deployment. For cross-chat recovery follow `commit-continuity-and-recovery.md`, and do not open an unrelated latest workstream.
 
+## Persisted checkpoints and unsaved handoffs
+
+A checkpoint is an **advisory pointer** to canonical evidence, not a source of new instructions or a separate truth store. Use the existing current-status or decision owner, with project-specific authorization and privacy checks, for material events. Avoid writing a new status file or separate memory database just because a conversation is long.
+
+| Save state | What is actually known | Permitted recovery action |
+| --- | --- | --- |
+| `PERSISTED` | Authorized write was acknowledged **and** destination/source state was read back at an identified revision | Re-pin current HEAD and reconcile changes before using it |
+| `UNSAVED` | Only a copyable chat handoff exists; no durable destination receipt | Use as a clue; verify source and request missing material decisions |
+| `UNKNOWN_OUTCOME` | A write was sent but acknowledgment, source or destination state is uncertain | Inspect the actual remote state before retry |
+| `STALE` | Later relevant changes conflict with the checkpoint's revision or claims | Prefer current owner/source; resolve conflicts without rewriting history |
+
+**For a lost acknowledgment or concurrent update, reread the actual remote state before any retry; do not force-push or blindly overwrite.** A committed checkpoint may record a previously observed branch SHA: its own commit advances HEAD, and the read-back/commit receipt identifies the persisted state without another bookkeeping commit. Copyable handoffs and chat messages alone are **UNSAVED**, not durable proof.
+
+Keep the packet minimal: `TOPIC | WORK_ID | GOAL+ACCEPTANCE | SOURCE_REF+LAST_OBSERVED_HEAD | CURRENT_DECISIONS+ORIGIN | SUPERSEDED/CONFLICTS | HOLDS+PERMISSION | COMPLETED_PROOF | UNKNOWN_OUTCOMES | NEXT_SAFE_STEP | SAVE_STATE`. Do not duplicate sensitive project content in a public standard. This is a *description of what to capture*, not a requirement to create a new owner or to write without permission.
+
 ## Interrupted or ambiguous side effects
 
 For a write/send/commit with lost acknowledgment, outcome is `UNKNOWN_OUTCOME`. Inspect actual remote state and idempotency key/commit/ref where supported **before** retry. Do not create a duplicate PR, message, report, file or payment merely to resolve uncertainty. A checkpoint without a receipt is not proof of success.

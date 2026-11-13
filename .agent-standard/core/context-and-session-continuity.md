@@ -41,6 +41,18 @@ Preserve exactly the decision-critical packet:
 
 Checkpoint is a recovery aid, not an alternate truth store. After restarting, re-pin selected ref and verify current source. Reload any mandatory material genuinely lost during compaction; do not pretend a summary contains an unread reference. Never replay a non-idempotent write simply because it appeared as a pending step.
 
+## Event-driven checkpoints for unexpected chat limits
+
+A ChatGPT conversation can stop accepting messages before the user expects it. **Do not wait for a chat-length warning or predict remaining capacity.** There is no guaranteed advance signal, background save, or automatic transfer of the full conversation. Preserve work at **material events**, not after every message or routine status reply.
+
+**Triggers:** a user-approved material decision not yet reflected in source; a change to goal, acceptance, non-goals, scope, permission or hold; a verified source milestone or multi-owner transition; an action with an unconfirmed outcome; or a user-selected chat handoff. Do not create a checkpoint for trivial messages or unrelated suggestions. Distinguish `USER_REQUEST`, `USER_APPROVED_CHANGE`, `AGENT_SUGGESTION`, and `EXTERNAL_SOURCE`.
+
+**Destination and proof:** update the **existing** canonical status/decision/operations owner only when the current user intent, selected branch, profile, privacy rules and tool permissions allow that specific write. Preserve its present structure and source ownership; do not add an independent database, generic `next-action` copy, new agent, or cloud service. Record the minimum packet from **Safe compaction checkpoint**, with decision origin, relevant evidence pointers, and a clear `SAVE_STATE`. **Only an authorized, verified write is PERSISTED; a chat summary or unacknowledged write is not.** Verify the actual destination content and write receipt; for GitHub, also verify the branch/ref, commit and changed source. The packet's `LAST_OBSERVED_HEAD` is a historical observation, not a claim that its SHA remains the branch HEAD after the checkpoint commit; do not commit again solely to update that value.
+
+**Unsaved fallback:** **If no authorized destination exists, provide a copyable handoff labeled UNSAVED; do not create a new status store.** The user may save it in a location they control, but an assistant message alone is not a verified durable record. An attempted write with lost acknowledgment is `UNKNOWN_OUTCOME`, not `PERSISTED` or safe to repeat. Do not copy private task data into public AgentSkill or another repository without permission.
+
+When the chat ends before a milestone is saved, only the last **confirmed** checkpoint, current source, and verifiable history can be recovered. An absent or incomplete decision remains `UNKNOWN`; ask one decision-changing question only if the affected action cannot safely proceed. Reconstruct using the procedure in `commit-continuity-and-recovery.md`.
+
 ## Keep the primary goal across long prompting
 
 On every meaningful new user instruction, compare it to the **last active goal and acceptance**: a correction changes a specified dimension; an explicit new goal opens new scope; an unrelated observation, older `Next` or the agent's own idea does not. Preserve the original goal, scope and terminal completion status in the existing compact checkpoint. Do not reclassify successive optional polish suggestions as mandatory work or resurrect a `DONE` topic merely because it appears in commit history.

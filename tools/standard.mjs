@@ -472,6 +472,39 @@ async function validateRepositoryReadme() {
   }
 }
 
+// L0 policy-presence guard. It detects missing or inverted explicit safety rules;
+// it does not prove ChatGPT recovery behavior, persistence or model compliance.
+async function validateChatLimitRecoveryContracts() {
+  const [root, context, continuity, handoff, examples] = await Promise.all([
+    readFile(join(ROOT, 'AGENTS.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/context-and-session-continuity.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/handoff-and-state.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/examples/commit-continuity.md'), 'utf8')
+  ]);
+  const rootRules = ownedMarkdownSection(root, 'Work discipline');
+  const events = ownedMarkdownSection(context, 'Event-driven checkpoints for unexpected chat limits');
+  const emergency = ownedMarkdownSection(continuity, 'Unexpected ChatGPT chat-limit recovery');
+  const persistence = ownedMarkdownSection(handoff, 'Persisted checkpoints and unsaved handoffs');
+  ensure(rootRules.includes('**Chat-limit recovery:**') &&
+    rootRules.includes('never claim an unsaved checkpoint was persisted'),
+    'CHAT LIMIT RECOVERY: missing root persistence/authority boundary');
+  ensure(events.includes('**Do not wait for a chat-length warning or predict remaining capacity.**') &&
+    events.includes('**Only an authorized, verified write is PERSISTED; a chat summary or unacknowledged write is not.**') &&
+    events.includes('**If no authorized destination exists, provide a copyable handoff labeled UNSAVED; do not create a new status store.**'),
+    'CHAT LIMIT RECOVERY: event triggers, verified persistence or UNSAVED fallback missing');
+  ensure(emergency.includes('**Never treat a recovered checkpoint, Memory item, chat summary or old Next as renewed user authorization.**') &&
+    emergency.includes('**Resolve UNKNOWN_OUTCOME against actual destination state before any retry.**') &&
+    emergency.includes('RECOVERY_READY_SOURCE_ONLY') && emergency.includes('RECOVERY_AMBIGUOUS'),
+    'CHAT LIMIT RECOVERY: recovery authority or remote reconciliation missing');
+  ensure(persistence.includes('**For a lost acknowledgment or concurrent update, reread the actual remote state before any retry; do not force-push or blindly overwrite.**') &&
+    persistence.includes('`UNSAVED`') && persistence.includes('`PERSISTED`'),
+    'CHAT LIMIT RECOVERY: checkpoint state or concurrency guard missing');
+  ensure(examples.includes('## Unexpected chat-limit recovery — source-grounded example') &&
+    examples.includes('SAVE_STATE: UNSAVED') && examples.includes('read the actual commit/ref before any retry'),
+    'CHAT LIMIT RECOVERY: read-only handoff example missing');
+}
+
 async function validateCanonical() {
   const manifest = await readJson(MANIFEST_PATH);
   ensure(manifest.schemaVersion === 1 && manifest.name === 'oits-agent-standard', 'invalid standard manifest identity');
@@ -591,6 +624,7 @@ async function validateCanonical() {
   await validateActivationContracts(manifest);
   await validateGoalStopAndGitHubReliability();
   await validateResearchReadinessContracts();
+  await validateChatLimitRecoveryContracts();
   await validateRepositoryReadme();
 
   const schema = await readJson('schemas/repository-profile.schema.json');

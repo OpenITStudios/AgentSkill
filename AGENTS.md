@@ -38,6 +38,7 @@
 - For a method used in material development, check its recorded upstream publisher and relevant source at the current revision when tools permit; distinguish original publisher from community adaptations. An upstream change is **review evidence**, never automatic authority to import code or override local rules. **An adapted method or GitHub link is not an installed original Skill.** Claim an original Skill is installed, loaded, tool-ready or used only with the corresponding actual target-host evidence; a reviewed source SHA proves none of those.
 - Observe → reason → act only within allowed scope → verify using evidence → report → STOP. Repeated failure triggers root-cause diagnosis, not permission to weaken a gate.
 - External tools are selected by actual availability, not by labels or wishes. A GitHub source inspection is not a terminal, installed app, native runtime or executed test.
+- **Chat-limit recovery:** At material milestones, save a compact checkpoint in the existing authorized status/decision owner and verify persistence. If a write is unavailable or prohibited, provide a copyable `UNSAVED` advisory handoff; never claim an unsaved checkpoint was persisted. In a new chat, re-pin source and permissions before action; never blindly repeat an unconfirmed write. No advance warning of the chat limit is guaranteed.
 - Preserve project intent and permissions across context compaction or session recovery. Never treat a summary as more authoritative than current source.
 
 ## Operating references (progressive loading)

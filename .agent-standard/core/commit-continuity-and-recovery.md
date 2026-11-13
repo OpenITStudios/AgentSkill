@@ -100,6 +100,19 @@ Only the next authorized source action → report evidence → STOP
 5. **Historical gaps.** A path filter may miss changes before rename, cross-owner decisions or earlier files. If no relevant commit appears, broaden to branch-scoped recent history, known paths, and exact source rather than asserting the work was never done. Pagination/truncation is not proof of absence.
 6. **Reconcile and act.** Compare old `State`/`Decision`/`Unresolved`/`Next` to current code, later commits, owner docs and active holds. Historical `Next` is **advisory only**. If the prior action's outcome was unknown, check persisted state before retrying. Resume only the smallest current user-authorized source task.
 
+## Unexpected ChatGPT chat-limit recovery
+
+**Purpose:** restore the correct workstream when the previous chat reached its length limit, became unavailable, or ended before a write acknowledgment. This is a *source-recovery procedure*, not native ChatGPT session migration. ChatGPT Projects, Memory, chat search, or a manually copied summary may help identify a topic but cannot guarantee complete history or prove repository state.
+
+1. **Identify the interrupted goal.** Use the new user's topic, explicit repository/ref, and any verified checkpoint pointer. If multiple workstreams match, report `RECOVERY_AMBIGUOUS`; do not select the newest unrelated commit.
+2. **Re-establish authority.** Pin the exact selected branch/HEAD, reread current root/nearest rules, local profile, hold/permission boundaries and the relevant owner. If GitHub or the selected ref is inaccessible, mark `RECOVERY_NEEDS_HISTORY` or `RECOVERY_PERMISSION_BLOCKED` and do only independent safe work. Do not silently switch to `main`.
+3. **Reconstruct confirmed state.** Read the last *verified persisted* checkpoint, if any, plus current source and decisive branch-scoped history using the existing 30 → 50/100 → targeted older evidence procedure. Compare the checkpoint's observed SHA with current HEAD and reconcile newer changes, superseded decisions, incomplete writes and proof. A copied `UNSAVED` handoff is a discovery clue, not proof of persistence.
+4. **Restore decision provenance.** Distinguish `USER_REQUEST`, `USER_APPROVED_CHANGE`, `AGENT_SUGGESTION` and `EXTERNAL_SOURCE`; classify decisions `CURRENT`, `SUPERSEDED`, `CONFLICTED` or `UNKNOWN`. **Never treat a recovered checkpoint, Memory item, chat summary or old Next as renewed user authorization.** A lost user decision that materially changes the next action requires confirmation, not a fabricated approval.
+5. **Reconcile interrupted effects.** **Resolve UNKNOWN_OUTCOME against actual destination state before any retry.** For commits or file updates, inspect the observed branch/ref, GitHub commit/parent and changed paths; apply expected-SHA/concurrency guards. For other non-idempotent effects, check actual target receipts where authorized. If the outcome cannot be verified, block that effect rather than creating a duplicate or force-overwriting a concurrent update.
+6. **Gate continuation.** Use `RECOVERY_READY_SOURCE_ONLY` only when goal, source/ref, active decisions, permitted effects, holds and relevant proof are confirmed. Otherwise give one precise status such as `RECOVERY_AMBIGUOUS`, `RECOVERY_NEEDS_HISTORY`, `RECOVERY_REF_DIVERGED`, `RECOVERY_PERMISSION_BLOCKED` or `UNKNOWN_OUTCOME`, and the smallest safe next action. A prior `DONE` task stays closed unless the user requests a new goal.
+
+This procedure does not promise to detect the chat limit in advance, capture unsaved messages, automatically move conversations, or run while a ChatGPT tab is inactive. No background monitor, new persistence service, localtest, GitHub Actions or cloud runner is implied.
+
 ## Adaptive workstream recovery
 
 **Purpose:** find the correct ongoing task across sessions, not the most recent commit. The 30/50/100 thresholds are tunable discovery heuristics, not proven optimums. Git history is historical evidence; current source and user intent determine present action.
@@ -147,6 +160,10 @@ Current source + active user permissions outrank historical status; history help
 
 ## Source references
 
+- [OpenCode compaction source (reviewed at f6e0c2d)](https://github.com/anomalyco/opencode/blob/f6e0c2d0833ffe772035f221fed923e1cd5fb408/packages/core/src/session/compaction.ts) — structured summaries, not a ChatGPT-host feature.
+- [LangGraph checkpointer reference (reviewed at 921e011)](https://github.com/langchain-ai/docs/blob/921e0115e78203207bdbca88e0abac87e0c6a650/src/oss/langgraph/checkpointers.mdx) — persisted state and thread identity require an actual controlling runtime.
+- [Temporal idempotency guidance (reviewed at b34e691)](https://github.com/temporalio/documentation/blob/b34e6912311acabe8e5bbd31d2dd1d1d4295e818/docs/best-practices/error-handling.mdx) — external effects can succeed before acknowledgment and must not be blindly replayed.
+- [LongMemEval benchmark repository (reviewed at 9e0b455)](https://github.com/xiaowu0162/LongMemEval/blob/9e0b455f4ef0e2ab8f2e582289761153549043fc/README.md) — cross-session memory evaluation categories, not executed AgentSkill results.
 - [GitHub REST list commits](https://docs.github.com/en/rest/commits/commits#list-commits)
 - [GitHub searching commits: default-branch limit](https://docs.github.com/en/search-github/searching-on-github/searching-commits)
 - [Git structured trailers](https://git-scm.com/docs/git-interpret-trailers)
