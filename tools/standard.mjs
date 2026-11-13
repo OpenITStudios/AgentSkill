@@ -225,8 +225,14 @@ async function validateCanonical() {
     ensure(continuity.includes('`' + field + '`') || continuity.includes(field + ':'), 'COMMIT CONTINUITY: missing field ' + field);
   }
   await ensureRegularPortableFile(ROOT, 'tools/commit-message-check.mjs');
+  await ensureRegularPortableFile(ROOT, 'tools/commit-snapshot-check.mjs');
+  const snapshotCheck = await readFile(join(ROOT, 'tools/commit-snapshot-check.mjs'),'utf8');
+  ensure(snapshotCheck.includes('CALLER_SUPPLIED_SNAPSHOT_NOT_AUTHENTICATED') &&
+    snapshotCheck.includes('SNAPSHOT_CONSISTENT') &&
+    snapshotCheck.includes('FILE_LIST_MAY_BE_PAGINATED'), 'COMMIT SNAPSHOT: insufficient source-proof caveats');
   const pkg = await readJson('package.json');
   ensure(pkg.scripts && pkg.scripts['commit:check'] === 'node tools/commit-message-check.mjs', 'COMMIT CONTINUITY: offline checker not linked');
+  ensure(pkg.scripts['snapshot:check'] === 'node tools/commit-snapshot-check.mjs' && pkg.scripts.test.includes('tests/commit-snapshot.test.mjs'), 'COMMIT SNAPSHOT: reference tests not registered');
   ensure(manifest.entries.filter(e => e.kind === 'method_registry').length === 1, 'METHOD REGISTRY: exactly one portable registry is required');
   const communicationPath = '.agent-standard/core/user-facing-communication.md';
   ensure(srcSeen.has(communicationPath) && dstSeen.has(communicationPath), 'MANDATORY COMMUNICATION POLICY: distribution entry missing');

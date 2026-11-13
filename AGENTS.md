@@ -47,5 +47,7 @@ Use **GitHub Continuity Protocol v2** at `.agent-standard/core/commit-continuity
 
 For "lanjutkan", identify the **user's current topic**, pin the selected branch/HEAD and current project holds, read the relevant active-status section, then inspect **branch-scoped, owner-path or topic-scoped commit history**. Reconcile with current source; never follow an unrelated newest commit, stale Next or an unapproved action. Git global commit search does not cover nondefault branch history completely. Do not create a second status database or ask for localtest during ChatGPT source work.
 
+**Source evidence binding:** For material GitHub writes or cross-chat continuity, reconcile the real selected branch HEAD, exact GitHub commit SHA/parent and actual changed-file list before claiming commit coverage. A formatted message or caller-supplied diff is not source proof. Handle pagination, renames, test SHA and current permission holds without asking for localtest. Follow `commit-continuity-and-recovery.md`.
+
 ## Delivery
 State the exact repository/ref, changed scope, actual verification actor and result, unresolved proof, and STOP status. Claim no runtime/model/native PASS without evidence from that environment. If verification is held, explicitly say **NOT_EXECUTED**. Structural parity does **not** imply behavioral parity.

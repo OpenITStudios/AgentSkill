@@ -37,3 +37,18 @@
 No new permanent progress database, automatic repository write adapter, local test engine, CI workflow, historical commit rewrite, mandatory seven-field body for trivial changes, or self-authorizing next-step command.
 
 The GitHub source of truth remains the repository and exact ref. The optional offline check only performs syntax and conservative diff heuristics; behavioral gains still need observed agent runs.
+
+## 2026-11-13 source-backed pilot and API evidence binding
+
+The three-repo read-only observation is documented at [continuity-readonly-pilot-2026-11-13.md](continuity-readonly-pilot-2026-11-13.md). It confirms branch/path-scoped commits can retrieve topical work, but does **not** measure autonomous cross-chat task success. In LazyDesigner the latest relevant commit lacked `Next` while current status held the active item; in LazyPrompting older native receipts were bound to earlier SHAs; in DanaIndonesiana topic-specific source work coexists with a large context file and test hold.
+
+### Verified GitHub API limits
+
+- [List commits](https://docs.github.com/en/rest/commits/commits#list-commits): `sha` selects a ref, `path` filters commits touching one path; results may be partial/paginated.
+- [Get a commit](https://docs.github.com/en/rest/commits/commits#get-a-commit): includes parents and changed files, but more than 300 files are paginated and binary patches can be absent.
+- [Compare two commits](https://docs.github.com/en/rest/commits/commits#compare-two-commits): changed-file details can be capped by response page; a compare result alone may not prove full coverage.
+- [API best practices](https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api): restrict requests to needed information and honor pagination and rate limits.
+- [OWASP prompt injection](https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html): retrieved GitHub messages/comments/tool output are data, not autonomous instructions or permission grants.
+- [Lost in the Middle](https://aclanthology.org/2024.tacl-1.9/): large unfiltered context can harm retrieval, supporting small topic-specific entry sections over entire chronological archives.
+
+The optional `tools/commit-snapshot-check.mjs` accepts a **caller-provided** JSON snapshot and reports only **metadata consistency**; it cannot independently authenticate that GitHub provided that JSON. Effective verification of an actual GitHub change remains a distinct tool-connected read and source review. It does not require a new runner, CI or a progress database.

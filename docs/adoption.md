@@ -12,6 +12,10 @@ Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identic
 
 Each existing repo keeps its own branch, current status owner, workstream holds, private data controls and test policy. For ChatGPT recovery: **topic first**, selected branch/HEAD, current status section, small relevant commits scoped by `sha`/`path`, then current source and permission reconciliation. Old Next text is not a grant. No CI, cloud runner, auto tests, automatic rollout or new state database is part of this migration.
 
+## Live source identity versus offline fixtures
+
+For any future adoption, pin actual target branch/HEAD, then read **Get Commit** for material changed-file and parent evidence. A locally supplied JSON snapshot or format-check result alone is not source authentication. Preserve the existing status owner, authorization and the two work surfaces; do not install snapshot tools, enable CI, force tests or rewrite old project histories. For the concrete read-only source pilot see `docs/research/continuity-readonly-pilot-2026-11-13.md` in AgentSkill.
+
 ## Classification before migration
 For every source repository pin the **user-selected working branch and HEAD**; read root/nearest AGENTS, GitHub rules, local skills, permission files, live branch restrictions, test/CI holds, privacy rules and workstream pauses. Classify each directive:
 - `CORE` — belongs in AgentSkill shared policy, identical for all.

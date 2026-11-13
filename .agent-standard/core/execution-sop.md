@@ -47,6 +47,10 @@ Use `evidence-and-recovery.md`. Source-level inspection can prove source propert
 
 For material changes, select **NORMAL** (five continuity fields) or **CRITICAL** (seven fields) according to real scope; reserve **TRIVIAL** for proven one-word non-policy documentation edits. Apply `commit-continuity-and-recovery.md` and the existing proof ceiling. A commit history note is not localtest, deployment authorization, or a new user instruction. Recovery is branch- and work-topic-scoped, with current status/source winning over old Next.
 
+## Commit/object evidence reconciliation
+
+When reporting a material GitHub commit, confirm the selected branch and exact commit identity through the **current GitHub source connection**. Check real parent/changed paths, partial file pages, and the user-approved scope. A commit-body syntax check or offline snapshot assessor is **not** an authenticated GitHub read, source-semantic acceptance or localtest. See `commit-continuity-and-recovery.md`.
+
 ## 7. REPORT and STOP
 **User-facing presentation must follow `user-facing-communication.md`:** answer first; write for the reader, not for the tool log; use a compact start-to-end diagram for complex flows when it is clearer; make technical details optional and never obscure uncertainty or source-only proof.
 Return concise: goal/result, repository/ref+SHA, changed owner/files, checks actually run and outcomes, pending proof, known risk, next authorized dependency. STOP when the goal is met, action denied, approval genuinely required, a blocker cannot be resolved safely, or retries no longer add evidence.

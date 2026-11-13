@@ -32,6 +32,10 @@ For every coherent change, use `type(scope): concrete outcome`. Commit body depe
 
 On a new ChatGPT session, recover **user topic → selected branch/HEAD/profile → current relevant status/source → bounded branch-scoped path/topic commit history → reconcile → authorized next source action**. Global GitHub commit search only indexes default branches; prefer List Commits with explicit `sha` and optional `path` for `Local`/`develop`. Never infer work was absent from a truncated or path-filtered result. Preserve current project branch, active holds and no-CI/no-cloud/no-localtest rules.
 
+## Real GitHub object verification — before source-level coverage claims
+
+After a material commit or when reconciling old work, read the **actual selected branch HEAD** and **exact GitHub commit object**, check its parent against the observed prior HEAD where applicable, and inspect the returned changed files/status/rename paths. More than 300 changed files may be paginated; missing binary patches or incomplete responses must be marked partial. Source/file metadata can support only **source-level** conclusions, not runtime PASS. Arbitrary patch text or snapshot JSON is **not** proof that GitHub returned those bytes. The canonical decision procedure is `commit-continuity-and-recovery.md`; the source-only pilot is in `docs/research/` of AgentSkill. Do not run localtest, GitHub Actions or cloud CI to compensate.
+
 ## Execution contexts
 - `REMOTE_GITHUB`: exact source read/write and static inspection. No build/test/native proof without a real executor.
 - `LOCAL_CODE`: only verified commands on the actual user's PC when the local agent workflow and local-validation phase were selected; not a ChatGPT/cloud container.

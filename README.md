@@ -20,6 +20,12 @@ For a new ChatGPT chat: **current user topic → selected branch → relevant cu
 
 The optional offline `tools/commit-message-check.mjs` validates formatting and *conservative* diff risk signals; it never certifies code correctness or runs tests. Passing `--trivial` alone is not sufficient.
 
+### Source-backed commit review
+
+After a material GitHub commit, confirm the **real selected branch HEAD**, matching commit SHA/parent and changed paths using available read-only GitHub operations. For long-running work, recover the user topic from current status/source plus branch-scoped commits; never from the latest unrelated message alone. [Three-repo recovery pilot](docs/research/continuity-readonly-pilot-2026-11-13.md).
+
+An **optional offline** snapshot consistency helper is authored as `tools/commit-snapshot-check.mjs` with source-only regression cases. It does **not** authenticate user-supplied JSON, fetch GitHub, certify behavior or run localtest. Effective source verification in ChatGPT requires reading the actual authorized connector results.
+
 ## Shared engineering methods
 
 **Karpathy + Ponytail are one mandatory compact pass for material code changes.** Six other methods are **optional**, used only when they help a specific task. This retains the useful rules of older OpenITStudios repositories without installing eight agents or making every reply technical.

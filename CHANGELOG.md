@@ -49,3 +49,9 @@
 - Require a real narrowly scoped documentation patch before allowing trivial shorthand; format checks remain evidence-limited.
 - Clarify branch/path-filtered GitHub history lookup for nondefault branches, bounded context loading and current-status precedence.
 - No localtest, GitHub Actions, cloud CI, branch promotion or downstream adoption performed.
+
+## 0.1.0-draft — branch-specific recovery evidence pilot
+- Record real read-only recovery checks on LazyDesigner, LazyPrompting and DanaIndonesiana with pinned branches and observed gaps.
+- Strengthen commit/source consistency protocol: compare real branch HEAD, commit SHA/parent, file list and evidence limits.
+- Author an optional offline metadata assessor and negative regression cases; it cannot authenticate JSON or substitute for native/user-PC verification.
+- No localtest, cloud CI, GitHub Actions, branch promotion or downstream repository changes.
