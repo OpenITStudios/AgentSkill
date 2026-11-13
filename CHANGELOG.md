@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Document the authorized 11-repository `M-` source adoption in a privacy-safe dated aggregate audit. Reconcile README and adoption instructions without disclosing private repository metadata, changing a package version, or claiming effective host loading.
 - Align the static continuity validator with the current canonical owner path and unversioned document title; remove the stale `GitHub Continuity Protocol v2` text dependency. Authored tests remain NOT_EXECUTED under the hold.
 - Make final work-report decisions unambiguous: STOP is terminal without a new instruction, CONTINUE is authorized in-scope work, BLOCKED names a current dependency, and PROPOSED is separate work requiring new authorization; align policy, examples, template and rubric.
 - Skip routine GitHub commit-history scanning when selected current source, status and decisions already resolve the workstream, while preserving 30/50/100 and older-history recovery when evidence is missing.

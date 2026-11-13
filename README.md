@@ -2,7 +2,7 @@
 
 AgentSkill provides shared agent instructions, reusable Skills, operating policies, and static conformance cases for OpenITStudios repositories. It helps keep engineering practices consistent without replacing project-specific tools, rules, or approvals.
 
-**Status:** `0.1.0-draft`, source-only standards. This repository does not provide an installed multi-agent runtime, an automatic downstream installer, or proof that another repository has adopted its rules.
+**Status:** `0.1.0-draft`, source-only standards. This repository provides neither an installed multi-agent runtime nor an automatic downstream installer. A [dated GitHub source audit](docs/research/m-repository-agentskill-source-audit-2026-11-14.md) records manual file adoption across 11 authorized `M-` repositories. It does not prove effective host instruction loading, agent behavior or local/native tests.
 
 ## Start here
 
@@ -57,7 +57,7 @@ npm test
 
 These entries correspond to `package.json`: the first invokes static standard validation, and the second invokes the authored Node test suites. **Displaying these commands is not proof of execution or a request to run them now.**
 
-The [evidence policy](.agent-standard/core/evidence-and-recovery.md) distinguishes reviewed source, committed source, authored-but-unrun tests, and native verification. For adoption numbers, consult the dated [read-only source audit](docs/research/adoption-readiness-source-audit-2026-11-13.md), not an undated count in this entry page.
+The [evidence policy](.agent-standard/core/evidence-and-recovery.md) distinguishes reviewed source, committed source, authored-but-unrun tests, and native verification. For current source-adoption coverage, consult the [dated aggregate source check](docs/research/m-repository-agentskill-source-audit-2026-11-14.md); the [2026-11-13 readiness inventory](docs/research/adoption-readiness-source-audit-2026-11-13.md) remains historical, not an active count.
 
 ## Documentation map
 

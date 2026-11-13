@@ -1,6 +1,6 @@
 # Controlled Adoption and Host Conformance
 
-**State:** proposal; no product repository has adopted this version. Existing rules cannot be overwritten without lossless classification of their restrictions.
+**State:** controlled manual source adoption observed in 11 authorized `M-` repositories on 2026-11-14. A [dated aggregate source audit](research/m-repository-agentskill-source-audit-2026-11-14.md) records byte-identical portable file checks, exact prior-root preservation and project-Skill retention. **Source adoption is not evidence that a ChatGPT, Codex, Claude Code or OpenCode host actually loaded, followed or tested these rules.** Future migrations must still preserve every target repository's stricter restrictions and require its own user authorization.
 
 ## Shared methods in adoption
 
@@ -16,7 +16,7 @@ Do not copy a single original `SKILL.md` and call the full bundle installed when
 
 Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identically. New material commits use **NORMAL (Surface + five continuity fields)** or **CRITICAL (Surface + seven continuity fields)**; a **TRIVIAL** subject-only exception is allowed only after an actual safe single-word docs diff has been reviewed. Do not rewrite old history or delete its valid decisions.
 
-Each repository retains its own branch, active status owner, holds, domain skills, privacy controls and native test policy. For ChatGPT recovery, start with **user topic → exact branch/HEAD → active owner/source → 30 branch-wide metadata → cumulative 50/100 if needed → targeted older Work/path/decision commits → reconcile source, proof and permission**. Prior Next is never a grant. No CI/cloud/localtest workaround, automatic rollout or new status database is part of adoption.
+Each repository retains its own branch, active status owner, holds, domain skills, privacy controls and native test policy. For ChatGPT recovery, start with **user topic → exact branch/HEAD → current owner/status/source → targeted history only when decisions or continuity remain uncertain → reconcile proof and permission**. When needed, expand branch-wide metadata through 30 → 50/100 and targeted older Work/path/decision evidence without cutoff. Prior Next is never a grant. No CI/cloud/localtest workaround, automatic rollout or new status database is part of adoption.
 
 ## Live source identity versus offline fixtures
 
@@ -55,12 +55,12 @@ Write a **read-only migration assessment** mapping directive → destination own
 ## Codex / OpenCode
 Both can consume root `AGENTS.md` and portable skills under `.agents/skills/`, but resolution, precedence, token limits, permissions and name shadowing differ. Record **effective loaded file paths, host version, active permissions, selected skill, resulting actions** in a conformance receipt. Verify duplicate IDs in any host-specific skill directories; identify unsupported behavior rather than assuming 1:1 model outputs.
 
-## Pilot order (candidates only)
+## Pilot order (historical candidate plan; not current adoption status)
 - `M-Minecraft-Emulator` (public): bounded Skill-owner migration and source-only policy checks.
 - `M-DanaIndonesiana` (public): evidence/permission-heavy domain; active test hold and sensitive-project boundaries must be retained.
 - `M-LazyDesigner` (public): complex nested instructions, Skill taxonomy and native Blockbench proof boundaries.
 
-The actual branches, permissions and holds must be re-read at pilot time. A read-only inventory is in `docs/research/adoption-readiness-source-audit-2026-11-13.md` of AgentSkill. No cross-repo writes until each target separately authorizes adoption. No automatic CI reactivation.
+This was a planning order before adoption, not the observed rollout sequence. The initial read-only inventory remains historical at `docs/research/adoption-readiness-source-audit-2026-11-13.md`. The [2026-11-14 aggregate check](research/m-repository-agentskill-source-audit-2026-11-14.md) supersedes its **current adoption counts only**, not the underlying dated findings. Future cross-repository writes still require current project-specific user authorization and active restrictions; no automatic CI reactivation.
 
 ## Rollback
 Keep exact pre-adoption ref and blob authority, create no ad hoc branches for transport, and revert only within explicit target permissions and safe concurrency checks. Document preserved local restrictions and affected consumers. STOP when parity, source receipt and authorized acceptance are complete.
