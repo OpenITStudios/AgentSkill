@@ -42,6 +42,24 @@ After identifying the **one primary semantic owner**, a material source change g
 4. Read only its required source and direct references; supporting skills answer narrowly defined questions, not create parallel control planes.
 5. A handoff **ends** the previous specialist's responsibility; one actor remains accountable for final integration.
 
+## Activation decision table
+
+This is the **single canonical routing decision map**, not a new agent, Skill registry, or model-generated checklist. Apply it when the task's owner/Skill is non-obvious. Mode and permissions still come from root/profile. Evaluate positive and negative triggers; do not preload every Skill or method.
+
+| Route ID | Positive trigger | Primary selection | Negative trigger / abstain |
+| --- | --- | --- | --- |
+| repository-audit | Read-only repository inventory, architecture inspection, branch or rules comparison | `oits-repository-audit` | Not for repairing source, agent-behavior tuning, or creating a commit from findings |
+| agent-quality | Explicit request to improve agent routing, Skills, instructions, evaluation, or agent behavior | `oits-agent-quality-review` | Not for ordinary product fixes, design production, or general repository inventory |
+| complex-development | Authorized implementation with ambiguous ownership, architecture, contracts, or cross-component acceptance | `oits-development-brief` | Not for bounded known-owner fixes, read-only audits, or agent-rule quality tasks |
+| bounded-change | Authorized small change with clear owner, known acceptance, and no complex cross-owner uncertainty | `NONE` | If complexity is material, select complex-development instead; no mandatory meta Skill |
+| domain-production | User requests a real product, visual asset, model, map, or other domain deliverable | `DOMAIN_LOCAL` | Do not substitute central meta Skills for project-owned domain Skills, or infer uninstalled Skills exist |
+| validation-only | User asks to validate or explain evidence without authorizing repair | `NONE` | Do not mutate the target or claim executed tests from source review; use a domain validation Skill only if genuinely available and relevant |
+| release-intent | User explicitly requests an authorized release or publication workflow | `NONE` | A draft, version discussion or review alone is not release approval; follow repository release/permission gates |
+
+`NONE` is **deliberate Skill abstention**, not omission of applicable root safety, communication or proof rules. `DOMAIN_LOCAL` selects the existing product Skill under its actual host discovery and permissions; never shadow it with a central meta Skill. For material code, apply Karpathy + Ponytail as **one adapted method pass**, separate from the primary Skill or no-Skill decision. Optional methods require positive and negative checks of `.agent-standard/methods.json`.
+
+**Activation evidence:** identify candidate → exclude negative matches/collisions → verify actual advertised Skill ID/source and host permission → load only the selected procedure → perform the authorized task → verify the outcome. When host discovery/load is inaccessible, use the applicable source-owned procedure if available but label the Skill itself `NOT_VERIFIED`. A registry URL or repo file is not proof of activation. An explicit Skill request cannot grant missing host access or override a hold.
+
 ### Collision examples
 
 - "Amati repo" → `oits-repository-audit`, **not** development or an implicit commit.

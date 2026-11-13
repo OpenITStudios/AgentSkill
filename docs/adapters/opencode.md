@@ -15,6 +15,14 @@
 - V2 permissions use `permissions` ordered rules with actions `shell`, `edit`, `subagent`, etc.; the **last matching rule** wins. Do **not** paste V1 `permission/bash/task` examples into V2 without migration.
 - `plan` and `build` are distinct primary agents. They are OpenCode agent roles, not the AgentSkill execution surfaces `CHATGPT_GITHUB` / `LOCAL_PC_AGENT`.
 
+## Skill activation evidence (real host only)
+
+Inspect the current OpenCode skills discovery, **path-derived case-sensitive ID**, description and any `opencode/autoinvoke` suppression. Check the active agent's ordered `skill` permissions; denied Skills can be hidden and later-precedence sources can shadow an ID. Distinguish **not discovered**, **shadowed**, **blocked** and **wrongly selected**.
+
+For a matching task, verify the actual native Skill load response and effective file content; for an unrelated task, correct abstention is expected. A source file or global installation does not prove use on the user's PC. Do not alter permissions or install Skills to manufacture proof. If no host trace exists, report `NOT_VERIFIED`.
+
+Official references: https://opencode.ai/docs/skills and https://opencode.ai/docs/permissions . Check the actual installed host version before applying version-specific rules.
+
 ## Localtest admission
 
 Do not run tests automatically just because `build` grants shell access. Run local checks only after the user moves the task into local validation, the host command runner is verified to target their PC, necessary fixtures are present and project holds allow it. **No GitHub Actions/cloud CI fallback**; no browser/ChatGPT control claims.

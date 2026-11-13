@@ -22,6 +22,12 @@ Static L0 cannot prove the host loaded instructions, nor that agent decisions ma
 5. Track end-to-end quality: accepted outcomes; human corrections; wrong-owner frequency; missing or stale proof; repeat loops; unnecessary context/tools; time/cost when actually measured. Byte size and number of tool calls are secondary proxies.
 6. Compare regressions, uncertainty and cost-to-accepted-result. Promote the minimal improvement only when the relevant source and behavioral gates were satisfied or clearly label it source-reviewed/pending evaluation.
 
+## Skill activation reliability — omission versus overactivation
+
+During authorized L1 host trials, distinguish **required Skill omitted (false negative)**, **unneeded Skill loaded (false positive)**, correct abstention, wrong-owner selection, and duplicate-ID loading. Pin the actual host, available Skill descriptors, effective instruction paths, selected permissions and observable tool/Skill load events. A self-report of Skill use is not sufficient. An unavailable or blocked Skill is `NOT_VERIFIED`, not proof that the model routed incorrectly.
+
+The activation table in `decision-routing-and-ownership.md` defines expected decisions. Source checks in `tools/standard.mjs` verify only routing **structure**, never real model behavior. Do not add a second router or make all methods mandatory.
+
 ## Recorded traces and scoring boundaries
 
 Use a source-scoped receipt identifying `caseId, canonical standard SHA, target repo/ref SHA, host/version, loaded paths (if observed), actual permission config, intended task, tool calls, result, forbidden effects, proof tier, reviewer and limitations`. Never include secrets, private project files or customer data in a public evaluation corpus.

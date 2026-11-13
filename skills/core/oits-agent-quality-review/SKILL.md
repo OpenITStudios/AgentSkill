@@ -1,6 +1,6 @@
 ---
 name: oits-agent-quality-review
-description: Review and improve AI instructions, Agent Skills, SOP, routing, security and evaluation quality when the task explicitly concerns agent behavior. Do not run model tests without actual permitted hosts, install vendor skills automatically or replace product-specific quality checks.
+description: Diagnose or improve agent instructions, Skill activation, routing, SOP and behavioral evaluation. Use for agent-quality tasks; not for ordinary product fixes, design production or repository inventory.
 ---
 
 # Agent Quality Review — Evidence-driven

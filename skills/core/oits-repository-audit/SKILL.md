@@ -1,6 +1,6 @@
 ---
 name: oits-repository-audit
-description: Inspect or compare repository rules, skills, permissions and architecture without modifying anything. Use for read-only requests such as "amati repo", review, inventory or cross-repository governance audit; not for implementation, testing on hold or automatic migration.
+description: Read-only inventory of repository rules, Skills, permissions and architecture. Use for repository audits and inspections; not for implementation, agent-behavior improvement or migration.
 ---
 
 # Repository Audit — Read-only

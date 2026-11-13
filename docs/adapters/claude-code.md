@@ -18,6 +18,14 @@ For an authorized local project, select one of these **after checking effective 
 
 Check Claude session's actual instruction-loading report. Host-specific directives may narrow operations but cannot weaken branch, user permissions, test holds or the user's no-cloud workflow.
 
+## Skill activation evidence (real host only)
+
+Check the actual Claude Code session's available Skill descriptions, user/project/plugin sources, and effective selected path. An installed Skill may be hidden from model invocation by `disable-model-invocation`, a settings override or a competing definition. Distinguish explicit user invocation from model-selected invocation; neither grants side-effect permission.
+
+For relevant tasks, observe the Skill load and applied procedure; for unrelated tasks, confirm abstention. If no reliable host trace can be obtained, report `NOT_VERIFIED`. Do not add hooks or run tests to prove discovery.
+
+Official reference: https://code.claude.com/docs/en/skills . Effective behavior depends on the actual host version/configuration.
+
 ## Deterministic permissions
 
 Claude Code has hooks, including `SessionStart` and `PreToolUse`, that can enforce local policy **if explicitly installed and configured**. Hooks are not present by default in AgentSkill and must not be claimed active without real settings. Prefer a host-owned permission rule to prevent dangerous commands over a Markdown warning alone. Never install a hook to launch tests automatically while the project/source phase or user preference defers localtest.

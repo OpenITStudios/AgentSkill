@@ -10,6 +10,14 @@
 4. Compare effective global/project/nested instruction sources. Codex checks `AGENTS.override.md` before `AGENTS.md` at a directory and merges relevant instructions from global to working directory. Conflicting overrides must be addressed before trusting 1:1 behavior.
 5. Record `host_app=CODEX_CLI`, observed version/model, proof ceiling, and active user-specified task permissions. Distinguish model/provider from execution origin.
 
+## Skill activation evidence (real host only)
+
+In an authenticated Codex CLI/IDE session, inspect which Skill descriptions are **advertised** from effective global/project/nested discovery paths, and verify the selected Skill's identity and content source. A GitHub `SKILL.md` is not proof Codex discovered it. Examine relevant instruction overrides before trusting the shared route.
+
+For matching tasks, record the actual **selected Skill**, whether its `SKILL.md` was **read**, and whether the procedure was followed. Record correct abstention for bounded tasks and `NOT_VERIFIED` when the Skill was unavailable or no load trace exists. No automatic installation, localtest, CI or cloud executor is authorized.
+
+Official references: https://developers.openai.com/api/docs/guides/tools-skills and https://developers.openai.com/plugins/concepts/skills . Local Codex behavior is version/config dependent and was not executed in ChatGPT/GitHub.
+
 ## Localtest admission
 
 The local host **may** perform local checks only after user-selected move to `LOCAL_VALIDATION`, using the source-ready handoff, available real tools, safe test fixtures and project-specific test permissions. Never use GitHub Actions, Codex Cloud or cloud CI as substitute. Report actual commands, exits and target SHA; no PASS from test code being present.

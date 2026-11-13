@@ -1,6 +1,6 @@
 ---
 name: oits-development-brief
-description: Scope and direct non-trivial or ambiguous repository development when architecture, ownership, acceptance or cross-component effects are unclear. Do not use for routine single-owner fixes, inspection-only requests, normal domain production or as automatic permission to mutate.
+description: Scope complex repository implementation with unclear architecture, ownership, acceptance or cross-component effects. Use when development needs a real brief; not for bounded fixes, read-only audits or agent-quality work.
 ---
 
 # Development Brief — Smallest Complete Plan

@@ -25,7 +25,7 @@
 1. Identify the target repository, selected branch, requested result and work mode. Pin actual HEAD before any material write; do not silently fall back to default `main`.
 2. Read this file, `GITHUB_RULES.md`, `.agent-standard/profile.json`, and only relevant clauses from `.agent-standard/core/`. Missing or contradictory authority is a blocker for the affected action, not permission to guess.
 3. Choose `INSPECT`, `PLAN`, `DEVELOP`, `MAINTAIN`, `VALIDATE`, `PRODUCE` or `RELEASE` from intent and permission. `INSPECT` and `PLAN` are read-only by default.
-4. Find the first semantic owner and smallest evidence needed. Load **one primary** relevant skill from `.agents/skills/`; load supporting references only when necessary. A skill is a procedure, never an independent permission grant.
+4. Find the first semantic owner and smallest evidence needed. Use the positive/negative activation table in `.agent-standard/core/decision-routing-and-ownership.md` when routing is non-trivial. Load **one primary** relevant Skill only if actually discoverable on the current host; otherwise follow the source-owned procedure without claiming Skill activation. Abstain when no Skill adds value. A Skill is never an independent permission grant.
 
 ## Work discipline
 - Define goal, scope/non-goals, acceptance, known constraints, actual capabilities and a STOP condition. Use a full specification only for material ambiguous or cross-owner changes.

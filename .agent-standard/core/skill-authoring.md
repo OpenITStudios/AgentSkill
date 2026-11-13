@@ -22,6 +22,14 @@ Original source `SKILL.md` alone may be incomplete: required reference files, da
 
 If host filesystem or instruction traces are inaccessible in `CHATGPT_GITHUB`, report `SOURCE_ONLY` and `HOST_INSTALL_NOT_VERIFIED` honestly; do not demand localtest, trigger CI, run installers or silently replace an existing project Skill.
 
+## Discoverability and activation reliability
+
+The **frontmatter description is the first-stage routing contract**. State one concrete user goal and activation condition early; add a concise negative condition to prevent collisions. Distinguish `oits-repository-audit`, `oits-agent-quality-review` and `oits-development-brief` by their requested **deliverable**, not vague words like “review”. Full procedures and references belong in the body; descriptions must not promise unavailable tools.
+
+Use the existing `decision-routing-and-ownership.md` table. A target repository's domain production Skill stays its owner; central methods support rather than replace it. **Do not force a Skill for a bounded known-owner fix.** Discovered files, host-advertised Skills and actually loaded Skills are different evidence levels.
+
+For material changes to activation rules, author relevant **positive, negative, collision and unavailable-host** cases in `evals/cases.json`. Static checks cover metadata and route structure, not real model selection. Correct L1 routing requires later authorized host traces for both activation and abstention; preserve original Skills, agents, permissions and holds.
+
 ## Minimal skill contract
 1. YAML `name` and `description` with explicit scope.
 2. Positive trigger (when to load) and negative trigger (when **not** to load).
