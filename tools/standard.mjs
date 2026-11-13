@@ -505,6 +505,34 @@ async function validateChatLimitRecoveryContracts() {
     'CHAT LIMIT RECOVERY: read-only handoff example missing');
 }
 
+// Source-level guard only; not evidence of faster work or model compliance.
+async function validateGithubEfficiencyContracts() {
+  const [root, sop, tools, github, continuity] = await Promise.all([
+    readFile(join(ROOT, 'AGENTS.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/execution-sop.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/tool-contracts-and-reliability.md'), 'utf8'),
+    readFile(join(ROOT, 'GITHUB_RULES.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8')
+  ]);
+  const work = ownedMarkdownSection(root, 'Work discipline');
+  const lanes = ownedMarkdownSection(sop, 'Task-cost lanes — work effort, not commit risk');
+  const api = ownedMarkdownSection(tools, 'Cost-aware GitHub reads, writes and receipt reuse');
+  const strategy = ownedMarkdownSection(github, 'Proportionate source and commit strategy');
+  const receipt = ownedMarkdownSection(continuity, 'Verify real GitHub source identity before claiming commit coverage');
+  ensure(work.includes('**Use proportionate ChatGPT-GitHub effort:**') &&
+    work.includes('**Never optimize by bypassing permission, safety, affected consumers or material proof.**') &&
+    ['**FAST**','**STANDARD**','**CRITICAL**'].every(x => lanes.includes(x)) &&
+    lanes.includes('**FAST does not waive branch, permission, security, compatibility or proof checks.**') &&
+    lanes.includes('**Task-cost lane and commit-message tier are independent.**'),
+    'GITHUB EFFICIENCY: missing effort lanes or safety contract');
+  ensure(api.includes('**A checked file blob SHA is not a branch-HEAD lease.**') &&
+    api.includes('**One complete GitHub commit receipt can establish commit SHA, parent and changed paths without redundant identical commit reads.**') &&
+    api.includes('force=false') && api.includes('expected-SHA guard') &&
+    strategy.includes('**Never trade away selected-branch authority, source integrity, safety or proof merely to reduce API calls.**') &&
+    receipt.includes('**Do not repeat equivalent GitHub commit reads or run Compare by default when the first receipt is complete and agrees with the branch.**'),
+    'GITHUB EFFICIENCY: missing guarded write or receipt integrity');
+}
+
 async function validateCanonical() {
   const manifest = await readJson(MANIFEST_PATH);
   ensure(manifest.schemaVersion === 1 && manifest.name === 'oits-agent-standard', 'invalid standard manifest identity');
@@ -625,6 +653,7 @@ async function validateCanonical() {
   await validateGoalStopAndGitHubReliability();
   await validateResearchReadinessContracts();
   await validateChatLimitRecoveryContracts();
+  await validateGithubEfficiencyContracts();
   await validateRepositoryReadme();
 
   const schema = await readJson('schemas/repository-profile.schema.json');

@@ -19,6 +19,12 @@ Always respect selected branch and project holds. A repo branch named `Local` ne
 6. **VERIFY:** Use the cheapest **available and permitted** falsifiable proof, scoped to the changed state and exact revision. Distinguish source review, authored-not-run tests, executed checks, live runtime evidence and approval. Do not treat a GitHub commit as running code.
 7. **STOP:** Give a brief **result-first** summary: what changed, one useful repository/ref/commit reference, actual proof and the one meaningful limitation or next step. Follow `.agent-standard/core/user-facing-communication.md`. Do not dump file lists, SHA metadata, repeated disclaimers or internal tool mechanics unless requested. Stop when done, denied or blocked; do not spin in retries.
 
+## Proportionate source and commit strategy
+
+Use FAST / STANDARD / CRITICAL **task-cost lanes** from `execution-sop.md` to choose effort, separately from the existing `TRIVIAL/NORMAL/CRITICAL` **commit-message tiers**. A small known fix should not require a full audit; a short permission or contract change still needs deeper review.
+
+Use Contents API with current blob SHA for a safe independent one-file change. Use base tree → commit with pinned parent → guarded non-force ref update for interdependent files or stronger concurrency needs. Apply the source/receipt limits in `tool-contracts-and-reliability.md`. **Never trade away selected-branch authority, source integrity, safety or proof merely to reduce API calls.**
+
 ## Concurrent Git writes
 - Refresh current HEAD before a mutable transaction. Use current file blob SHA for replacement/deletion and conditional/fast-forward ref updates where available.
 - If the expected SHA moved, **stop and reconcile current history**. No force push or overwrite of concurrent work just to make the action pass.

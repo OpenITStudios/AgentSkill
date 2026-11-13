@@ -25,7 +25,21 @@ Capture `repo`, `selectedRef`, `currentHead`, `userGoal`, `userScope`, `taskMode
 - `PRODUCE`: execute a domain task with target-specific input/output/approval boundaries.
 - `RELEASE`: separately controlled promotion, packaging or deployment.
 
-Classify task as **bounded** (single known owner), **standard** (several known owners) or **complex** (ambiguous behavior, architecture, permissions or cross-system dependencies). Only complex work needs a fuller decision record.
+For ChatGPT/GitHub source work, select the FAST / STANDARD / CRITICAL effort lane below instead of repeating a second bounded/standard/complex classification. Only material complexity needs a fuller decision record. Other task modes still use proportional review without creating another classifier.
+
+## Task-cost lanes — work effort, not commit risk
+
+In `CHATGPT_GITHUB`, use the **least costly complete** workflow that meets acceptance. These are effort lanes, not new agents, task modes, authorization classes or commit formats.
+
+| Lane | Suitable work | Cost-proportionate response |
+| --- | --- | --- |
+| **FAST** | Narrow, low-complexity task with known owner, scope and approval | Read current required rules/profile and owner, check affected consumers, make a complete edit, verify source and STOP |
+| **STANDARD** | Several related source, contract or regression files | Inspect only relevant owners/consumers, prepare one coherent acceptance unit before writing and verify integration |
+| **CRITICAL** | Material interface, security, permission, migration, architecture or unresolved design | Review applicable decisions, risks, affected consumers and compatibility before any authorized change |
+
+**FAST does not waive branch, permission, security, compatibility or proof checks.** A one-line policy change can be CRITICAL. Do not force broad research, unnecessary approvals, long specs or extra validators for a known harmless correction; do not use FAST when scope or safety is unresolved. Existing task modes still govern authorization.
+
+**Task-cost lane and commit-message tier are independent.** Apply existing `TRIVIAL/NORMAL/CRITICAL` commit rules by change risk. Prefer one coherent acceptance unit per commit; multiple commits are appropriate when independent milestones or rollback boundaries justify them. Neither fewer commits nor fewer API calls defines success.
 
 ## 3. ROUTE once
 Resolve first wrong semantic owner. Read root/profile, relevant canonical documentation and one primary `SKILL.md`. Use helper skills only for independently needed capability; avoid preloading every skill and avoid duplicate router roles. Verify every skill's positive/negative trigger and host capability.
@@ -59,6 +73,12 @@ Before any **newly discovered subtask** or another round of changes, classify it
 **Terminal STOP decision:** after the user-visible result exists, scoped acceptance and preservation checks are satisfied **at the currently available proof ceiling**, authorized GitHub source changes are committed and reconciled if applicable, and no material in-scope blocker remains, set the scoped work `DONE`, report actual proof, and **STOP**. Do not reopen it for small aesthetic preferences, one more audit, version churn, new agents, extra test infrastructure or open-ended polish. Do not turn a historical `Next` into authorization for a fresh task.
 
 If local/native checks are held in `CHATGPT_GITHUB`, do not keep coding or request localtest merely to obtain runtime PASS; state `SOURCE_COMMITTED / LOCAL_TEST_DEFERRED` where accurate and stop at the source boundary. Conversely, do **not** stop early while an essential source defect or affected consumer still blocks the authorized specification. If the user explicitly gives a **new goal**, begin a fresh scoped decision instead of silently extending the completed one.
+
+## ChatGPT-GitHub source efficiency
+
+Use the read/write/receipt selection in `tool-contracts-and-reliability.md` and source-reuse rules in `context-and-session-continuity.md`. If exact source remains present and its blob is confirmed unchanged, reuse it; do not repeatedly fetch identical files, all Skills or long history. When HEAD changes, inspect affected paths and refresh only stale owners. A hash or summary without source content is not sufficient.
+
+Prepare related changes and necessary regression source together. Do not create extra reports, validators or cleanup rounds without material acceptance value. Refresh HEAD and permissions before mutation; inspect the actual branch, parent, changed files and relevant source after writing. **Reducing tool calls never justifies unsafe writes, missing dependencies, skipped permissions or false proof.**
 
 ## 5. EXECUTE only authorized effects
 Before each mutation perform the action-level preflight in `permission-and-security.md`. Check selected ref, current HEAD, file owner and hold. Prefer one coherent change, no duplicate state or framework stacking. Changes with irreversible effects need the actual platform's approval capability and user authorization.

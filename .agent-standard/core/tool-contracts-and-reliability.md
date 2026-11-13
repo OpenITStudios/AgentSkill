@@ -46,6 +46,19 @@ For a material GitHub task, reuse root `GITHUB_RULES.md`, the selected repositor
 
 Once source acceptance has been met, do not continue into unrelated cleanups, new validators, speculative refactors or historical workstreams. The canonical terminal rule is `execution-sop.md` **Goal lock, scope guard and terminal STOP**.
 
+## Cost-aware GitHub reads, writes and receipt reuse
+
+These are **choices among existing connected tools**, not a new gateway or rigid API-call quota.
+
+1. **Select source by decision.** Pin selected branch/HEAD; read current mandatory root rules/profile, primary owner and affected consumers. Use tree/path discovery and branch-scoped metadata only when needed. Reuse exact file content only when its blob SHA is verified unchanged and content remains in effective context. On a HEAD move, inspect relevant differences before re-reading everything.
+2. **Choose a one-file route when safe.** For an independent UTF-8 file edit, GitHub Contents create/update may save calls if the selected branch and current file blob SHA are supplied. **A checked file blob SHA is not a branch-HEAD lease.** Contents may not protect against an unrelated concurrent branch move; refresh HEAD before mutation, check parent/HEAD afterward, and choose Git Data when strict ancestry is material.
+3. **Write multi-file changes coherently.** Prepare all related source, docs and regression fixtures, create a Git tree from pinned `base_tree`, create a commit with the pinned parent, then update the selected ref with `force=false` and a supported expected-SHA guard. An unreferenced tree/commit object is not a completed branch update. If HEAD moves, reconcile instead of force-pushing or silently overwriting.
+4. **Batch reads prudently.** Independent reads may be grouped within provider limits; writes to one ref remain serialized. A wrapper's single invocation can still send multiple API requests. Never install a new tool solely to hide call count.
+5. **Reuse complete receipts.** **One complete GitHub commit receipt can establish commit SHA, parent and changed paths without redundant identical commit reads.** Re-read selected HEAD and review affected semantic owners separately. Expand for pagination, renames, missing patches or actual conflict/coverage gaps; Compare is not required when complete data already agree. Source identity is not runtime PASS.
+6. **STOP after acceptance.** Preserve holds and `UNKNOWN_OUTCOME` reconciliation; avoid unneeded audits and commits.
+
+**Evidence of efficiency:** compare actual time-to-accepted-source, API operations, repeated reads, correction rounds and proof integrity when observed. A lower commit/tool count alone is not proof of improvement. Do not invent telemetry.
+
 ## Deterministic first, generative only where useful
 
 Use the cheapest grounded query, schema check, hash, diff, parser or exact-state assertion before invoking broad agent reasoning if those checks fully settle the task. Conversely, do not replace qualitative judgment or visual acceptance with a purely numeric proxy. A deterministic gate is not a reason to ignore missing meaningful evidence.

@@ -167,7 +167,39 @@ test('chat-limit source guard rejects checkpoint-based permission escalation', a
   }
 });
 
-test('context recovery is an unversioned policy and source version remains draft', async () {
+test('GitHub task cost lanes and commit safety are distinct', async () => {
+  const [sop, toolPolicy, casesText] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/execution-sop.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/tool-contracts-and-reliability.md'), 'utf8'),
+    readFile(join(ROOT, 'evals/cases.json'), 'utf8')
+  ]);
+  assert.match(sop, /FAST does not waive branch, permission, security, compatibility or proof checks/);
+  assert.match(sop, /Task-cost lane and commit-message tier are independent/);
+  assert.match(toolPolicy, /A checked file blob SHA is not a branch-HEAD lease/);
+  assert.match(toolPolicy, /One complete GitHub commit receipt can establish commit SHA, parent and changed paths/);
+  const cases = JSON.parse(casesText).cases;
+  for (let i = 268; i <= 273; i++) assert.ok(cases.some(c => c.id === 'GOV-' + i));
+});
+
+test('GitHub efficiency guard rejects an unsafe FAST shortcut', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-efficiency-safety-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(p => p === '.git' || p === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/execution-sop.md');
+    const original = await readFile(file, 'utf8');
+    const policy = '**FAST does not waive branch, permission, security, compatibility or proof checks.**';
+    assert.ok(original.includes(policy));
+    await writeFile(file, original.replace(policy, '**FAST skips permission and security checks.**'));
+    const invalid = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(invalid.status, 0);
+    assert.match(invalid.stderr, /GITHUB EFFICIENCY: missing effort lanes or safety contract/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('context recovery is an unversioned policy and source version remains draft', async () => {
   const [policy, pkgText, manifestText, changelog, rules] = await Promise.all([
     readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8'),
     readFile(join(ROOT, 'package.json'), 'utf8'),
