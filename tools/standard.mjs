@@ -583,7 +583,8 @@ async function validateCanonical() {
   ensure(continuity.includes('## Commit message: choose the smallest sufficient tier') &&
     continuity.includes('## Active status docs: small front door') &&
     githubPolicy.includes('**TRIVIAL**') && githubPolicy.includes('**CRITICAL**') &&
-    rootPolicy.includes('GitHub Continuity Protocol v2'), 'COMMIT CONTINUITY V2: tiered format or scoped recovery missing');
+    rootPolicy.includes(continuityPath) &&
+    continuity.startsWith('# GitHub Commit Continuity and Context Recovery'), 'COMMIT CONTINUITY: source owner/title or scoped recovery missing');
   const checkerText = await readFile(join(ROOT,'tools/commit-message-check.mjs'),'utf8');
   ensure(checkerText.includes('TRIVIAL REQUIRES DIFF') && checkerText.includes('DIFF RISK') &&
     checkerText.includes('DIFF_NOT_REVIEWED'), 'COMMIT CONTINUITY V2: source scope guards missing');
