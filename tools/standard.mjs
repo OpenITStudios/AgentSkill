@@ -179,6 +179,56 @@ async function validateActivationContracts(manifest) {
   }
 }
 
+async function validateSkillActivationPilot(evals) {
+  const pilot = await readJson('evals/skill-activation-pilot.json');
+  ensure(pilot.schemaVersion === 1 && pilot.id === 'oits-skill-activation-pilot' &&
+    pilot.work === 'skill-activation-reliability' && pilot.status === 'NORMATIVE_NOT_EXECUTED',
+    'ACTIVATION PILOT: invalid identity or false executed state');
+  ensure(pilot.historicalReferences?.preActivationSourceSha === '4dc6402479fb24f8c902ea67ae2d4a59c6fe593d' &&
+    pilot.historicalReferences?.initialRoutingSourceSha === '95445ff3d361d1112b9ce1e75eb3abb2b7467a3c',
+    'ACTIVATION PILOT: baseline source reference mismatch');
+  const expected = new Map([
+    ['GOV-211', ['required_core', 'oits-repository-audit']],
+    ['GOV-212', ['required_core', 'oits-agent-quality-review']],
+    ['GOV-213', ['required_core', 'oits-development-brief']],
+    ['GOV-214', ['no_shared_skill', 'NONE']],
+    ['GOV-215', ['required_domain', 'lazydesigner-modelling']],
+    ['GOV-216', ['no_shared_skill', 'NONE']],
+    ['GOV-217', ['unavailable', 'NOT_VERIFIED']],
+    ['GOV-218', ['identity_integrity', 'NOT_VERIFIED']],
+    ['GOV-219', ['method_selection', 'NONE']],
+    ['GOV-220', ['evidence_integrity', 'NOT_VERIFIED']]
+  ]);
+  const knownCases = new Map(evals.cases.map(c => [c.id, c]));
+  ensure(Array.isArray(pilot.cases) && pilot.cases.length === expected.size,
+    'ACTIVATION PILOT: missing or extra frozen cases');
+  const seen = new Set();
+  for (const item of pilot.cases) {
+    const required = expected.get(item.id);
+    ensure(required && !seen.has(item.id) && knownCases.has(item.id) &&
+      item.group === required[0] && item.expectedPrimary === required[1],
+      'ACTIVATION PILOT: wrong owner/duplicate frozen case ' + String(item.id));
+    seen.add(item.id);
+  }
+  ensure(pilot.trialRequirements?.noCIOrCloudSubstitution === true &&
+    pilot.trialRequirements?.noAutomaticExecution === true &&
+    pilot.trialRequirements?.sourceOnlyResultsAllowed === false &&
+    pilot.trialRequirements?.suggestedTrialsPerCasePerArm >= 2 &&
+    JSON.stringify(pilot.trialRequirements?.arms) === JSON.stringify(['baseline','candidate']),
+    'ACTIVATION PILOT: invalid permission, comparison or source-only restrictions');
+  const receipt = pilot.observationContract;
+  ensure(Array.isArray(receipt?.required) && Array.isArray(receipt?.allowedOutcome) &&
+    ['caseId','standardSha','targetHead','hostApp','selectedSkillId','effectiveLoadedSkillPath','loadEvidenceRef','outcome'].every(key => receipt.required.includes(key)) &&
+    receipt.allowedOutcome.includes('NOT_VERIFIED') &&
+    !receipt.allowedOutcome.includes('PASS'), 'ACTIVATION PILOT: insufficient host-proof contract');
+  ensure(!Object.keys(pilot).some(key => ['results','measured','passRate','trials'].includes(key)),
+    'ACTIVATION PILOT: unexecuted source must not include invented results');
+  const protocol = await readFile(join(ROOT, 'evals/skill-activation-pilot.md'), 'utf8');
+  ensure(protocol.includes('HOST_EVAL_NOT_EXECUTED') && protocol.includes('False negative') &&
+    protocol.includes('False positive') && /safety|security|integrity/i.test(protocol),
+    'ACTIVATION PILOT: missing evaluation or safety protocol');
+}
+
 async function validateMethodRegistry(evals) {
   const data = await readJson('registry/methods.json');
   const schema = await readJson('schemas/method-registry.schema.json');
@@ -325,6 +375,7 @@ async function validateCanonical() {
   }
   ensure(levels.size === 4, 'evaluation coverage must span L0-L3');
   await validateMethodRegistry(evals);
+  await validateSkillActivationPilot(evals);
   return { manifest, caseCount: evals.cases.length, skillCount };
 }
 

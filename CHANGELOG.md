@@ -14,6 +14,7 @@ A release version records a **meaningful approved milestone**, not every feature
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Author three regression tests for the frozen pilot selection, source restrictions and prohibition of invented results; NOT_EXECUTED.
 - Author 10 normative Skill activation cases (GOV-211–GOV-220) and three source regression tests; NOT_EXECUTED.
 - Author 10 additional normative original-Skill authenticity and host-proof cases (GOV-201–GOV-210); not executed.
 - Author 10 additional normative preservation/upstream cases (GOV-191–GOV-200) and source regression assertions; NOT_EXECUTED.

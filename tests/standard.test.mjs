@@ -137,6 +137,56 @@ test('validator rejects vague Skill discovery metadata', async () => {
   }
 });
 
+test('frozen Skill activation pilot reuses ten normative cases without host outcomes', async () => {
+  const [pilotSource, casesSource, protocol] = await Promise.all([
+    readFile(join(ROOT, 'evals/skill-activation-pilot.json'), 'utf8'),
+    readFile(join(ROOT, 'evals/cases.json'), 'utf8'),
+    readFile(join(ROOT, 'evals/skill-activation-pilot.md'), 'utf8')
+  ]);
+  const pilot = JSON.parse(pilotSource);
+  const cases = new Set(JSON.parse(casesSource).cases.map(x => x.id));
+  assert.equal(pilot.status, 'NORMATIVE_NOT_EXECUTED');
+  assert.equal(pilot.cases.length, 10);
+  assert.ok(pilot.cases.every(x => cases.has(x.id)));
+  assert.ok(pilot.cases.some(x => x.group === 'required_core'));
+  assert.ok(pilot.cases.some(x => x.group === 'no_shared_skill'));
+  assert.match(protocol, /HOST_EVAL_NOT_EXECUTED/);
+});
+
+test('activation pilot validator rejects invented observed results', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-activation-pilot-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: path => !path.includes('node_modules') && !path.includes('.git') });
+    const file = join(snapshot, 'evals/skill-activation-pilot.json');
+    const data = JSON.parse(await readFile(file, 'utf8'));
+    data.results = [{ caseId: 'GOV-211', outcome: 'PASS' }];
+    await writeFile(file, JSON.stringify(data));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /ACTIVATION PILOT: unexecuted source must not include invented results/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('activation pilot validator rejects a changed expected Skill owner', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-activation-owner-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: path => !path.includes('node_modules') && !path.includes('.git') });
+    const file = join(snapshot, 'evals/skill-activation-pilot.json');
+    const data = JSON.parse(await readFile(file, 'utf8'));
+    data.cases[0].expectedPrimary = 'oits-development-brief';
+    await writeFile(file, JSON.stringify(data));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /ACTIVATION PILOT: wrong owner\/duplicate frozen case/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
 test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {
   const parent = await mkdtemp(join(tmpdir(), 'oits-agent-standard-'));
   const target = join(parent, 'bundle');
