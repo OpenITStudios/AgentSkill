@@ -74,7 +74,7 @@ export function reviewGitHubCommitSnapshot(snapshot) {
   let diffText;
   if(subjectOnly && raw.length===1) {
     const file=raw[0];
-    if(file.status==='modified' && typeof file.patch==='string') {
+    if(file && file.status==='modified' && typeof file.patch==='string') {
       const p=file.filename;
       diffText='diff --git a/'+p+' b/'+p+'\n--- a/'+p+
         '\n+++ b/'+p+'\n'+file.patch;
