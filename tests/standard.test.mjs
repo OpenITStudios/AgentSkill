@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 128 normative cases validate', () => {
+test('canonical source, skill metadata and 150 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /128 normative cases/);
+  assert.match(r.stdout, /150 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -305,20 +305,30 @@ test('material Git commit rejects missing Next and fake success status', async (
   }
 });
 
-test('trivial typo commit can omit material body only by explicit option', async () => {
-  const parent = await mkdtemp(join(tmpdir(), 'oits-commit-trivial-'));
+test('v2 trivial requires an actual narrow documentation diff, not merely --trivial', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-commit-trivial-v2-'));
   try {
-    const target = join(parent, 'message.txt');
-    await writeFile(target, 'docs(readme): correct a misspelled heading');
-    const normal = spawnSync(process.execPath, [join(ROOT, 'tools/commit-message-check.mjs'), target], { encoding: 'utf8' });
-    assert.notEqual(normal.status, 0);
-    const trivial = spawnSync(process.execPath, [join(ROOT, 'tools/commit-message-check.mjs'), target, '--trivial'], { encoding: 'utf8' });
-    assert.equal(trivial.status, 0, trivial.stderr);
+    const message = join(parent,'message.txt'), patch = join(parent,'typo.diff');
+    await writeFile(message,'docs(readme): correct a misspelled heading');
+    await writeFile(patch, [
+      'diff --git a/README.md b/README.md',
+      'index 1234567..abcdef0 100644',
+      '--- a/README.md',
+      '+++ b/README.md',
+      '@@ -1 +1 @@',
+      '-# Headng',
+      '+# Heading'
+    ].join('\n'));
+    const missing = spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),message,'--trivial'],{encoding:'utf8'});
+    assert.notEqual(missing.status,0);
+    assert.match(missing.stderr,/TRIVIAL REQUIRES DIFF/);
+    const candidate = spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),message,'--trivial','--diff',patch],{encoding:'utf8'});
+    assert.equal(candidate.status,0,candidate.stderr);
+    assert.match(candidate.stdout,/PATCH_STRUCTURE_ONLY/);
   } finally {
-    await rm(parent, { recursive: true, force: true });
+    await rm(parent,{recursive:true,force:true});
   }
 });
-
 
 test('repeat co-author trailers do not replace required continuity fields', async () => {
   const parent = await mkdtemp(join(tmpdir(), 'oits-commit-authors-'));
@@ -342,4 +352,96 @@ test('repeat co-author trailers do not replace required continuity fields', asyn
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
+});
+
+
+test('v2 NORMAL accepts five fields without pretending diff was checked', async () => {
+  const parent=await mkdtemp(join(tmpdir(),'oits-normal-v2-'));
+  try {
+    const message=join(parent,'msg.txt');
+    await writeFile(message,[
+      'fix(texture): cover six Cube face orientations','',
+      'Goal: Find missing faces using existing sampling limits.',
+      'Work: texture-face-scan — improve source sampling.',
+      'State: ACTIVE; SOURCE_INTEGRATION.',
+      'Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN.',
+      'Next: Inspect current texture callers.'
+    ].join('\n'));
+    const check=spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),message,'--tier','normal'],{encoding:'utf8'});
+    assert.equal(check.status,0,check.stderr);
+    assert.match(check.stdout,/DIFF_NOT_REVIEWED/);
+  } finally {await rm(parent,{recursive:true,force:true});}
+});
+
+test('v2 CRITICAL requires Decision and Unresolved', async () => {
+  const parent=await mkdtemp(join(tmpdir(),'oits-critical-v2-'));
+  try {
+    const message=join(parent,'msg.txt');
+    const core=[
+      'feat(agent): restrict repository permissions','',
+      'Goal: Keep all changes within the selected branch.',
+      'Work: permission-routing — tighten action gates.',
+      'State: ACTIVE; SOURCE_INTEGRATION.',
+      'Proof: SOURCE_REVIEWED; LOCAL_TEST_DEFERRED.',
+      'Next: Inspect current host rules.'
+    ];
+    await writeFile(message,core.join('\n'));
+    const fail=spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),message,'--tier','critical'],{encoding:'utf8'});
+    assert.notEqual(fail.status,0);
+    assert.match(fail.stderr,/Missing continuity field: Decision/);
+    assert.match(fail.stderr,/Missing continuity field: Unresolved/);
+    const full=[...core.slice(0,-1),
+      'Decision: Preserve existing user approval and hold rules.',
+      'Unresolved: Actual local host behavior is unverified.',
+      core.at(-1)];
+    await writeFile(message,full.join('\n'));
+    const good=spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),message,'--tier','critical'],{encoding:'utf8'});
+    assert.equal(good.status,0,good.stderr);
+  } finally {await rm(parent,{recursive:true,force:true});}
+});
+
+test('v2 source-risk diff prevents normal tier for protected policy paths', async () => {
+  const parent=await mkdtemp(join(tmpdir(),'oits-risk-v2-'));
+  try {
+    const message=join(parent,'msg.txt'),patch=join(parent,'patch.diff');
+    await writeFile(message,[
+      'feat(agent): restrict repository permissions','',
+      'Goal: Keep changes on the selected user branch.',
+      'Work: permission-routing — tighten action gates.',
+      'State: ACTIVE; SOURCE_INTEGRATION.',
+      'Proof: SOURCE_REVIEWED; LOCAL_TEST_DEFERRED.',
+      'Next: Inspect current host source.'
+    ].join('\n'));
+    await writeFile(patch,[
+      'diff --git a/AGENTS.md b/AGENTS.md',
+      'index 1111111..2222222 100644',
+      '--- a/AGENTS.md','+++ b/AGENTS.md','@@ -1 +1 @@',
+      '-old policy','+new policy'
+    ].join('\n'));
+    const bad=spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),message,'--tier','normal','--diff',patch],{encoding:'utf8'});
+    assert.notEqual(bad.status,0);
+    assert.match(bad.stderr,/DIFF RISK/);
+  } finally {await rm(parent,{recursive:true,force:true});}
+});
+
+test('v2 trivial blocks code source, multi-line changes and policy wording', async () => {
+  const parent=await mkdtemp(join(tmpdir(),'oits-trivial-risk-v2-'));
+  try {
+    const msg=join(parent,'message.txt'),patch=join(parent,'patch.diff');
+    await writeFile(msg,'docs(readme): correct misspelled heading');
+    const variants=[
+      ['src/parser.ts','-# Headng','+# Heading'],
+      ['README.md','-# Permisions','+# Permissions'],
+      ['README.md','-# Headng\n-# Nmae','+# Heading\n+# Name']
+    ];
+    for(const [path,removed,added] of variants) {
+      const p=[
+        'diff --git a/'+path+' b/'+path,'index 1111111..2222222 100644',
+        '--- a/'+path,'+++ b/'+path,'@@ -1 +1 @@',removed,added
+      ].join('\n');
+      await writeFile(patch,p);
+      const result=spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),msg,'--trivial','--diff',patch],{encoding:'utf8'});
+      assert.notEqual(result.status,0,path+' incorrectly accepted');
+    }
+  } finally {await rm(parent,{recursive:true,force:true});}
 });

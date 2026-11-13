@@ -42,3 +42,5 @@ The offline commit checker validates **message structure**, not whether the code
 ## GitHub Continuity v2 (GOV-129 onward)
 
 Additional normative cases distinguish three commit tiers, safe diffs, nondefault branch recovery, path rename/pagination fallback, current-status precedence, and the inability of a format check to certify source or test correctness. All remain **NOT_EXECUTED** until an authorized PC-local agent measures them.
+
+**GOV-129–GOV-150** specifically test proportional commit tiers, narrow trivial diff admission, protected-source escalation and branch/path-scoped context recovery. They are authored normative cases, not executed model results.
