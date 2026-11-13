@@ -2,6 +2,10 @@
 
 **State:** controlled manual source adoption observed in 11 authorized `M-` repositories on 2026-11-14. A [dated aggregate source audit](research/m-repository-agentskill-source-audit-2026-11-14.md) records byte-identical portable file checks, exact prior-root preservation and project-Skill retention. **Source adoption is not evidence that a ChatGPT, Codex, Claude Code or OpenCode host actually loaded, followed or tested these rules.** Future migrations must still preserve every target repository's stricter restrictions and require its own user authorization.
 
+## Mandatory project-policy loading after source adoption
+
+The portable root must explicitly direct each adopted host to read `.agent-standard/profile.json` **and the actual `.agent-standard/project-policy.md` when present or required by the profile** before routing or writing. The profile note and source lock are pointers/evidence, not proof that the local document was loaded. If required local policy is unavailable, source inspection can continue safely but the affected mutation is blocked. Archived original roots are not a substitute active policy. Host-effective instruction loading remains unverified until observed in a real supported client.
+
 ## Shared methods in adoption
 
 Move historical Karpathy, Ponytail, Pstack/Poteto, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock **general working principles** to the single byte-identical `.agent-standard/methods.json` and shared engineering procedure. Preserve local project skill taxonomy, source owner, workstream holds and actual tool permissions. Remove duplicated generic method blocks from older AGENTS only **after** their restrictions are mapped and adoption is explicitly authorized. Do not change existing project repositories as a side effect of maintaining AgentSkill.

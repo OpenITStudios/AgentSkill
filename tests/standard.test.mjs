@@ -13,6 +13,28 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
+test('shared startup loads adopted local project policy before Skill routing', async () => {
+  const root = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
+  assert.match(root, /read the actual `\.agent-standard\/project-policy\.md` when present or required by the profile/);
+  assert.match(root, /archived prior roots are history, not current instructions/);
+});
+
+test('local project policy source guard rejects skipping policy contents', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-project-policy-loading-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, 'AGENTS.md');
+    const original = await readFile(file, 'utf8');
+    const directive = '**read the actual `.agent-standard/project-policy.md` when present or required by the profile**';
+    assert.ok(original.includes(directive));
+    await writeFile(file, original.replace(directive, '**do not open the local project policy**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /LOCAL POLICY LOADING: missing mandatory project-specific policy read/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
 test('canonical source, skill metadata and normative cases validate', async () => {
   const corpus = JSON.parse(await readFile(join(ROOT, 'evals/cases.json'), 'utf8'));
   const r = run('validate');

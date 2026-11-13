@@ -99,3 +99,7 @@ Eight **normative, not executed** cases cover original source and alternative di
 ## Terminal report consistency and conditional history (GOV-276–GOV-281)
 
 Six **normative, not executed** cases cover read-only audits with separately proposed repairs, genuinely terminal STOP, remaining authorized work, permission blockers, current-source-first history avoidance, and deeper history when workstream evidence is missing. The written source regression controls cannot measure actual host decisions. No localtest, CI or model benchmark was performed.
+
+## Adopted local project-policy loading (GOV-282–GOV-283)
+
+Two **normative, not executed** cases require reading actual target-local project policy before Skill routing or mutation, and fail closed when that required content is inaccessible. The source guard is authored only; host execution and model policy-use remain `NOT_VERIFIED`.

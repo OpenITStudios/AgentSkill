@@ -579,6 +579,9 @@ async function validateCanonical() {
   const githubPolicy = await readFile(join(ROOT, 'GITHUB_RULES.md'), 'utf8');
   const rootPolicy = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
   const continuity = await readFile(join(ROOT, continuityPath), 'utf8');
+  ensure(rootPolicy.includes('**read the actual `.agent-standard/project-policy.md` when present or required by the profile**') &&
+    rootPolicy.includes('archived prior roots are history, not current instructions'),
+    'LOCAL POLICY LOADING: missing mandatory project-specific policy read or archive boundary');
   ensure(githubPolicy.includes('## Commit quality and cross-chat continuity') && rootPolicy.includes('## Commit continuity') && continuity.includes('## How to continue a task in another ChatGPT conversation'), 'COMMIT CONTINUITY: source policies not linked');
   ensure(continuity.includes('## Commit message: choose the smallest sufficient tier') &&
     continuity.includes('## Active status docs: small front door') &&
