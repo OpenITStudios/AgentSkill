@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 220 normative cases validate', () => {
+test('canonical source, skill metadata and 230 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /220 normative cases/);
+  assert.match(r.stdout, /230 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -187,7 +187,42 @@ test('activation pilot validator rejects a changed expected Skill owner', async 
   }
 });
 
-test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {
+test('goal completion and GitHub reliability remain owned by existing policy modules', async () => {
+  const [root, sop, toolContract, evidence, continuity] = await Promise.all([
+    readFile(join(ROOT, 'AGENTS.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/execution-sop.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/tool-contracts-and-reliability.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/evidence-and-recovery.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/context-and-session-continuity.md'), 'utf8')
+  ]);
+  assert.match(root, /Keep the user goal fixed/);
+  assert.match(sop, /Goal lock, scope guard and terminal STOP/);
+  assert.match(sop, /OPTIONAL_OR_UNRELATED/);
+  assert.match(toolContract, /PARTIAL_SOURCE_CHANGE/);
+  assert.match(toolContract, /UNKNOWN_OUTCOME/);
+  assert.match(evidence, /Specification/);
+  assert.match(evidence, /Standards/);
+  assert.match(continuity, /Keep the primary goal across long prompting/);
+});
+
+test('static validator detects loss of terminal goal-stop guard', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-goal-stop-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, '.agent-standard/core/execution-sop.md');
+    const current = await readFile(file, 'utf8');
+    assert.match(current, /OPTIONAL_OR_UNRELATED/);
+    await writeFile(file, current.replace('OPTIONAL_OR_UNRELATED', 'ALWAYS_CONTINUE_POLISH'));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /GOAL STOP: missing required, blocked, optional or terminal classification/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('offline package creates verifiable byte-identical bundle, and drift fails', async () {
   const parent = await mkdtemp(join(tmpdir(), 'oits-agent-standard-'));
   const target = join(parent, 'bundle');
   try {

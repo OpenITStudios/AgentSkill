@@ -41,6 +41,12 @@ Preserve exactly the decision-critical packet:
 
 Checkpoint is a recovery aid, not an alternate truth store. After restarting, re-pin selected ref and verify current source. Reload any mandatory material genuinely lost during compaction; do not pretend a summary contains an unread reference. Never replay a non-idempotent write simply because it appeared as a pending step.
 
+## Keep the primary goal across long prompting
+
+On every meaningful new user instruction, compare it to the **last active goal and acceptance**: a correction changes a specified dimension; an explicit new goal opens new scope; an unrelated observation, older `Next` or the agent's own idea does not. Preserve the original goal, scope and terminal completion status in the existing compact checkpoint. Do not reclassify successive optional polish suggestions as mandatory work or resurrect a `DONE` topic merely because it appears in commit history.
+
+When context grows or source evidence changes, reload **only decision-critical** current facts and the affected owner. Review what remains unsatisfied before any further research or code change. If the user goal has been fulfilled at the permitted proof ceiling, report `DONE → STOP`; discuss separately requested new work only after a new authorized goal. If necessary proof is unavailable due to a hold, report that limit and stop at the source boundary, without pretending native acceptance.
+
 ## Anti-loop
 
 If two retries yield no new discriminating evidence, stop that retry strategy and reclassify the failure. Continue only independent safe work; identify the missing proof, actor or permission. A task is complete when accepted criteria are met—not when a context or token budget is exhausted.

@@ -5,6 +5,8 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Make the existing SOP enforce goal-scoped acceptance and terminal STOP; classify required corrections, material blockers and out-of-scope polish without adding agent runners or statuses.
+- Tighten ChatGPT-GitHub operational preflight, concurrent/partial/unknown writes, and truthful source-only acceptance evidence in existing owner modules.
 - Freeze a ten-case source-only Skill activation pilot with real-host receipts, separate false-negative/false-positive denominators and hard safety gates; no host run or new agent/runner.
 - Add a source-owned seven-route Skill activation table, concise positive/negative metadata for the three existing shared Skills, host-specific activation evidence guidelines, and static validation in the existing tool.
 - Require original upstream Skill identity, file/dependency provenance, installed-source and effective host/tool evidence before claiming a referenced Skill was actually used; pin reviewed REA and UI UX Pro Max original-source revisions without installing them.
@@ -14,6 +16,7 @@ A release version records a **meaningful approved milestone**, not every feature
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Author 10 normative goal-closure/GitHub reliability cases (GOV-221–GOV-230) and two static regression-source tests; NOT_EXECUTED.
 - Author three regression tests for the frozen pilot selection, source restrictions and prohibition of invented results; NOT_EXECUTED.
 - Author 10 normative Skill activation cases (GOV-211–GOV-220) and three source regression tests; NOT_EXECUTED.
 - Author 10 additional normative original-Skill authenticity and host-proof cases (GOV-201–GOV-210); not executed.

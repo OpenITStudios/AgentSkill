@@ -32,6 +32,14 @@ The receipt is a reporting schema, not a command to create a separate status dat
 
 A completed source change may be `SOURCE_COMMITTED + NOT_EXECUTED`; that is a legitimate bounded result when execution is unavailable. Mark remaining evidence explicitly.
 
+## Goal acceptance before STOP
+
+Check **two independent axes** against the user's scoped result: **Specification** (the requested behavior/output and affected consumers are complete) and **Standards** (branch/permissions, safety, compatibility, absence of material regressions and truthful proof). A clean diff, passing formatting check, large number of files changed, or apparent progress cannot substitute for the actual requested result.
+
+Use the **smallest sufficient evidence**: current authorized source owner, affected interfaces and changed-path reconciliation; relevant positive/negative cases if they change a decision; actual execution evidence only when the permitted host has really run it. Mark an unsupported runtime claim `NOT_EXECUTED`, not `PASS`, and do not repeatedly inspect unrelated sources to fill that gap.
+
+At the source proof ceiling, decide: **CONTINUE** only for an unmet material in-scope acceptance item; **BLOCKED** for a required forbidden/unavailable action or unresolved material safety risk; or **DONE → STOP** when scope, preservation and available evidence are complete. Separate optional observations from unmet acceptance. A finished goal does not implicitly authorize a new goal or perpetual follow-up work.
+
 ## Context and recovery checkpoint
 Keep the smallest recoverable packet: `Goal | Task mode | Repo | selected branch | observed SHA | user-authorized effects | active holds | primary owner | accepted decisions | completed | remaining | proof tier | next safe action`. On recovery, re-pin HEAD and compare current source; do not replay a prior unconfirmed write.
 

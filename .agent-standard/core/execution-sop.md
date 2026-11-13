@@ -33,6 +33,20 @@ Resolve first wrong semantic owner. Read root/profile, relevant canonical docume
 ## 4. DEFINE a decision-complete contract
 `Goal → observable acceptance → forbidden shortcuts → selected owner → inputs/evidence → allowed actions → verification → STOP`. Record assumptions that affect implementation; do not manufacture requirements. For complex work add non-goals, architecture boundaries, affected consumers and rollback conditions.
 
+## Goal lock, scope guard and terminal STOP
+
+**Canonical owner of goal completion.** At task start, retain a small internal decision contract: `USER_GOAL | REQUIRED_RESULT | ACCEPTANCE | SCOPE/NON-GOALS | AUTHORIZED_ACTIONS | PROOF_CEILING | STOP`. Derive it from actual user intent and current project source; do not make every small task a new spec, checklist, issue or user questionnaire. In long conversations, preserve this contract through compaction rather than replacing the original goal with the newest interesting detail.
+
+Before any **newly discovered subtask** or another round of changes, classify its necessity:
+
+- **REQUIRED_FOR_ACCEPTANCE:** needed to deliver the requested result or fix an affected caller, interface, security invariant or material regression. Do the smallest complete in-scope correction and verify only the affected evidence. A missing essential consumer or security check is **not** “minor polish”.
+- **BLOCKER_OR_CONFLICT:** directly prevents safe completion, requires different authorization, or exposes a material unresolved risk. Diagnose and resolve only within current permission; otherwise report the concrete blocker and stop the forbidden action.
+- **OPTIONAL_OR_UNRELATED:** minor style tweaks, speculative abstractions, extra logging, new framework/agent/router, exploratory “while here” fixes, broad cleanup or further analysis with no decision value. **Do not implement or automatically queue them.** Mention at most one material separate suggestion if it affects the user's next decision; otherwise omit.
+
+**Terminal STOP decision:** after the user-visible result exists, scoped acceptance and preservation checks are satisfied **at the currently available proof ceiling**, authorized GitHub source changes are committed and reconciled if applicable, and no material in-scope blocker remains, set the scoped work `DONE`, report actual proof, and **STOP**. Do not reopen it for small aesthetic preferences, one more audit, version churn, new agents, extra test infrastructure or open-ended polish. Do not turn a historical `Next` into authorization for a fresh task.
+
+If local/native checks are held in `CHATGPT_GITHUB`, do not keep coding or request localtest merely to obtain runtime PASS; state `SOURCE_COMMITTED / LOCAL_TEST_DEFERRED` where accurate and stop at the source boundary. Conversely, do **not** stop early while an essential source defect or affected consumer still blocks the authorized specification. If the user explicitly gives a **new goal**, begin a fresh scoped decision instead of silently extending the completed one.
+
 ## 5. EXECUTE only authorized effects
 Before each mutation perform the action-level preflight in `permission-and-security.md`. Check selected ref, current HEAD, file owner and hold. Prefer one coherent change, no duplicate state or framework stacking. Changes with irreversible effects need the actual platform's approval capability and user authorization.
 

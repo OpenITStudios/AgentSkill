@@ -229,6 +229,30 @@ async function validateSkillActivationPilot(evals) {
     'ACTIVATION PILOT: missing evaluation or safety protocol');
 }
 
+async function validateGoalStopAndGitHubReliability() {
+  const [root, sop, toolContract, evidence, continuity] = await Promise.all([
+    readFile(join(ROOT, 'AGENTS.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/execution-sop.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/tool-contracts-and-reliability.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/evidence-and-recovery.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/context-and-session-continuity.md'), 'utf8')
+  ]);
+  ensure(root.includes('Keep the user goal fixed') && root.includes('OPTIONAL') && root.includes('STOP'),
+    'GOAL STOP: missing root scope and terminal stop guidance');
+  ensure(sop.includes('## Goal lock, scope guard and terminal STOP') &&
+    ['REQUIRED_FOR_ACCEPTANCE','BLOCKER_OR_CONFLICT','OPTIONAL_OR_UNRELATED','DONE'].every(s => sop.includes(s)),
+    'GOAL STOP: missing required, blocked, optional or terminal classification');
+  ensure(toolContract.includes('## ChatGPT-GitHub operational preflight and commit reconciliation') &&
+    ['PARTIAL_SOURCE_CHANGE','UNKNOWN_OUTCOME','expected-SHA'].every(s => toolContract.includes(s)),
+    'GITHUB RELIABILITY: missing concurrency/partial/unknown-outcome contract');
+  ensure(evidence.includes('## Goal acceptance before STOP') &&
+    evidence.includes('Specification') && evidence.includes('Standards') && evidence.includes('DONE → STOP'),
+    'GOAL STOP: source acceptance and two-axis proof gate missing');
+  ensure(continuity.includes('## Keep the primary goal across long prompting') &&
+    continuity.includes('resurrect') && continuity.includes('DONE → STOP'),
+    'GOAL STOP: long-session goal continuity missing');
+}
+
 async function validateMethodRegistry(evals) {
   const data = await readJson('registry/methods.json');
   const schema = await readJson('schemas/method-registry.schema.json');
@@ -353,6 +377,7 @@ async function validateCanonical() {
   ensure(manifest.entries.filter(e => e.kind === 'adapter').length === 3, 'three canonical agent host adapters required');
   await ensureCompletePortableInventory(manifest);
   await validateActivationContracts(manifest);
+  await validateGoalStopAndGitHubReliability();
 
   const schema = await readJson('schemas/repository-profile.schema.json');
   ensure(schema && schema.properties && schema.properties.holds && schema.properties.branchPolicy, 'profile schema missing guards');
