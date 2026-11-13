@@ -445,3 +445,23 @@ test('v2 trivial blocks code source, multi-line changes and policy wording', asy
     }
   } finally {await rm(parent,{recursive:true,force:true});}
 });
+
+
+test('v2 rejects an empty diff header rather than treating it as verified scope', async () => {
+  const parent=await mkdtemp(join(tmpdir(),'oits-empty-patch-v2-'));
+  try {
+    const msg=join(parent,'msg.txt'),patch=join(parent,'empty.diff');
+    await writeFile(msg,[
+      'fix(texture): preserve source behavior','',
+      'Goal: Keep material source changes traceable.',
+      'Work: texture-face-scan — record a narrow source change.',
+      'State: ACTIVE; SOURCE_INTEGRATION.',
+      'Proof: SOURCE_REVIEWED; NOT_EXECUTED.',
+      'Next: Check current owner and report limitations.'
+    ].join('\n'));
+    await writeFile(patch,'diff --git a/src/example.ts b/src/example.ts\n');
+    const result=spawnSync(process.execPath,[join(ROOT,'tools/commit-message-check.mjs'),msg,'--tier','normal','--diff',patch],{encoding:'utf8'});
+    assert.notEqual(result.status,0);
+    assert.match(result.stderr,/Diff is not usable/);
+  } finally {await rm(parent,{recursive:true,force:true});}
+});

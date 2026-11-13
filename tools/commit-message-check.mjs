@@ -21,9 +21,9 @@ const EXTRAS = new Set(['Refs','Co-authored-by','Signed-off-by']);
 const SUBJECT = /^(feat|fix|docs|refactor|test|chore|perf|build|security|ci|release|revert)\(([a-z][a-z0-9._-]*)\): (\S.{2,})$/;
 const STATE = /^(ACTIVE|BLOCKED|PAUSED|DONE)(?:[;\s].*)?$/;
 const EVIDENCE = /\b(SOURCE_REVIEWED|SOURCE_COMMITTED|TEST_AUTHORED_NOT_RUN|EXECUTED_TEST_PASS|EXECUTED_TEST_FAIL|LIVE_TARGET_VERIFIED|NOT_EXECUTED|LOCAL_TEST_DEFERRED|UNKNOWN)\b/;
-const SENSITIVE_PATH = /(?:^AGENTS\.md$|^GITHUB_RULES\.md$|^\.agent-standard\/|^\.github\/|^registry\/|^schemas\/|^tools\/|^tests\/|(?:^|\/)(?:auth|permissions?|security|migrations?|policies|policy|contracts?)(?:\/|\.|-))/i;
+const SENSITIVE_PATH = /(?:^AGENTS\.md$|^GITHUB_RULES\.md$|^\.agent-standard\/|^\.github\/|^registry\/|^schemas\/|^tools\/|^tests\/|^docs\/(?:architecture|governance|operations)\/|^package\.json$|^\.gitignore$|(?:^|\/)(?:auth|permissions?|security|migrations?|policies|policy|contracts?|architecture|interfaces?|config|api)(?:\/|\.|-))/i;
 const ORDINARY_DOC = /^(?:README\.md|docs\/(?:examples|guides|tutorials|help|user-guide)\/[A-Za-z0-9._/-]+\.md)$/;
-const CONTROL_TERMS = /\b(?:auth|allow|deny|permit|permissions?|secret|password|token|admin|security|branch|hold|ci|test|release|deploy|enable|disable|enabled|disabled|true|false|safe|unsafe|approval|approved|must|shall|require|prohibit|polic(?:y|ies))\b/i;
+const CONTROL_TERMS = /\b(?:auth|allow|deny|permit|permissions?|secret|password|token|admin|security|branch|hold|ci|test|release|deploy|enable|disable|enabled|disabled|true|false|safe|unsafe|approval|approved|must|shall|require|prohibit|polic(?:y|ies)|on|off|yes|no|not|only|never|always|active|paused|blocked|done|public|private)\b/i;
 
 function diffInfo(text) {
   if (typeof text !== 'string' || !text.trim()) return null;
@@ -45,7 +45,10 @@ function diffInfo(text) {
     }
   }
   if (!items.length) return { error:'No Git unified diff file headers detected' };
-  return { files:items, requiresCritical:items.some(x => SENSITIVE_PATH.test(x.path)) || items.length > 5 };
+  if (items.some(x => x.added.length===0 && x.removed.length===0 && x.metadata.length===0)) {
+    return { error:'Diff file has no changed hunks or material metadata' };
+  }
+  return { files:items, requiresCritical:items.some(x => SENSITIVE_PATH.test(x.path) || x.metadata.length>0) || items.length > 5 };
 }
 
 function distanceAtMostTwo(a, b) {
