@@ -16,7 +16,7 @@ Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-co
 
 ## GitHub commit continuity for ChatGPT
 
-**Write only what future work needs.** A trivial verified wording fix needs a clear subject; normal changes need five continuity fields; architectural/security/permission changes keep all seven. `Goal / Work / State / Proof / Next` preserve a stable task topic and real proof limit. `Decision / Unresolved` remain mandatory when risk is critical.
+**Write only what future work needs.** A trivial verified wording fix needs a clear subject; new normal changes use one `Surface` plus five continuity fields; high-risk changes keep `Surface` plus all seven. Older commits without `Surface` have no verified execution identity. `Goal / Work / State / Proof / Next` preserve a stable task topic and real proof limit. `Decision / Unresolved` remain mandatory when risk is critical.
 
 For a new ChatGPT chat: **user topic → branch/HEAD/holds → current owner/status → 30 branch commit metadata → 50/100 only if needed → targeted older Work/path/decision history → reconcile source, proof and permissions → authorized next step**. No count is a hard limit and the latest unrelated commit is not the task. Read only decisive diffs. No localtest/CI/cloud substitute.
 

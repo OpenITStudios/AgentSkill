@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Record concise execution surface in new material Git commits; distinguish ChatGPT/GitHub API from a verified PC-local agent host without duplicating Git metadata or retroactively rewriting legacy history.
 - Distinguish Current status, Explanation (completed work plus evidence), and a separated final Next step in material ChatGPT answers using neutral headings and a subtle divider; preserve concise responses for simple questions.
 - Prioritize a single task-matched visual for complex answers: labeled diagrams for flows, compact tables for comparison, evidence-based charts for numeric patterns, and no visual for simple facts; include accessible alternatives and small-screen readability.
 - Clarify user-facing communication with natural actor–action–object sentences and a conditional Result → Completed work → Evidence and limits → Next step format, including terminal STOP; write updated documentation and examples in English while preserving the user's response language.

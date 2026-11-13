@@ -14,7 +14,7 @@ Do not copy a single original `SKILL.md` and call the full bundle installed when
 
 ## GitHub continuity and context recovery adoption
 
-Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identically. New material commits use **NORMAL (five fields)** or **CRITICAL (seven fields)**; a **TRIVIAL** subject-only exception is allowed only after an actual safe single-word docs diff has been reviewed. Do not rewrite old history or delete its valid decisions.
+Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identically. New material commits use **NORMAL (Surface + five continuity fields)** or **CRITICAL (Surface + seven continuity fields)**; a **TRIVIAL** subject-only exception is allowed only after an actual safe single-word docs diff has been reviewed. Do not rewrite old history or delete its valid decisions.
 
 Each repository retains its own branch, active status owner, holds, domain skills, privacy controls and native test policy. For ChatGPT recovery, start with **user topic → exact branch/HEAD → active owner/source → 30 branch-wide metadata → cumulative 50/100 if needed → targeted older Work/path/decision commits → reconcile source, proof and permission**. Prior Next is never a grant. No CI/cloud/localtest workaround, automatic rollout or new status database is part of adoption.
 

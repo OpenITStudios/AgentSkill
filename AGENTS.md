@@ -45,7 +45,7 @@
 
 ## Commit continuity — mandatory, proportionate, recoverable
 
-Use the stable **GitHub Commit Continuity and Context Recovery** policy at `.agent-standard/core/commit-continuity-and-recovery.md`. Commit message tiers: **TRIVIAL** = proven one-word non-policy documentation typo (subject only, actual diff required); **NORMAL** = `Goal / Work / State / Proof / Next`; **CRITICAL** = all seven fields, also `Decision / Unresolved`. Apply CRITICAL to architecture, policy, permissions, contract, migration and high-risk work. A `--trivial` flag alone is never proof.
+Use the stable **GitHub Commit Continuity and Context Recovery** policy at `.agent-standard/core/commit-continuity-and-recovery.md`. Commit message tiers: **TRIVIAL** = proven one-word non-policy documentation typo (subject only, actual diff required); new **NORMAL** and **CRITICAL** commits start with one `Surface` identity, followed by the existing five or seven continuity fields. `CHATGPT_GITHUB` means ChatGPT + GitHub API; `LOCAL_PC_AGENT; Host=CODEX_CLI` (or another verified local agent host) means actual user-PC work. Legacy commits without `Surface` do not prove an execution environment. Apply CRITICAL to architecture, policy, permissions, contract, migration and high-risk work. A `--trivial` flag alone is never proof.
 
 For "lanjutkan", identify the user workstream, exact branch/HEAD/holds and current source/status first. Inspect the first 30 branch-wide commit metadata, expand cumulatively to 50/100 only if needed, then trace older Work/path/decision history without a hard cutoff. Reconcile changed HEAD, superseded decisions, proof and permission; do not select the newest unrelated commit or obey an old Next as authorization.
 

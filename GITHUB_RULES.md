@@ -26,9 +26,9 @@ Always respect selected branch and project holds. A repo branch named `Local` ne
 
 ## Commit quality and cross-chat continuity
 
-For every coherent change, use `type(scope): concrete outcome`. Commit body depends on **actual change risk**: **TRIVIAL** only for a diff-reviewed small documentation typo, **NORMAL** requires `Goal / Work / State / Proof / Next`, and **CRITICAL** (architecture, security, permissions, agent policy, contracts, migrations or high-risk integration) requires all seven including `Decision / Unresolved`. Existing fuller seven-field messages remain valid. Never use `--trivial` alone to skip a body.
+For every coherent change, use `type(scope): concrete outcome`. Commit body depends on **actual change risk**: **TRIVIAL** only for a diff-reviewed small documentation typo, new **NORMAL** requires `Surface / Goal / Work / State / Proof / Next`, and **CRITICAL** (architecture, security, permissions, agent policy, contracts, migrations or high-risk integration) also requires `Decision / Unresolved`. `Surface` identifies the observed work method, not the LLM brand; earlier messages without it remain historical records with an unverified environment. Never use `--trivial` alone to skip a body.
 
-`Work` names a **stable topic**; `Proof` matches actual evidence at the source revision; `Next` is only a safe suggestion, **never** authorization. Use `.agent-standard/core/commit-continuity-and-recovery.md` for the single authoritative format and recovery flow. Do not copy transcripts or repeat every changed file in the message.
+`Surface` distinguishes ChatGPT+GitHub from a confirmed PC-local agent; `Work` names a **stable topic**; `Proof` matches actual evidence at the source revision; `Next` is only a safe suggestion, **never** authorization. Use `.agent-standard/core/commit-continuity-and-recovery.md` for the single authoritative format and recovery flow. Do not copy transcripts or repeat every changed file in the message.
 
 On a new ChatGPT session: **user topic → exact branch/HEAD → current owner/status → 30 branch commit metadata → 50/100 if incomplete → targeted older Work/path/decision history → verify current source, evidence and permissions → next authorized action**. Do not assume the newest commit or a prior Next is authoritative. Do not load all diffs; global commit search is incomplete for nondefault branches.
 

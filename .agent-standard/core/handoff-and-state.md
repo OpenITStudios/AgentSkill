@@ -38,7 +38,7 @@ Every stage must name its input identity, accepted output, required proof and ou
 
 ## Scoped history for durable handoff
 
-Commit one coherent change with enough context for its risk: TRIVIAL subject-only requires a reviewed diff; NORMAL needs `Goal / Work / State / Proof / Next`; CRITICAL also retains `Decision / Unresolved`. The stable `Work` topic indexes history, while the actual source and current project status own the present truth. A past `Next` never authorizes localtest, CI, merge or deployment. For cross-chat recovery follow `commit-continuity-and-recovery.md`, and do not open an unrelated latest workstream.
+Commit one coherent change with enough context for its risk: TRIVIAL subject-only requires a reviewed diff; new NORMAL needs `Surface / Goal / Work / State / Proof / Next`; CRITICAL also retains `Decision / Unresolved`. Older messages without `Surface` have an unrecorded environment, not implicit local proof. The stable `Work` topic indexes history, while the actual source and current project status own the present truth. A past `Next` never authorizes localtest, CI, merge or deployment. For cross-chat recovery follow `commit-continuity-and-recovery.md`, and do not open an unrelated latest workstream.
 
 ## Interrupted or ambiguous side effects
 

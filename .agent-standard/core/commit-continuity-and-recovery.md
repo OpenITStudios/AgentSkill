@@ -9,16 +9,35 @@ All tiers use a clear conventional subject: `type(scope): actual outcome`, a spe
 | Tier | When | Body |
 | --- | --- | --- |
 | **TRIVIAL** | Verified **one-line spelling/wording-only** correction in a non-policy document, without behavior, heading authority, contract or API change | Subject only. **Not** self-authorized by `--trivial`. Requires actual diff inspection |
-| **NORMAL** | Bounded source change whose scope, behavior and risk are known | `Goal`, `Work`, `State`, `Proof`, `Next`; include `Decision` / `Unresolved` if they are material |
-| **CRITICAL** | New or changed architecture, interface contract, permission, security, data migration, policy/agent instruction, branch/CI/test hold, or unresolved high-risk source integration | All seven: `Goal`, `Work`, `State`, `Proof`, `Decision`, `Unresolved`, `Next` |
+| **NORMAL** | Bounded source change whose scope, behavior and risk are known | `Surface`, then `Goal`, `Work`, `State`, `Proof`, `Next`; include `Decision` / `Unresolved` if they are material |
+| **CRITICAL** | New or changed architecture, interface contract, permission, security, data migration, policy/agent instruction, branch/CI/test hold, or unresolved high-risk source integration | `Surface` plus the original seven: `Goal`, `Work`, `State`, `Proof`, `Decision`, `Unresolved`, `Next` |
 
-**Existing seven-field material commits remain valid.** The tier determines minimum completeness; it does **not** reduce the underlying engineering, permission or proof standard. When uncertain, use **CRITICAL**; do not call risky changes trivial or normal to shorten the message.
+**Historical commits without `Surface` remain valid evidence of past source changes, but they do not establish their execution environment.** The tier determines minimum completeness; it does **not** reduce the underlying engineering, permission or proof standard. When uncertain, use **CRITICAL**; do not call risky changes trivial or normal to shorten the message.
 
-For NORMAL/CRITICAL, keep fields in this sequence (omit optional fields only for NORMAL):
+## One execution identity for new material commits
+
+Record the smallest information needed to distinguish **where and through which agent host** a task actually worked. For newly authored NORMAL and CRITICAL messages, add `Surface` immediately below the subject's blank line, before `Goal`:
+
+| Actual method | Commit body field | What it asserts |
+| --- | --- | --- |
+| ChatGPT conversation with GitHub-connected source tools | `Surface: CHATGPT_GITHUB` | Host is ChatGPT and source operations use the GitHub API. No user-PC shell/test is implied |
+| Authorized PC-local Codex CLI session | `Surface: LOCAL_PC_AGENT; Host=CODEX_CLI` | Verified Codex CLI controls tools against the user's PC workspace |
+| Authorized PC-local Claude Code or OpenCode | `Surface: LOCAL_PC_AGENT; Host=CLAUDE_CODE` or `Surface: LOCAL_PC_AGENT; Host=OPENCODE` | Identifies the verified agent client, **not** its LLM model provider |
+
+These are the only accepted new `Surface` shapes. The `LOCAL_PC_AGENT` label is permitted only after actual client/workspace/tool-origin verification and the user has selected the local workflow. If that evidence is missing, do not pretend the task ran locally or select the local value. An agent working through ChatGPT+GitHub uses `CHATGPT_GITHUB` even when the user reads ChatGPT from a desktop PC.
+
+`Surface` is **declared context, not an attestation**. A message-format checker can confirm the field's grammar; it cannot verify tool origin, host version, user approval or execution. Verify those against the selected session, current project profile and matching tool receipts. An earlier commit with no `Surface` should be described as **environment not recorded**, never inferred to have run on a local PC.
+
+**Do not duplicate facts that Git already owns.** Fetch repository, selected branch, HEAD, parent, author and timestamp from current GitHub/source when needed. `Goal` states intent; `Work` starts with a stable topic and the actual change; `State` records scoped progress; `Proof` records only observed checks; `Decision/Unresolved` capture material constraints on critical work; `Next` is one safe follow-up or `STOP`. Model names, token budgets, tool-call histories, redundant host/origin subfields and per-file inventories do **not** belong in every commit. Keep the subject concise and the body to one meaningful clause per field.
+
+This is a **repository-specific ordered commit-body contract**, not a claim that the fields are automatically Git trailers. Git's trailer parser recognizes trailing metadata blocks under its own rules. Conventional Commits permits additional descriptive body text. See [Git trailers](https://git-scm.com/docs/git-interpret-trailers) and [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+For new NORMAL/CRITICAL commits, keep fields in this order (omit `Decision` and `Unresolved` only when appropriate for NORMAL):
 
 ```text
 fix(texture): cover all Cube face orientations
 
+Surface: CHATGPT_GITHUB
 Goal: Find missed faces without raising the sampling budget.
 Work: texture-face-scan — make bounded six-direction coverage.
 State: ACTIVE; SOURCE_INTEGRATION.
