@@ -80,7 +80,7 @@ If the interface supports Mermaid or an accessible flowchart, use it **only when
 | User request | Best default |
 | --- | --- |
 | Short factual question / status | Direct answer in one compact paragraph |
-| "What changed?" after repository work | Result → completed work → evidence/limits → one next step or STOP |
+| "What changed?" after repository work | Current status → Explanation (completed work + evidence/limits) → separated Next step or STOP |
 | Process / workflow / architecture | **Small start-to-end diagram** + one short explanation |
 | Compare alternatives | Compact table with the decisive differences |
 | Action guidance | Ordered steps only if needed to follow safely |
@@ -89,20 +89,19 @@ If the interface supports Mermaid or an accessible flowchart, use it **only when
 
 Avoid automatically giving long tables of file names, SHA values, metadata, changelogs and test scenarios in user-facing reports. They can remain in GitHub or formal docs. Link to the smallest authoritative reference when helpful.
 
-## Material work reports — result, completed work, evidence, next step
+## Material work reports — three reading zones
 
-For a **material repository update, implementation summary or technical audit**, prefer this reading order when the sections add value:
+For a **material repository update, implementation summary or technical audit**, use **three visually distinct reading zones** in a normal ChatGPT answer. They are reading landmarks, not three separate cards or a new response-rendering system:
 
-1. **Result:** state the actual outcome and whether the source changed in the first one or two sentences.
-2. **Completed work:** summarize the important completed changes using a short paragraph or a few scannable items. Each item names an action and its object; do not dump a full file inventory unless requested.
-3. **Evidence and limits:** give one relevant source/commit link or concrete observation, the actual proof tier, and any limitation that affects acceptance (for example, local tests were not executed).
-4. **Next step:** place **one clearly separated `Next step` line or small heading at the end**. Name the next responsible actor, concrete action and prerequisite when action remains. Use ordinary bold text or a small heading, not a colored badge or decorative container.
+1. **Current status:** State what is true **now** in one concise result-first sentence (or a short title plus one sentence). Say whether the requested source changed, remains blocked, or is only proposed. Do not bury the outcome in a progress chronology.
+2. **Explanation:** Describe only the relevant completed work, reasoning, evidence and limitations in one coherent middle section. When it helps scanning, use the short inline labels **Completed work:** and **Evidence and limits:** or a compact table. Keep the proof caveat next to the claim it qualifies; avoid reporting the same result in multiple sections.
+3. **Next step:** Place **one justified action or terminal STOP** at the very bottom. A short **Next step:** heading or bold label followed by one concrete actor/action is enough. **Use a single horizontal divider immediately before the final Next step** in material reports where visual separation improves scanning. Do not add another conclusion after the next step.
 
-**Do not invent a next action.** When the scoped goal is complete at the permitted proof ceiling, end the material update with **"Next step: None — STOP."** (translated into the user's language as appropriate). This is a completion statement, not a request to create new tasks. If another phase requires a separate user decision, identify that dependency without implying approval or demanding tests while held. If an action is blocked, describe the real blocker and responsible next actor; do not claim `DONE`.
+**Do not invent a next action.** When acceptance is met at the available proof ceiling, end with **"Next step: None — STOP."** in the user's language. A later optional improvement is not a required next step. For blocked work, name the real prerequisite and responsible actor; do not claim completion. A deferred local-PC test is a proof limitation, not an instruction to start new source work.
 
-These four sections are **conditional presentation guidance, not a mandatory report template**. A short factual answer, chat message, status correction or simple decision should remain one compact paragraph. For a requested full technical audit, preserve the depth, source evidence and risk details needed to make decisions. Do not add a next-step heading merely to fill space.
+**Visual hierarchy:** use simple text headings, comfortable whitespace and a thin divider before the final action. Keep the first two zones readable without color and use no mandatory badge, colored callout, enclosing card, decorative emoji or repeated separator for every paragraph. Prefer one table for genuine comparisons and one small diagram for genuine process relationships **inside the Explanation** when useful; visual-first content selection remains owned by the existing guidance above. Do not depend on a particular ChatGPT color palette, CSS rule, font or rendering feature.
 
-**Visual priority:** put the answer first; keep completed actions together; place any important caveat adjacent to the relevant claim; make the final action or terminal STOP easy to locate. Do not use repeated colored boxes, multiple competing "next steps," a long status dashboard or unnecessary typography.
+These zones are **conditional presentation guidance, not a mandatory report template**. A short factual answer, conversational reply, simple correction or standalone message should remain a compact paragraph without artificial headings, divider or Next step. A requested in-depth audit still includes all necessary detail; the three landmarks organize it without hiding technical evidence.
 
 ## Accuracy and evidence are non-negotiable
 
@@ -116,7 +115,7 @@ These four sections are **conditional presentation guidance, not a mandatory rep
 
 - Is the **actual answer visible first**?
 - Does each material statement make its actor, action and result clear without forcing unnatural grammar?
-- For a material work update, can the reader scan completed work, evidence and the **final Next step**, or see an explicit STOP when no next action exists?
+- For a material work update, are **Current status**, **Explanation** and the final **Next step** visually distinct, with no duplicated result or artificial formatting for a simple answer?
 - Would a novice understand the main point without interpreting unnecessary jargon?
 - Did I select a table, flow diagram, data chart or no visual according to the reader's information task, rather than by decoration?
 - Is the main visual clear at a glance, with concise labels, comparable criteria or grounded numbers, and an accessible text equivalent?

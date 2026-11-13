@@ -36,52 +36,71 @@ Prefer a compact table. Keep aligned criteria side by side; do not write a separ
 
 Do not append headings, a diagram, a next-step panel or an invented task to a simple answer.
 
-## B. Repository update — completed work and proof
+## B. Repository update — three distinct reading zones
 
 **User asks:** "What did you change?"
 
 **Prefer:**
 
-> The agent updated the routing rules on the selected GitHub branch.
+> **Current status**
 >
-> **Completed work**
-> - The agent clarified the positive and negative Skill activation conditions.
-> - The agent preserved the existing shared Skills.
+> **The routing rules are updated** on the selected GitHub branch.
 >
-> **Evidence and limits**
-> The current GitHub commit contains the source changes. No local tests ran.
+> **Explanation**
 >
-> **Next step:** None — STOP. The source-only task is complete.
+> **Completed work:** The agent clarified Skill activation rules and preserved existing shared Skills.
+>
+> **Evidence and limits:** The current GitHub commit contains the source changes. No local tests ran.
+>
+> ---
+>
+> **Next step**
+>
+> **None — STOP.** The source-only task is complete.
 
-Each sentence identifies an actor, action and result. Do not call the changes "tested" when only GitHub source was reviewed.
+This is a **presentation example**, not a new source verification receipt. Keep the current result, its explanation, and the final action distinct; do not repeat the opening conclusion after STOP.
 
-## C. Blocked task — explicit next actor
+## C. Blocked task — show the real prerequisite
 
 **User asks:** "Can you publish the release now?"
 
 **Prefer:**
 
-> I prepared the release notes, but I did not publish a release.
+> **Current status**
 >
-> **Completed work:** I checked the version and the release notes against the selected source.
+> **The release is not published.** The repository requires separate approval.
 >
-> **Evidence and limits:** The repository requires explicit release approval.
+> **Explanation**
 >
-> **Next step:** The repository owner must approve the release before any publish action.
+> I prepared the release notes and checked the version against the selected source. No publish action occurred.
+>
+> ---
+>
+> **Next step**
+>
+> **The repository owner must approve the release** before any publish action.
 
-A missing approval is a blocker, not a completed release or an invitation to bypass permissions.
+A missing approval is a blocker, not completed work. The final action identifies the responsible actor without implying approval.
 
-## D. Finished goal — do not create follow-up work
+## D. Finished goal — stop without follow-up invention
 
 **User asks:** "Is the requested source correction complete?"
 
 **Prefer:**
 
-> I corrected the requested source issue and checked the affected files in GitHub. The task is complete at the source-review proof level; runtime tests remain deferred.
+> **Current status**
+>
+> The requested source correction is complete.
+>
+> **Explanation**
+>
+> I checked the affected files in GitHub. Runtime tests remain deferred, so the result is source-reviewed rather than locally verified.
+>
+> ---
 >
 > **Next step:** None — STOP.
 
-**Avoid:** "Next step: Refactor the architecture, add another evaluator, and repeat a full repository audit." A completed goal does not authorize unrelated polishing.
+**Avoid:** "Next step: Refactor the architecture, add another evaluator, and repeat a full repository audit." The completed source goal does not authorize unrelated polishing.
 
 ## E. Multi-stage process — use a small diagram
 
@@ -113,4 +132,4 @@ ChatGPT finishes the source work. The PC-local agent runs tests only after the u
 
 **Prefer:** "We have not measured that. The source defines a clearer response structure, but reading-time improvement needs comparable user observations."
 
-**Non-goal:** These patterns do not introduce a mandatory reply template, a new response-rendering engine, extra agents or an obligation to show a next-step heading in every answer.
+**Non-goal:** These patterns do not add a mandatory reply template, colored cards, a new response-rendering engine, extra agents, or a Next step heading for every answer. A simple factual question still receives a direct sentence.

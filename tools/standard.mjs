@@ -389,15 +389,20 @@ async function validateCanonical() {
   const communication = await readFile(join(ROOT, communicationPath), 'utf8');
   ensure(communication.includes('Answer first') && communication.includes('ASD-STE100') && communication.includes('Diagram-first'), 'MANDATORY COMMUNICATION POLICY: content incomplete');
   const sentenceRules = ownedMarkdownSection(communication, 'Sentence clarity — identify the actor and the action');
-  const reportRules = ownedMarkdownSection(communication, 'Material work reports — result, completed work, evidence, next step');
+  const reportRules = ownedMarkdownSection(communication, 'Material work reports — three reading zones');
   ensure(sentenceRules.includes('subject–verb–object') && sentenceRules.includes('Do **not** mechanically require an object'),
     'COMMUNICATION FORMAT: clear but non-mechanical sentence contract missing');
-  ensure(reportRules.includes('**Completed work:**') && reportRules.includes('**Evidence and limits:**') &&
+  ensure(reportRules.includes('**Current status:**') &&
+    reportRules.includes('**Explanation:**') &&
+    reportRules.includes('**Completed work:**') &&
+    reportRules.includes('**Evidence and limits:**') &&
     reportRules.includes('**Next step:**') &&
+    reportRules.includes('**Use a single horizontal divider immediately before the final Next step**') &&
     reportRules.includes('**Do not invent a next action.**') &&
     reportRules.includes('**"Next step: None — STOP."**') &&
-    reportRules.includes('not a mandatory report template'),
-    'COMMUNICATION FORMAT: material update or justified next-step contract missing');
+    reportRules.includes('not a mandatory report template') &&
+    reportRules.includes('no mandatory badge, colored callout, enclosing card'),
+    'COMMUNICATION FORMAT: three-zone separation or next-step integrity missing');
   const visualRules = ownedMarkdownSection(communication, 'Visual-first selection — match the information structure');
   ensure(visualRules.includes('**one primary representation**') &&
     visualRules.includes('**Compact comparison table**') &&

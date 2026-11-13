@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 248 normative cases validate', () => {
+test('canonical source, skill metadata and 249 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /248 normative cases/);
+  assert.match(r.stdout, /249 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -437,7 +437,25 @@ test('communication validator rejects an invented next-step directive', async ()
     await writeFile(file, source.replace('**Do not invent a next action.**', '**Invent a next action.**'));
     const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
     assert.notEqual(result.status, 0);
-    assert.match(result.stderr, /COMMUNICATION FORMAT: material update or justified next-step contract missing/);
+    assert.match(result.stderr, /COMMUNICATION FORMAT: three-zone separation or next-step integrity missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('three-zone communication rejects loss of the final action divider', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-three-zone-separation-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/user-facing-communication.md');
+    const policy = await readFile(file, 'utf8');
+    const directive = '**Use a single horizontal divider immediately before the final Next step**';
+    assert.ok(policy.includes(directive));
+    await writeFile(file, policy.replace(directive, '**Put the final Next step inside the Explanation without separation**'));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /COMMUNICATION FORMAT: three-zone separation or next-step integrity missing/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }

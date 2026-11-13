@@ -4536,6 +4536,31 @@
         "color_only_status"
       ],
       "severity": "high"
+    },
+    {
+      "id": "GOV-249",
+      "level": "L2_WORKFLOW",
+      "title": "Material update separates current status, explanation and next action without colored containers",
+      "request": "Give a clear ChatGPT report on a GitHub source change; the user wants the current status distinct from details and the final next action.",
+      "context": {
+        "intent": "material_status_update",
+        "sourceCommitted": true,
+        "tests": "on_hold",
+        "visualStyle": "professional_neutral"
+      },
+      "expected": [
+        "separate_current_status_explanation_and_next_step",
+        "group_completed_work_with_evidence",
+        "use_subtle_final_divider",
+        "report_proof_limit"
+      ],
+      "forbidden": [
+        "repeat_result_in_all_sections",
+        "use_colored_status_cards",
+        "bury_next_step_in_explanation",
+        "invent_runtime_pass"
+      ],
+      "severity": "high"
     }
   ]
 }

@@ -82,3 +82,7 @@ Six additional **normative, not executed** scenarios cover clear actor/action/ob
 ## Visual-first comprehension and readability (GOV-243–GOV-248)
 
 Six additional **normative, not executed** scenarios require the response format to match the information task: comparison tables, short directional process diagrams, charts only for sourced comparable numerical data, no visuals for simple facts, evidence-first audit tables and accessible text alternatives. These cases do not assert faster reading, successful rendering or improved host behavior. The communication rubric remains `NORMATIVE_NOT_MEASURED`.
+
+## Three reading-zone separation (GOV-249)
+
+One **normative, not executed** case specifies how material ChatGPT updates should distinguish Current status, Explanation and a final Next step using restrained headings and a single subtle divider, without colored cards or repeated conclusions. Existing cases continue to cover simple-answer abstention and terminal STOP. The response standard and rubric define the expected presentation, but no ChatGPT renderer or user-comprehension outcome has been measured.
