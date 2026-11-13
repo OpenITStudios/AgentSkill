@@ -92,6 +92,8 @@ GET current canonical source at the same explicitly selected branch
 
 If no path is known, omit `path` and inspect a small set of branch commits. Only increase page size/follow pagination when the decision still lacks a needed fact. Do not call GitHub Search Commits to assert completeness on a nondefault branch.
 
+**Branch name contains a slash or the connector rejects its branch URL?** Do **not** fall back to `main`. Use `GET /repos/{owner}/{repo}/branches?per_page=...`, follow pagination as needed, select the **exact** branch name and pin its `commit.sha`. Then read commits/source by that pinned SHA. A missing name from a partial list is **not** proof the branch does not exist; stop if the exact ref cannot be established.
+
 ## Active status docs: small front door, detailed history stays intact
 
 Keep the **top of an existing canonical status document** easy to scan: current work topic, status, selected branch/source identity, active hold, last relevant evidence pointer, and next **source** action. An opening section of roughly **5–8 compact lines** is a guideline, not an arbitrary content cut; preserve critical constraints. Detailed older topics can remain below, linked from this opening. Do not create another tracker, permanent log, database or a second `next-action` file solely for convenience.

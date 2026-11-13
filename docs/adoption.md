@@ -38,11 +38,11 @@ Write a **read-only migration assessment** mapping directive → destination own
 Both can consume root `AGENTS.md` and portable skills under `.agents/skills/`, but resolution, precedence, token limits, permissions and name shadowing differ. Record **effective loaded file paths, host version, active permissions, selected skill, resulting actions** in a conformance receipt. Verify duplicate IDs in any host-specific skill directories; identify unsupported behavior rather than assuming 1:1 model outputs.
 
 ## Pilot order (candidates only)
-- `M-SearchNow`: small engineering repo / minimal skill routing.
-- `M-DanaIndonesiana`: evidence/permission-intensive non-code domain; active test hold must be retained.
-- `M-LazyDesigner`: complex specialist skill taxonomy; native Blockbench checks remain outside source-only acceptance.
+- `M-Minecraft-Emulator` (public): bounded Skill-owner migration and source-only policy checks.
+- `M-DanaIndonesiana` (public): evidence/permission-heavy domain; active test hold and sensitive-project boundaries must be retained.
+- `M-LazyDesigner` (public): complex nested instructions, Skill taxonomy and native Blockbench proof boundaries.
 
-The actual branches, branch permissions and holds must be re-read at pilot time. No cross-repo writes until each target has separately authorized adoption. No automatic CI reactivation.
+The actual branches, permissions and holds must be re-read at pilot time. A read-only inventory is in `docs/research/adoption-readiness-source-audit-2026-11-13.md` of AgentSkill. No cross-repo writes until each target separately authorizes adoption. No automatic CI reactivation.
 
 ## Rollback
 Keep exact pre-adoption ref and blob authority, create no ad hoc branches for transport, and revert only within explicit target permissions and safe concurrency checks. Document preserved local restrictions and affected consumers. STOP when parity, source receipt and authorized acceptance are complete.

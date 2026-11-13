@@ -48,3 +48,5 @@ Additional normative cases distinguish three commit tiers, safe diffs, nondefaul
 ## GitHub commit source identity and recovery pilots (GOV-151–GOV-168)
 
 The source-backed pilot examines actual selected branch snapshots, topic-specific commits, status-owner precedence, missing Next fields and revision-limited native evidence. New normative scenarios check parent/HEAD mismatch, changed-file scope, pagination, rename fallback, untrusted snapshot origin and old-test-SHA boundaries. The offline snapshot test code is **authored but NOT_EXECUTED**; no model benchmark, localtest or CI was run.
+
+**GOV-169–GOV-170:** exact branch-with-slash recovery when a connector URL fails, and preservation of nested AGENTS before repository adoption. Authored source cases, not executed host checks.

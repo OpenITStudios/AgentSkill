@@ -55,3 +55,9 @@
 - Strengthen commit/source consistency protocol: compare real branch HEAD, commit SHA/parent, file list and evidence limits.
 - Author an optional offline metadata assessor and negative regression cases; it cannot authenticate JSON or substitute for native/user-PC verification.
 - No localtest, cloud CI, GitHub Actions, branch promotion or downstream repository changes.
+
+## 0.1.0-draft — Source-only rollout-readiness inventory
+- Review 14 project repositories without writes; identify missing 1:1 central bundle and distinct existing rules/skills.
+- Add public-only adoption readiness report; aggregate private repositories without exposing their identities or source.
+- Define safe branch-with-slash fallback and preserve nested AGENTS, branch holds, and non-default history.
+- No CI, GitHub Actions, localtest, project mutations or automatic migration.
