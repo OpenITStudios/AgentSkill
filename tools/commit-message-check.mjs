@@ -65,7 +65,7 @@ function distanceAtMostTwo(a, b) {
 
 function oneWordTypo(before, after) {
   if (before.length > 180 || after.length > 180 || CONTROL_TERMS.test(before) || CONTROL_TERMS.test(after)) return false;
-  if (/[<>{}\[\]\x60\\/=$]/.test(before+after)) return false;
+  if (/[<>{}\[\]\x60\\=$]/.test(before+after) || (before+after).includes('/')) return false;
   const pattern = /\p{L}+/gu;
   const a=[...before.matchAll(pattern)], b=[...after.matchAll(pattern)];
   if (a.length < 1 || a.length !== b.length) return false;
