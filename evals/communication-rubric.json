@@ -32,8 +32,8 @@
     {
       "id": "visual_scanability",
       "type": "quality",
-      "question": "Can a reader locate the current result, a short explanation and STOP/CONTINUE without reading a long report?",
-      "evidence": "For material updates, three short summaries use neutral headings and one final divider; details expand only when essential. Simple answers require no template."
+      "question": "Can the reader locate the current result, a short explanation and STOP/CONTINUE directly in the three material-update headings?",
+      "evidence": "Each heading has its short summary/status on the same line (e.g., Next step — CONTINUE or STOP); one neutral final divider. Details expand only when essential; simple replies need no template."
     },
     {
       "id": "factual_integrity",
@@ -62,8 +62,8 @@
     {
       "id": "next_step_integrity",
       "type": "hard_gate",
-      "question": "Does the final line clearly communicate STOP or one authorized CONTINUE action with its owner/prerequisite?",
-      "evidence": "STOP closes a scoped complete goal; CONTINUE identifies the one real permitted action. Blocked work is not misreported as done; no extra conclusion after the final line."
+      "question": "Does the final Next step heading itself say STOP or CONTINUE, with one permitted action or prerequisite if continuing?",
+      "evidence": "The Next step heading carries STOP/CONTINUE on the same line, not in the next paragraph. STOP closes completed scope; CONTINUE identifies the one permitted action. Blocked work cannot be misreported as complete."
     },
     {
       "id": "redundancy",
@@ -75,7 +75,7 @@
       "id": "request_fit",
       "type": "hard_gate",
       "question": "Does the answer meet the requested depth while using three reading zones only when they improve comprehension?",
-      "evidence": "Simple answers are compact paragraphs; material updates use distinct Current status, Explanation and Next step landmarks without imposing colored cards or rigid formatting."
+      "evidence": "Simple answers are compact paragraphs; material updates use same-line summary headings for Current status, Explanation and Next step without colored cards or rigid formatting."
     }
   ],
   "evaluationPlan": {

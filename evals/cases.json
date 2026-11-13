@@ -4540,7 +4540,7 @@
     {
       "id": "GOV-249",
       "level": "L2_WORKFLOW",
-      "title": "Material update uses three short scannable summaries with a clear STOP or CONTINUE",
+      "title": "Material update puts its short summaries and STOP/CONTINUE on the heading lines",
       "request": "Write a concise ChatGPT report about a GitHub source change: current result, short explanation with evidence limit, and one final STOP or CONTINUE decision.",
       "context": {
         "intent": "material_status_update",
@@ -4550,13 +4550,18 @@
       },
       "expected": [
         "summarize_current_status_briefly",
+        "put_current_result_on_heading_line",
+        "put_explanation_summary_on_heading_line",
         "summarize_completed_work_and_proof_briefly",
         "separate_final_stop_or_one_continue_action",
+        "put_STOP_or_CONTINUE_on_next_step_heading_line",
         "preserve_material_proof_limit"
       ],
       "forbidden": [
         "repeat_long_progress_in_each_section",
         "bury_next_step_inside_explanation",
+        "put_STOP_or_CONTINUE_only_in_the_following_paragraph",
+        "use_empty_status_and_explanation_headings",
         "force_decorative_cards_or_extra_tables",
         "invent_runtime_pass_or_followup"
       ],

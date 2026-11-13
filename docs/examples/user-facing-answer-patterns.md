@@ -1,6 +1,6 @@
 # Examples — Clear Actions, Visible Results and One Next Step
 
-These examples demonstrate **presentation patterns**, not actual user records, executed tests or evidence of model behavior. The authoritative standard is `.agent-standard/core/user-facing-communication.md`. All documentation examples are in English; the assistant must still answer in the user's language.
+These examples demonstrate **presentation patterns**, not actual user records, executed tests or evidence of model behavior. For material updates, the brief result and STOP/CONTINUE appear on the **same heading line**, in the reader's language. The authoritative standard is `.agent-standard/core/user-facing-communication.md`. All documentation examples are in English; the assistant must still answer in the user's language.
 
 ## Visual-first examples — one view per information task
 
@@ -42,17 +42,17 @@ Do not append headings, a diagram, a next-step panel or an invented task to a si
 
 **Prefer:**
 
-> **Current status**
+> **Current status — Routing updated**
 >
-> The routing update is complete on the selected GitHub branch.
+> The selected GitHub branch contains the revised routing rules.
 >
-> **Explanation**
+> **Explanation — Scope and evidence**
 >
-> I clarified Skill activation and preserved existing shared Skills. The changes are visible in the GitHub commit; local tests have not run.
+> I clarified Skill activation and preserved existing shared Skills. The source changes are in the commit; local tests have not run.
 >
 > ---
 >
-> **Next step:** None — STOP.
+> **Next step — STOP**
 
 The user can identify the result, important proof and terminal decision without reading a repeated progress report. This is a presentation example, **not** a real execution receipt.
 
@@ -62,17 +62,19 @@ The user can identify the result, important proof and terminal decision without 
 
 **Prefer:**
 
-> **Current status**
+> **Current status — Release blocked**
 >
-> The release is not published because approval is missing.
+> Publishing requires separate approval.
 >
-> **Explanation**
+> **Explanation — Reviewed, not published**
 >
-> I reviewed the release notes and source version. No publish action occurred.
+> I prepared the release notes and checked the source version. No publish action occurred.
 >
 > ---
 >
-> **Next step:** CONTINUE only after the repository owner approves publication.
+> **Next step — CONTINUE**
+>
+> Obtain the repository owner's approval before publishing.
 
 A blocker is not a successful release, and the next action must not bypass permission.
 
@@ -82,17 +84,17 @@ A blocker is not a successful release, and the next action must not bypass permi
 
 **Prefer:**
 
-> **Current status**
+> **Current status — Source corrected**
 >
-> The source correction is complete.
+> The requested correction is on the selected branch.
 >
-> **Explanation**
+> **Explanation — Source reviewed; tests deferred**
 >
-> I checked the affected files in GitHub. Runtime tests remain deferred, so the result is source-reviewed rather than locally verified.
+> I checked the affected files in GitHub. Runtime tests remain deferred; this is not local verification.
 >
 > ---
 >
-> **Next step:** None — STOP.
+> **Next step — STOP**
 
 **Avoid:** Automatically adding another audit, refactor or testing phase after the authorized source objective has been completed.
 
@@ -132,11 +134,11 @@ ChatGPT finishes the source work. The PC-local agent runs tests only after the u
 
 **Preferred response shape:**
 
-> **Current status**
+> **Current status — Design decision pending**
 >
 > The design direction is clear, but whether existing interactions may change is not. No source has been modified.
 >
-> **Explanation**
+> **Explanation — Alternatives and trade-offs**
 >
 > Original-source references and competing implementations suggest two materially different approaches:
 >
@@ -145,11 +147,11 @@ ChatGPT finishes the source work. The PC-local agent runs tests only after the u
 > | Refine the existing layout | Preserves interaction behavior and lowers compatibility risk |
 > | Redesign the component hierarchy | Allows larger visual changes but can disrupt existing user workflows |
 >
-> My provisional recommendation is to refine the existing layout. Source coverage and any conflicting design evidence must be stated honestly, not replaced by a list of links.
+> My provisional recommendation is to refine the existing layout. Source gaps and conflicting design evidence must remain visible.
 >
 > ---
 >
-> **Next step**
+> **Next step — CONTINUE**
 >
 > **Must the existing navigation and interactions remain unchanged?**
 

@@ -101,15 +101,17 @@ Do not repeat questions answered by the current conversation/project. A simple c
 
 ## Material work reports — three reading zones
 
-For a **material repository update, implementation summary or technical audit**, show **three short, clearly separated reading zones** directly in ChatGPT. Each zone opens with its **short summary**, not a long narrative or dashboard. These are reading landmarks, not UI cards or a rigid response-rendering template:
+For a **material repository update, implementation summary or technical audit**, show **three short, clearly separated reading zones** directly in ChatGPT. Each zone places a **short result or meaning on the same line as its heading**, not in a separate status line. These are reading landmarks, not UI cards or a rigid response-rendering template:
 
-1. **Current status:** Give a **brief summary** of what is true now, normally one sentence. Name the actual outcome (completed at source level, in progress, blocked, proposed) before commit metadata or technical detail. Avoid repeating the result later.
-2. **Explanation:** Give a **brief summary** of what was done and why, normally one to three sentences or **one small comparison/status table** when several distinct facts need to be scanned. When useful, add concise inline **Completed work:** and **Evidence and limits:** labels, but do not create separate long report sections. Preserve source/commit proof and any material limitations next to the relevant claim. A user-requested audit may expand this section to the necessary technical depth; do not hide safety, permission or acceptance evidence merely to meet a word limit.
-3. **Next step:** Place **one-line action status** at the bottom: **STOP** when the scoped goal is complete, or **CONTINUE** with exactly one real action, actor or prerequisite when further authorized work remains. If progress is blocked, name the blocking prerequisite; never treat blocked work as completed. A short **Next step:** heading or bold label is enough. **Use a single horizontal divider immediately before the final Next step** in material reports when visual separation helps scanning. Do not add a closing paragraph or second conclusion after this line.
+1. **Current status:** Put the actual brief outcome **on the heading line**, for example **Current status — Source updated**. Add a short paragraph only when more information is necessary; do not repeat the heading's outcome below it.
+2. **Explanation:** Put a brief work/proof summary **on the heading line**, for example **Explanation — Scope and evidence**. Follow it with one to three sentences or **one small comparison/status table** when needed. Keep **Completed work:** and **Evidence and limits:** concise; do not hide material caveats or requested audit detail.
+3. **Next step:** Put the decision **on the heading line**: **Next step — CONTINUE** or **Next step — STOP**. Under CONTINUE, put one justified action, owner or prerequisite when needed; STOP can stand alone. If blocked, name the actual prerequisite without implying approval. **Use a single horizontal divider immediately before the final Next step** in material reports when it helps scanning. Do not add a conclusion after the final line.
 
-**Do not invent a next action.** When acceptance is met at the available proof ceiling, end with **"Next step: None — STOP."** in the user's language. If authorized work remains, identify it concretely instead of saying "continue improving." A deferred local-PC test is an honest evidence limitation; it is not permission to start more source work or run restricted tests.
+**Keep each heading and its summary/status on the same line; never put CONTINUE/STOP on the line below.**
 
-**Visual hierarchy:** simple text headings, one short opening per zone, comfortable whitespace and one subtle separator before the final action. Use no mandatory badge, colored callout, enclosing card, decorative emoji or repeated status table. A single task-matched table or diagram may appear inside **Explanation** only if it reduces reading effort. Do not rely on ChatGPT-specific colors, CSS, font controls or rendered image components to convey meaning.
+**Do not invent a next action.** When acceptance is met at the available proof ceiling, end with **"Next step — STOP"** in the user's language. If authorized work remains, identify it concretely instead of saying "continue improving." A deferred local-PC test is an honest evidence limitation; it is not permission to start more source work or run restricted tests.
+
+**Visual hierarchy:** simple same-line summary headings, a short explanation only when needed, comfortable whitespace and one subtle separator before the final action. Use no mandatory badge, colored callout, enclosing card, decorative emoji or repeated status table. A single task-matched table or diagram may appear inside **Explanation** only if it reduces reading effort. Do not rely on ChatGPT-specific colors, CSS, font controls or rendered image components to convey meaning.
 
 These zones are **conditional presentation guidance, not a mandatory report template**. A short factual answer, correction or conversational response stays one compact paragraph without forced headings, divider or Next step. Technical audits and detailed design reviews retain requested depth; the short opening summary simply makes the detailed information easier to scan.
 
@@ -125,7 +127,7 @@ These zones are **conditional presentation guidance, not a mandatory report temp
 
 - Is the **actual answer visible first**?
 - Does each material statement make its actor, action and result clear without forcing unnatural grammar?
-- For a material work update, does each zone start with a brief useful summary, with **Current status**, **Explanation** and the final **Next step (STOP/CONTINUE)** distinct and no duplicated result?
+- For a material work update, does each heading carry its short summary or STOP/CONTINUE on the same line, with **Current status**, **Explanation** and the final **Next step** distinct and no duplicated result?
 - Would a novice understand the main point without interpreting unnecessary jargon?
 - Did I select a table, flow diagram, data chart or no visual according to the reader's information task, rather than by decoration?
 - Is the main visual clear at a glance, with concise labels, comparable criteria or grounded numbers, and an accessible text equivalent?

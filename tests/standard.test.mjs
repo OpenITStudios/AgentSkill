@@ -454,7 +454,10 @@ test('communication update has explicit next-step evidence and preserves simple 
   const rubric = JSON.parse(rubricText);
   assert.match(policy, /subject–verb–object/);
   assert.match(policy, /Do not invent a next action/);
-  assert.match(examples, /Next step:\*\* None — STOP/);
+  assert.match(examples, /\*\*Current status — Routing updated\*\*/);
+  assert.match(examples, /\*\*Explanation — Scope and evidence\*\*/);
+  assert.match(examples, /\*\*Next step — STOP\*\*/);
+  assert.match(examples, /\*\*Next step — CONTINUE\*\*/);
   assert.match(examples, /Simple factual answer — no template/);
   assert.ok(rubric.dimensions.some(x => x.id === 'next_step_integrity' && x.type === 'hard_gate'));
 });
@@ -471,6 +474,24 @@ test('communication validator rejects an invented next-step directive', async ()
     const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /COMMUNICATION FORMAT: three-zone separation or next-step integrity missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('three-zone communication rejects moving CONTINUE or STOP below its heading', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-heading-status-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/user-facing-communication.md');
+    const policy = await readFile(file, 'utf8');
+    const directive = '**Keep each heading and its summary/status on the same line; never put CONTINUE/STOP on the line below.**';
+    assert.ok(policy.includes(directive));
+    await writeFile(file, policy.replace(directive, '**Put CONTINUE/STOP on a new line below each heading.**'));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /COMMUNICATION FORMAT: three-zone separation or next-step integrity missing/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
