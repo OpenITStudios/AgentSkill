@@ -13,11 +13,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 253 normative cases validate', () => {
+test('canonical source, skill metadata and 261 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /253 normative cases/);
+  assert.match(r.stdout, /261 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -250,6 +250,38 @@ test('reversed unknown-GitHub-write recovery is rejected without deleting marker
     const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /GITHUB RELIABILITY: partial\/unknown writes must require remote reconciliation/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
+test('research readiness source guard rejects premature stopping after one convenient result', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-research-depth-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, '.agent-standard/core/execution-sop.md');
+    const text = await readFile(file, 'utf8');
+    const directive = '**Do not stop after the first convenient result.**';
+    assert.ok(text.includes(directive));
+    await writeFile(file, text.replace(directive, '**Stop after the first convenient result.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /RESEARCH READINESS: missing broad research or material-ambiguity guard/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
+test('research readiness guard rejects premature implementation of an ambiguous design', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-readiness-guard-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, '.agent-standard/core/execution-sop.md');
+    const text = await readFile(file, 'utf8');
+    const directive = '**Do not implement a materially ambiguous design merely because sources were found.**';
+    assert.ok(text.includes(directive));
+    await writeFile(file, text.replace(directive, '**Implement a materially ambiguous design whenever sources are found.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /RESEARCH READINESS: missing broad research or material-ambiguity guard/);
   } finally { await rm(parent, { recursive: true, force: true }); }
 });
 

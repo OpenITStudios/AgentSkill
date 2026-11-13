@@ -90,3 +90,7 @@ One **normative, not executed** case specifies how material ChatGPT updates shou
 ## Execution identity in material commit history (GOV-250–GOV-253)
 
 Four new **normative, not executed** cases distinguish the ChatGPT/GitHub API work method from a separately verified user-PC agent host, prohibit inferred local claims from model/branch names, preserve historical commits without `Surface` as environment-unrecorded, and discourage redundant Git/model metadata. The new-message checker requires the exact `Surface` grammar; the historical snapshot reader may accept legacy messages without granting any execution authority. A syntactically valid field does not prove actual host usage or test execution.
+
+## Broad research and intent readiness (GOV-254–GOV-261)
+
+Eight **normative, not executed** cases cover original source and alternative discovery, mirror duplication, material UX ambiguity before implementation, fast paths for bounded changes, avoiding repeated questions, separating design approval from mutation authorization, evidence-based research STOP, and honest coverage limits. Static source checks are not host behavioral evaluation, research recall or PC-local tests.

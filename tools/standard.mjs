@@ -277,6 +277,43 @@ async function validateGoalStopAndGitHubReliability() {
     'EVIDENCE INTEGRITY: missing observation, causality or negative-control boundary');
 }
 
+async function validateResearchReadinessContracts() {
+  const [root, routing, sop, evidence, brief, communication] = await Promise.all([
+    readFile(join(ROOT, 'AGENTS.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/decision-routing-and-ownership.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/execution-sop.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/evidence-and-recovery.md'), 'utf8'),
+    readFile(join(ROOT, 'skills/core/oits-development-brief/SKILL.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/user-facing-communication.md'), 'utf8')
+  ]);
+  const rootRules = ownedMarkdownSection(root, 'Work discipline');
+  const routeRules = ownedMarkdownSection(routing, 'Intent and research readiness — mandatory decision, conditional depth');
+  const researchRules = ownedMarkdownSection(sop, 'Clarification and broad research — before material implementation');
+  const evidenceRules = ownedMarkdownSection(evidence, 'Research coverage, source quality and sufficiency');
+  const briefRules = ownedMarkdownSection(brief, 'Readiness and source-grounded clarification');
+  const communicationRules = ownedMarkdownSection(communication, 'Research-backed discussion before material implementation');
+  ensure(rootRules.includes('**Research and clarify before material implementation:**') &&
+    rootRules.includes('counterevidence'),
+    'RESEARCH READINESS: root missing source-depth and clarification rule');
+  ensure(['PROCEED_DIRECTLY','RESEARCH_MORE','DISCUSS_FIRST','BLOCKED','DESIGN_READY','ACTION_AUTHORIZED'].every(id => routeRules.includes(id)) &&
+    routeRules.includes('**Design approval does not grant mutation permission.**'),
+    'RESEARCH READINESS: missing readiness routes or design/permission separation');
+  ensure(researchRules.includes('**Do not stop after the first convenient result.**') &&
+    researchRules.includes('**Do not implement a materially ambiguous design merely because sources were found.**') &&
+    researchRules.includes('**one decision-changing question per turn**') &&
+    researchRules.includes('RESEARCH_INCOMPLETE'),
+    'RESEARCH READINESS: missing broad research or material-ambiguity guard');
+  ensure(evidenceRules.includes('**Do not stop after the first favorable or convenient source.**') &&
+    evidenceRules.includes('**Breadth and depth are separate.**') &&
+    evidenceRules.includes('adaptive saturation judgment') &&
+    evidenceRules.includes('counterevidence'),
+    'RESEARCH READINESS: source diversity and sufficiency evidence missing');
+  ensure(briefRules.includes('**Do not implement a material unresolved design solely because the brief was written.**') &&
+    communicationRules.includes('**Current status:**') &&
+    communicationRules.includes('**Next step:**'),
+    'RESEARCH READINESS: development brief or discussion boundary missing');
+}
+
 async function validateMethodRegistry(evals) {
   const data = await readJson('registry/methods.json');
   const schema = await readJson('schemas/method-registry.schema.json');
@@ -437,6 +474,7 @@ async function validateCanonical() {
   await ensureCompletePortableInventory(manifest);
   await validateActivationContracts(manifest);
   await validateGoalStopAndGitHubReliability();
+  await validateResearchReadinessContracts();
 
   const schema = await readJson('schemas/repository-profile.schema.json');
   ensure(schema && schema.properties && schema.properties.holds && schema.properties.branchPolicy, 'profile schema missing guards');
