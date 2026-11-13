@@ -23,7 +23,7 @@ const STATE = /^(ACTIVE|BLOCKED|PAUSED|DONE)(?:[;\s].*)?$/;
 const EVIDENCE = /\b(SOURCE_REVIEWED|SOURCE_COMMITTED|TEST_AUTHORED_NOT_RUN|EXECUTED_TEST_PASS|EXECUTED_TEST_FAIL|LIVE_TARGET_VERIFIED|NOT_EXECUTED|LOCAL_TEST_DEFERRED|UNKNOWN)\b/;
 const SENSITIVE_PATH = /(?:^AGENTS\.md$|^GITHUB_RULES\.md$|^\.agent-standard\/|^\.github\/|^registry\/|^schemas\/|^tools\/|^tests\/|(?:^|\/)(?:auth|permissions?|security|migrations?|policies|policy|contracts?)(?:\/|\.|-))/i;
 const ORDINARY_DOC = /^(?:README\.md|docs\/(?:examples|guides|tutorials|help|user-guide)\/[A-Za-z0-9._/-]+\.md)$/;
-const CONTROL_TERMS = /\b(?:auth|allow|deny|permit|permission|secret|password|token|admin|security|branch|hold|ci|test|release|deploy|enable|disable|enabled|disabled|true|false|safe|unsafe|approval|approved|must|shall|require|prohibit|policy)\b/i;
+const CONTROL_TERMS = /\b(?:auth|allow|deny|permit|permissions?|secret|password|token|admin|security|branch|hold|ci|test|release|deploy|enable|disable|enabled|disabled|true|false|safe|unsafe|approval|approved|must|shall|require|prohibit|polic(?:y|ies))\b/i;
 
 function diffInfo(text) {
   if (typeof text !== 'string' || !text.trim()) return null;
