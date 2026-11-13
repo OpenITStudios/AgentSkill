@@ -25,6 +25,15 @@ const SENSITIVE_PATH = /(?:^AGENTS\.md$|^GITHUB_RULES\.md$|^\.agent-standard\/|^
 const ORDINARY_DOC = /^(?:README\.md|docs\/(?:examples|guides|tutorials|help|user-guide)\/[A-Za-z0-9._/-]+\.md)$/;
 const CONTROL_TERMS = /\b(?:auth|allow|deny|permit|permissions?|secret|password|token|admin|security|branch|hold|ci|test|release|deploy|enable|disable|enabled|disabled|true|false|safe|unsafe|approval|approved|must|shall|require|prohibit|polic(?:y|ies)|on|off|yes|no|not|only|never|always|active|paused|blocked|done|public|private)\b/i;
 
+export function hasRiskyChangedFiles(files) {
+  if (!Array.isArray(files) || files.length===0) return true;
+  return files.length > 5 || files.some(f =>
+    !f || typeof f.path!=='string' ||
+    SENSITIVE_PATH.test(f.path) ||
+    ['removed','renamed','copied','binary'].includes(f.status)
+  );
+}
+
 function diffInfo(text) {
   if (typeof text !== 'string' || !text.trim()) return null;
   const items = [], lines = text.replace(/\r\n/g, '\n').split('\n');
@@ -48,7 +57,7 @@ function diffInfo(text) {
   if (items.some(x => x.added.length===0 && x.removed.length===0 && x.metadata.length===0)) {
     return { error:'Diff file has no changed hunks or material metadata' };
   }
-  return { files:items, requiresCritical:items.some(x => SENSITIVE_PATH.test(x.path) || x.metadata.length>0) || items.length > 5 };
+  return { files:items, requiresCritical:hasRiskyChangedFiles(items.map(x => ({path:x.path,status:x.metadata.some(m => /^(?:deleted file mode|rename |copy |Binary files|GIT binary patch)/.test(m)) ? 'removed' : 'modified'}))) };
 }
 
 function distanceAtMostTwo(a, b) {
