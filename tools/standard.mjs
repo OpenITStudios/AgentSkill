@@ -357,6 +357,32 @@ async function validateMethodRegistry(evals) {
   ensure(procedure.includes('.agent-standard/methods.json') && procedure.includes('Karpathy + Ponytail'), 'METHOD REGISTRY: source owner not linked');
 }
 
+async function validateRepositoryReadme() {
+  const readme = await readFile(join(ROOT, 'README.md'), 'utf8');
+  const standard = await readFile(join(ROOT, 'docs/standards/repository-readme.md'), 'utf8');
+  const pkg = await readJson('package.json');
+  ensure(readme.startsWith('# OpenITStudios AgentSkill\n') &&
+    readme.includes('## Start here') && readme.includes('## Verification and evidence') &&
+    readme.includes('docs/standards/repository-readme.md') &&
+    standard.includes('## Claim verification and freshness') &&
+    standard.includes('## Review workflow'),
+    'README CONTRACT: entry or quality standard missing');
+  ensure(readme.includes(pkg.version) &&
+    pkg.scripts?.check === 'node tools/standard.mjs validate' &&
+    pkg.scripts?.test === 'node --test tests/standard.test.mjs tests/commit-snapshot.test.mjs' &&
+    readme.includes('npm run check') && readme.includes('npm test'),
+    'README COMMANDS: version or documented scripts differ from package.json');
+  // Bounded path-presence check only; not an anchor, content, or runtime audit.
+  for (const [, href] of readme.matchAll(/\]\(([^)]+)\)/g)) {
+    if (/^(?:https?:\/\/|mailto:|#)/i.test(href)) continue;
+    const local = decodeURIComponent(href.split('#')[0].split('?')[0]).replace(/^\.\//, '');
+    if (!local) continue;
+    const path = safeRelativePath(local);
+    ensure((await pathExists(join(ROOT, path))) !== null,
+      'README LINK MISSING: ' + path);
+  }
+}
+
 async function validateCanonical() {
   const manifest = await readJson(MANIFEST_PATH);
   ensure(manifest.schemaVersion === 1 && manifest.name === 'oits-agent-standard', 'invalid standard manifest identity');
@@ -476,6 +502,7 @@ async function validateCanonical() {
   await validateActivationContracts(manifest);
   await validateGoalStopAndGitHubReliability();
   await validateResearchReadinessContracts();
+  await validateRepositoryReadme();
 
   const schema = await readJson('schemas/repository-profile.schema.json');
   ensure(schema && schema.properties && schema.properties.holds && schema.properties.branchPolicy, 'profile schema missing guards');

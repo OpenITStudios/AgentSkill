@@ -21,6 +21,48 @@ test('canonical source, skill metadata and 261 normative cases validate', () => 
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
+test('README standard documents source-grounded onboarding and package commands', async () => {
+  const [readme, standard, pkgText] = await Promise.all([
+    readFile(join(ROOT, 'README.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/standards/repository-readme.md'), 'utf8'),
+    readFile(join(ROOT, 'package.json'), 'utf8')
+  ]);
+  const pkg = JSON.parse(pkgText);
+  assert.match(readme, /^# OpenITStudios AgentSkill/m);
+  assert.match(readme, /## Start here/);
+  assert.match(readme, /## Verification and evidence/);
+  assert.match(readme, /docs\/standards\/repository-readme\.md/);
+  assert.match(standard, /## Claim verification and freshness/);
+  assert.match(standard, /read-only by default/i);
+  assert.equal(pkg.scripts.check, 'node tools/standard.mjs validate');
+  assert.match(readme, /npm run check/);
+  assert.match(readme, /npm test/);
+});
+
+test('README validator rejects a nonexistent local link and an invented command', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-readme-source-check-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, 'README.md');
+    const original = await readFile(file, 'utf8');
+    const correctLink = '[README quality standard](docs/standards/repository-readme.md)';
+    assert.ok(original.includes(correctLink));
+    await writeFile(file, original.replace(correctLink, '[README quality standard](docs/standards/missing.md)'));
+    const badLink = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(badLink.status, 0);
+    assert.match(badLink.stderr, /README LINK MISSING:/);
+
+    assert.ok(original.includes('npm run check'));
+    await writeFile(file, original.replace('npm run check', 'npm run invented-command'));
+    const badCommand = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(badCommand.status, 0);
+    assert.match(badCommand.stderr, /README COMMANDS:/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
 test('context recovery is an unversioned policy and source version remains draft', async () => {
   const [policy, pkgText, manifestText, changelog, rules] = await Promise.all([
     readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8'),

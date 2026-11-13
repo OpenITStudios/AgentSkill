@@ -28,6 +28,12 @@ For proposed root-level file or directory changes, consult [Repository Root Layo
 
 At the selected authorized branch/HEAD, inspect actual root consumers, framework/toolchain discovery requirements, README, local layout policy, relevant `.gitignore` and nested/domain ownership. Classify root entries as `KEEP_ROOT`, `DOMAIN_OWNED`, `LOCAL_OR_GENERATED` or `REVIEW_EXCEPTION`. A root move must preserve imports, scripts, README links, installers, GitHub workflows, user data and existing Skills/agents. Respect local names and stricter rules. An audit or adoption discussion does **not** authorize migration or deletion.
 
+## README quality review — read-only by default
+
+Use the [Repository README Quality Standard](standards/repository-readme.md) to assess the selected project's actual purpose, supported onboarding, limitations, current evidence, licensing, and canonical documentation links. Check claims against its **selected branch/HEAD**, manifests, commands, relevant consumers, and existing project-specific instructions. Do not invent a contribution policy or remove valid domain content.
+
+This review does **not** authorize updates to another repository. AgentSkill's own README is the initial source example, not a template that must be copied. Source-level links or commands do not prove runtime, host instruction loading, or product behavior. Only a separate project-specific permission can authorize adoption or changes.
+
 ## Classification before migration
 For every source repository pin the **user-selected working branch and HEAD**; read root/nearest AGENTS, GitHub rules, local skills, permission files, live branch restrictions, test/CI holds, privacy rules and workstream pauses. Classify each directive:
 - `CORE` — belongs in AgentSkill shared policy, identical for all.

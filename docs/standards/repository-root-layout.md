@@ -2,6 +2,8 @@
 
 **Scope:** placement and ownership of files or folders at a project's repository root. **Status:** reference standard for future, separately authorized adoption. It does not automatically rename, migrate, delete, or reorganize any existing OpenITStudios repository.
 
+The companion [Repository README Quality Standard](repository-readme.md) owns README accuracy and navigation. This standard owns file placement. Neither authorizes an automatic migration.
+
 ## Primary rule
 
 **The repository root is a discoverable entry surface and an actual toolchain/workspace boundary, not a general storage area.** Keep an entry at root only when its documented consumer requires that location, it is a useful repository-wide entry point, or an existing compatibility contract must be preserved. There is no universal maximum root-item count, fixed folder tree, or global allowlist.

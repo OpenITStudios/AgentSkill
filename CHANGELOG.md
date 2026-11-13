@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Establish a reader-first README quality standard; simplify AgentSkill's README, define safe adoption and source ownership, and author checks for missing local links and documented-command drift.
 - Put each material ChatGPT report's brief result on its heading line, including “Next step — STOP/CONTINUE”; synchronize policy, examples, Custom Instructions, rubric and authored static guards.
 - Make material ChatGPT updates use three brief scannable summaries (Current status, Explanation and final STOP/CONTINUE) while preserving detailed audits on request and minimal plain answers; synchronize the copy-ready account instructions.
 - Document a conditional, non-destructive repository root layout standard based on a read-only inventory of OpenITStudios roots and official toolchain conventions; link it from README/adoption without changing project trees.
