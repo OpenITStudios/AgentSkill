@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 150 normative cases validate', () => {
+test('canonical source, skill metadata and 168 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /150 normative cases/);
+  assert.match(r.stdout, /168 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
