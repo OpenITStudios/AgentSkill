@@ -6,7 +6,8 @@
   "description": "OpenITStudios portable agent governance foundation; no runtime dependency",
   "scripts": {
     "check": "node tools/standard.mjs validate",
-    "test": "node --test tests/standard.test.mjs",
-    "commit:check": "node tools/commit-message-check.mjs"
+    "test": "node --test tests/standard.test.mjs tests/commit-snapshot.test.mjs",
+    "commit:check": "node tools/commit-message-check.mjs",
+    "snapshot:check": "node tools/commit-snapshot-check.mjs"
   }
 }
