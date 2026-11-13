@@ -1,6 +1,6 @@
 # Examples — Clear Actions, Visible Results and One Next Step
 
-These examples demonstrate **presentation patterns**, not actual user records, executed tests or evidence of model behavior. For material updates, the brief result and STOP/CONTINUE appear on the **same heading line**, in the reader's language. The authoritative standard is `.agent-standard/core/user-facing-communication.md`. All documentation examples are in English; the assistant must still answer in the user's language.
+These examples demonstrate **presentation patterns**, not actual user records, executed tests or evidence of model behavior. For material updates, the brief result and STOP/CONTINUE/BLOCKED/PROPOSED appear on the **same heading line**, in the reader's language. The authoritative standard is `.agent-standard/core/user-facing-communication.md`. All documentation examples are in English; the assistant must still answer in the user's language.
 
 ## Visual-first examples — one view per information task
 
@@ -72,9 +72,9 @@ The user can identify the result, important proof and terminal decision without 
 >
 > ---
 >
-> **Next step — CONTINUE**
+> **Next step — BLOCKED**
 >
-> Obtain the repository owner's approval before publishing.
+> Separate approval from the repository owner is missing. Publishing cannot proceed.
 
 A blocker is not a successful release, and the next action must not bypass permission.
 
@@ -156,5 +156,27 @@ ChatGPT finishes the source work. The PC-local agent runs tests only after the u
 > **Must the existing navigation and interactions remain unchanged?**
 
 A clear, authorized one-line styling fix does **not** require this format. Approval of the discussion alone does not authorize rewriting source files.
+
+## I. Finished read-only audit with a recommended fix — PROPOSED
+
+**User asks:** "Review these rules and suggest improvements; do not modify the repository."
+
+**Prefer:**
+
+> **Current status — Audit complete; defect found**
+>
+> The requested source audit is finished. No files were modified.
+>
+> **Explanation — One actionable finding**
+>
+> A source test has invalid JavaScript syntax. Repair is a new source-change task, not part of the authorized read-only audit.
+>
+> ---
+>
+> **Next step — PROPOSED (requires separate authorization)**
+>
+> Fix the syntax in a separately authorized implementation task.
+
+**Avoid:** "Next step — STOP (audit complete)" followed by a direct instruction to fix the same defect. STOP has no actionable next step. PROPOSED does not grant write permission.
 
 **Non-goal:** These patterns do not add a mandatory reply template, colored cards, a new response-rendering engine, extra agents, or a Next step heading for every answer. A simple factual question still receives a direct sentence.

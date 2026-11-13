@@ -260,7 +260,7 @@ test('engineering guard rejects weakening a failed acceptance gate for speed', a
   }
 });
 
-test('original upstream REA and UI UX references remain source-only and pinned', async () {
+test('original upstream REA and UI UX references remain source-only and pinned', async () => {
   const [registryText, policy, skillPolicy, report, manifestText] = await Promise.all([
     readFile(join(ROOT, 'registry/methods.json'), 'utf8'),
     readFile(join(ROOT, '.agent-standard/core/engineering-and-review-methods.md'), 'utf8'),
@@ -645,6 +645,56 @@ test('communication rubric must remain normative and measured claims cannot be p
 });
 
 
+test('terminal reports distinguish STOP, CONTINUE, BLOCKED and PROPOSED', async () => {
+  const [policy, examples, rubricText, corpusText, recovery] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/user-facing-communication.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/examples/user-facing-answer-patterns.md'), 'utf8'),
+    readFile(join(ROOT, 'evals/communication-rubric.json'), 'utf8'),
+    readFile(join(ROOT, 'evals/cases.json'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8')
+  ]);
+  assert.match(policy, /Never label a report STOP while assigning an actionable Next step/);
+  assert.match(examples, /Next step — PROPOSED/);
+  assert.match(examples, /Next step — BLOCKED/);
+  assert.match(recovery, /Skip history loading when current status/);
+  const rubric = JSON.parse(rubricText);
+  assert.match(rubric.dimensions.find(x => x.id === 'next_step_integrity').evidence, /PROPOSED/);
+  const ids = new Set(JSON.parse(corpusText).cases.map(x => x.id));
+  for (const id of ['GOV-276','GOV-277','GOV-278','GOV-279','GOV-280','GOV-281']) assert.ok(ids.has(id));
+});
+
+test('terminal STOP source guard rejects actionable follow-up despite retained labels', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-report-stop-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/user-facing-communication.md');
+    const original = await readFile(file, 'utf8');
+    const directive = '**Never label a report STOP while assigning an actionable Next step.**';
+    assert.ok(original.includes(directive));
+    await writeFile(file, original.replace(directive, '**Label a report STOP while assigning an actionable Next step.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /COMMUNICATION STATUS: STOP with actionable follow-up/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
+test('conditional history source guard rejects unconditional 30-commit scan', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-history-conditional-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/commit-continuity-and-recovery.md');
+    const original = await readFile(file, 'utf8');
+    const directive = '**Skip history loading when current status, source and decisions already resolve the requested task.**';
+    assert.ok(original.includes(directive));
+    await writeFile(file, original.replace(directive, '**Always load 30 commits even when current source resolves the requested task.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /CONTEXT RECOVERY: history loading must be conditional/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
 test('communication update has explicit next-step evidence and preserves simple answers', async () => {
   const [policy, examples, rubricText] = await Promise.all([
     readFile(join(ROOT, '.agent-standard/core/user-facing-communication.md'), 'utf8'),
@@ -686,7 +736,7 @@ test('three-zone communication rejects moving CONTINUE or STOP below its heading
     await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
     const file = join(snapshot, '.agent-standard/core/user-facing-communication.md');
     const policy = await readFile(file, 'utf8');
-    const directive = '**Keep each heading and its summary/status on the same line; never put CONTINUE/STOP on the line below.**';
+    const directive = '**Keep each heading and its summary/status on the same line; never put STOP/CONTINUE/BLOCKED/PROPOSED on the line below.**';
     assert.ok(policy.includes(directive));
     await writeFile(file, policy.replace(directive, '**Put CONTINUE/STOP on a new line below each heading.**'));
     const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });

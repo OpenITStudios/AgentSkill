@@ -93,4 +93,9 @@ Four new **normative, not executed** cases distinguish the ChatGPT/GitHub API wo
 
 ## Broad research and intent readiness (GOV-254–GOV-261)
 
+
 Eight **normative, not executed** cases cover original source and alternative discovery, mirror duplication, material UX ambiguity before implementation, fast paths for bounded changes, avoiding repeated questions, separating design approval from mutation authorization, evidence-based research STOP, and honest coverage limits. Static source checks are not host behavioral evaluation, research recall or PC-local tests.
+
+## Terminal report consistency and conditional history (GOV-276–GOV-281)
+
+Six **normative, not executed** cases cover read-only audits with separately proposed repairs, genuinely terminal STOP, remaining authorized work, permission blockers, current-source-first history avoidance, and deeper history when workstream evidence is missing. The written source regression controls cannot measure actual host decisions. No localtest, CI or model benchmark was performed.

@@ -60,6 +60,9 @@ Use the **smallest sufficient evidence**: current authorized source owner, affec
 
 At the source proof ceiling, decide: **CONTINUE** only for an unmet material in-scope acceptance item; **BLOCKED** for a required forbidden/unavailable action or unresolved material safety risk; or **DONE → STOP** when scope, preservation and available evidence are complete. Separate optional observations from unmet acceptance. A finished goal does not implicitly authorize a new goal or perpetual follow-up work.
 
+**Reporting versus task state:** `DONE` remains the current scoped work state. If a finished read-only audit identifies a useful **separate** repair, the report may end **Next step — PROPOSED**, explicitly requiring fresh authorization, rather than **STOP** plus a new action. STOP has no actionable next instruction; CONTINUE denotes permitted unfinished scope and BLOCKED denotes an actual current prerequisite. PROPOSED is not permission to mutate source, a new execution mode or a substitute for source/runtime proof.
+
+
 ## Context and recovery checkpoint
 Keep the smallest recoverable packet: `Goal | Task mode | Repo | selected branch | observed SHA | user-authorized effects | active holds | primary owner | accepted decisions | completed | remaining | proof tier | next safe action`. On recovery, re-pin HEAD and compare current source; do not replay a prior unconfirmed write.
 

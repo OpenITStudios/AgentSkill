@@ -616,13 +616,22 @@ async function validateCanonical() {
     reportRules.includes('**Completed work:**') &&
     reportRules.includes('**Evidence and limits:**') &&
     reportRules.includes('**Next step:**') &&
-    reportRules.includes('**Keep each heading and its summary/status on the same line; never put CONTINUE/STOP on the line below.**') &&
+    reportRules.includes('**Keep each heading and its summary/status on the same line; never put STOP/CONTINUE/BLOCKED/PROPOSED on the line below.**') &&
     reportRules.includes('**Use a single horizontal divider immediately before the final Next step**') &&
     reportRules.includes('**Do not invent a next action.**') &&
     reportRules.includes('**"Next step — STOP"**') &&
     reportRules.includes('not a mandatory report template') &&
     reportRules.includes('no mandatory badge, colored callout, enclosing card'),
     'COMMUNICATION FORMAT: three-zone separation or next-step integrity missing');
+  ensure(reportRules.includes('**Never label a report STOP while assigning an actionable Next step.**') &&
+    reportRules.includes('**Next step — PROPOSED**') && reportRules.includes('**Next step — BLOCKED**') &&
+    rootInstructions.includes('Next step — STOP / CONTINUE / BLOCKED / PROPOSED'),
+    'COMMUNICATION STATUS: STOP with actionable follow-up or missing proposed/blocked distinction');
+  const recoveryRules = await readFile(join(ROOT, '.agent-standard/core/commit-continuity-and-recovery.md'), 'utf8');
+  ensure(recoveryRules.includes('**Skip history loading when current status, source and decisions already resolve the requested task.**') &&
+    rootInstructions.includes('skip the 30-commit scan when current source and decisions are sufficient'),
+    'CONTEXT RECOVERY: history loading must be conditional on a material gap');
+
   const visualRules = ownedMarkdownSection(communication, 'Visual-first selection — match the information structure');
   ensure(visualRules.includes('**one primary representation**') &&
     visualRules.includes('**Compact comparison table**') &&

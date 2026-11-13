@@ -32,8 +32,8 @@
     {
       "id": "visual_scanability",
       "type": "quality",
-      "question": "Can the reader locate the current result, a short explanation and STOP/CONTINUE directly in the three material-update headings?",
-      "evidence": "Each heading has its short summary/status on the same line (e.g., Next step — CONTINUE or STOP); one neutral final divider. Details expand only when essential; simple replies need no template."
+      "question": "Can the reader locate the current result, a short explanation and a correct STOP/CONTINUE/BLOCKED/PROPOSED decision in the three material-update headings?",
+      "evidence": "Each heading has its brief outcome on the same line. STOP is terminal; CONTINUE is authorized scope; BLOCKED is a current prerequisite; PROPOSED requires separate authorization. One neutral divider and no forced template for simple replies."
     },
     {
       "id": "factual_integrity",
@@ -62,8 +62,8 @@
     {
       "id": "next_step_integrity",
       "type": "hard_gate",
-      "question": "Does the final Next step heading itself say STOP or CONTINUE, with one permitted action or prerequisite if continuing?",
-      "evidence": "The Next step heading carries STOP/CONTINUE on the same line, not in the next paragraph. STOP closes completed scope; CONTINUE identifies the one permitted action. Blocked work cannot be misreported as complete."
+      "question": "Does the final Next step label match whether work is complete, permitted, blocked or only separately proposed, without STOP followed by a new action?",
+      "evidence": "STOP includes no actionable next instruction. CONTINUE names remaining authorized in-scope work. BLOCKED names a real current prerequisite. PROPOSED labels separately scoped work without implying approval; each label is on the heading line."
     },
     {
       "id": "redundancy",
@@ -96,7 +96,10 @@
       "correct_value_or_relation_extraction",
       "visual_misinterpretation_count",
       "current_vs_explanation_disambiguation",
-      "next_action_separation_accuracy"
+      "next_action_separation_accuracy",
+      "stop_with_action_mismatch_rate",
+      "separate_proposal_authorization_accuracy",
+      "blocked_vs_continue_accuracy"
     ],
     "safeguards": [
       "Blind review where possible",
@@ -109,7 +112,8 @@
       "Never fabricate missing numbers or relationships to justify a visual",
       "Provide meaningful text equivalents for informative graphics and charts",
       "Do not force a chart or table when a short answer is clearer",
-      "No mandatory colored UI cards, redundant headings or extra conclusion after the Next step"
+      "No mandatory colored UI cards, redundant headings or extra conclusion after the Next step",
+      "Do not append an actionable instruction under STOP or treat PROPOSED as authorization"
     ],
     "costNote": "Word count and reading time estimates are proxies; no reduction claim until actual comparable evidence exists."
   }

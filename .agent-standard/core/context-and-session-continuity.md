@@ -29,7 +29,7 @@ Every material mutation can invalidate observations of affected artifacts. Reuse
 
 ## Branch-scoped GitHub history and live status
 
-Keep **current active status** short in the *existing* canonical operations/CONTEXT owner. Recover user topic and current branch/HEAD, source, permissions and holds first. Scan 30 branch-wide commit metadata and expand cumulative 50/100 only on evidence gaps; trace older Work/path/decision history when necessary. Reconcile current/superseded decisions, checkpoint ancestry and changed source; neither latest commit nor historical Next is authority.
+Keep **current active status** short in the *existing* canonical operations/CONTEXT owner. Recover user topic and current branch/HEAD, source, permissions and holds first. If the current status/source and accepted decisions already resolve the requested continuation, skip history loading. Otherwise inspect 30 branch-wide commit metadata, expand cumulative 50/100 only on evidence gaps and trace older Work/path/decision history without a cutoff when necessary. Reconcile current/superseded decisions, checkpoint ancestry and changed source; neither latest commit nor historical Next is authority.
 
 Full procedure: `commit-continuity-and-recovery.md`. Avoid preloading large next-action histories, creating new progress databases, or assuming a link/hash means the necessary content was actually loaded.
 

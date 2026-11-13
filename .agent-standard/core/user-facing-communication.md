@@ -105,11 +105,13 @@ For a **material repository update, implementation summary or technical audit**,
 
 1. **Current status:** Put the actual brief outcome **on the heading line**, for example **Current status — Source updated**. Add a short paragraph only when more information is necessary; do not repeat the heading's outcome below it.
 2. **Explanation:** Put a brief work/proof summary **on the heading line**, for example **Explanation — Scope and evidence**. Follow it with one to three sentences or **one small comparison/status table** when needed. Keep **Completed work:** and **Evidence and limits:** concise; do not hide material caveats or requested audit detail.
-3. **Next step:** Put the decision **on the heading line**: **Next step — CONTINUE** or **Next step — STOP**. Under CONTINUE, put one justified action, owner or prerequisite when needed; STOP can stand alone. If blocked, name the actual prerequisite without implying approval. **Use a single horizontal divider immediately before the final Next step** in material reports when it helps scanning. Do not add a conclusion after the final line.
+3. **Next step:** Put one accurate decision **on the heading line**: **Next step — STOP**, **Next step — CONTINUE**, **Next step — BLOCKED**, or **Next step — PROPOSED**. STOP closes the scoped goal without an actionable follow-up; CONTINUE names remaining **authorized in-scope** work; BLOCKED names an unmet in-scope prerequisite or permission; PROPOSED names a **separately scoped** recommendation that is not authorized by the completed audit or discussion. Under CONTINUE, BLOCKED or PROPOSED, state only the relevant action, prerequisite or decision. **Use a single horizontal divider immediately before the final Next step** in material reports when it helps scanning. Do not add a conclusion after the final line.
 
-**Keep each heading and its summary/status on the same line; never put CONTINUE/STOP on the line below.**
+**Keep each heading and its summary/status on the same line; never put STOP/CONTINUE/BLOCKED/PROPOSED on the line below.**
 
-**Do not invent a next action.** When acceptance is met at the available proof ceiling, end with **"Next step — STOP"** in the user's language. If authorized work remains, identify it concretely instead of saying "continue improving." A deferred local-PC test is an honest evidence limitation; it is not permission to start more source work or run restricted tests.
+**Do not invent a next action.** When acceptance is met at the available proof ceiling and there is no decision-changing separate recommendation, end with **"Next step — STOP"** in the user's language. If authorized in-scope work remains, identify it under CONTINUE instead of saying "continue improving." A deferred local-PC test is an honest evidence limitation; it is not permission to start more source work or run restricted tests.
+
+**Never label a report STOP while assigning an actionable Next step.** A finished read-only audit can be `DONE` while a source fix remains **PROPOSED**: label the final user-facing action PROPOSED (separate approval required), not STOP followed by a repair instruction. When the current user-requested result is blocked, use BLOCKED instead of implying CONTINUE can proceed. These are presentation decisions, **not new execution modes or permission grants**. Omit optional suggestions if they do not change a real decision.
 
 **Visual hierarchy:** simple same-line summary headings, a short explanation only when needed, comfortable whitespace and one subtle separator before the final action. Use no mandatory badge, colored callout, enclosing card, decorative emoji or repeated status table. A single task-matched table or diagram may appear inside **Explanation** only if it reduces reading effort. Do not rely on ChatGPT-specific colors, CSS, font controls or rendered image components to convey meaning.
 
@@ -127,7 +129,7 @@ These zones are **conditional presentation guidance, not a mandatory report temp
 
 - Is the **actual answer visible first**?
 - Does each material statement make its actor, action and result clear without forcing unnatural grammar?
-- For a material work update, does each heading carry its short summary or STOP/CONTINUE on the same line, with **Current status**, **Explanation** and the final **Next step** distinct and no duplicated result?
+- For a material work update, does each heading carry its short summary or STOP/CONTINUE/BLOCKED/PROPOSED on the same line, with **Current status**, **Explanation** and the final **Next step** distinct and no duplicated result? Is STOP free of an actionable next instruction?
 - Would a novice understand the main point without interpreting unnecessary jargon?
 - Did I select a table, flow diagram, data chart or no visual according to the reader's information task, rather than by decoration?
 - Is the main visual clear at a glance, with concise labels, comparable criteria or grounded numbers, and an accessible text equivalent?

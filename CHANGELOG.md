@@ -5,6 +5,9 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Make final work-report decisions unambiguous: STOP is terminal without a new instruction, CONTINUE is authorized in-scope work, BLOCKED names a current dependency, and PROPOSED is separate work requiring new authorization; align policy, examples, template and rubric.
+- Skip routine GitHub commit-history scanning when selected current source, status and decisions already resolve the workstream, while preserving 30/50/100 and older-history recovery when evidence is missing.
+- Repair the malformed JavaScript test callback introduced by the prior engineering-policy change; no tests were executed under the active hold.
 - Improve the existing engineering pass with source-first contract/caller mapping before the first edit and evidence-led correction stopping rules; extend the normative corpus and authored safety checks without a new agent, tool or test runner.
 - Introduce proportional ChatGPT/GitHub FAST/STANDARD/CRITICAL task-cost lanes, safe single-file versus coherent multi-file writes, verified source/commit receipt reuse, and scoped authored regression cases without relaxing branch, security or proof requirements; repair one existing malformed test callback.
 - Add event-driven, verified checkpoints and emergency ChatGPT chat-limit recovery to existing continuity owners; provide an UNSAVED handoff fallback, guard unknown writes and concurrent updates, and author six normative cases and source checks without creating a new state store.
@@ -33,6 +36,7 @@ A release version records a **meaningful approved milestone**, not every feature
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Author GOV-276–GOV-281 for terminal decisions and conditional recovery, plus source-level regression checks that remain NOT_EXECUTED.
 - Author eight normative research/readiness cases (GOV-254–GOV-261) and two negative source regression fixtures; NOT_EXECUTED.
 - Add four normative execution-identity cases (GOV-250–GOV-253) and targeted source regression fixtures; missing Surface on old snapshots remains explicitly unrecorded. NOT_EXECUTED.
 - Add one normative three-zone separation case (GOV-249) and one negative source regression test; NOT_EXECUTED.

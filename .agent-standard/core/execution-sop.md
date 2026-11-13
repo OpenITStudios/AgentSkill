@@ -12,7 +12,7 @@ See `work-surfaces-and-phase-gates.md` and `host-identification.md`. A model nam
 
 ## Continuity boot for returning GitHub tasks
 
-When the user says "lanjutkan" or starts a new conversation, use `commit-continuity-and-recovery.md`: derive the **same topic** from the user, pin the selected ref/HEAD, read relevant old commit continuity fields plus current source/holds, and resume the smallest permitted work. The newest Git commit may belong to a different topic; never follow it blindly.
+When the user says "lanjutkan" or starts a new conversation, use `commit-continuity-and-recovery.md`: derive the **same topic** from the user, pin the selected ref/HEAD and read current source/holds first. Read historical commit continuity fields only when current source, status or accepted decisions leave a material gap. Resume the smallest permitted work; the newest Git commit may belong to a different topic and is never a task instruction.
 
 ## 1. BOOT and current authority
 Capture `repo`, `selectedRef`, `currentHead`, `userGoal`, `userScope`, `taskMode`, `profileVersion`, available tools and active holds. A read-only request needs no mutation pipeline. Resolve the present owner from actual source, not recency of commits.
@@ -71,6 +71,9 @@ Before any **newly discovered subtask** or another round of changes, classify it
 - **OPTIONAL_OR_UNRELATED:** minor style tweaks, speculative abstractions, extra logging, new framework/agent/router, exploratory “while here” fixes, broad cleanup or further analysis with no decision value. **Do not implement or automatically queue them.** Mention at most one material separate suggestion if it affects the user's next decision; otherwise omit.
 
 **Terminal STOP decision:** after the user-visible result exists, scoped acceptance and preservation checks are satisfied **at the currently available proof ceiling**, authorized GitHub source changes are committed and reconciled if applicable, and no material in-scope blocker remains, set the scoped work `DONE`, report actual proof, and **STOP**. Do not reopen it for small aesthetic preferences, one more audit, version churn, new agents, extra test infrastructure or open-ended polish. Do not turn a historical `Next` into authorization for a fresh task.
+
+**Reporting decision (not a new work mode):** STOP = completed scope with no actionable follow-up presented; CONTINUE = remaining authorized in-scope work; BLOCKED = currently requested work cannot proceed because a concrete permission/evidence/dependency gate is missing; PROPOSED = a separate future task recommended after a completed read-only audit or discussion, **not authorized for implementation**. A scoped audit may be `DONE` while the final user-facing label is PROPOSED. Never write "Next step — STOP" and then instruct the user to start another task. Keep the final label accurate without changing task authorization.
+
 
 If local/native checks are held in `CHATGPT_GITHUB`, do not keep coding or request localtest merely to obtain runtime PASS; state `SOURCE_COMMITTED / LOCAL_TEST_DEFERRED` where accurate and stop at the source boundary. Conversely, do **not** stop early while an essential source defect or affected consumer still blocks the authorized specification. If the user explicitly gives a **new goal**, begin a fresh scoped decision instead of silently extending the completed one.
 
