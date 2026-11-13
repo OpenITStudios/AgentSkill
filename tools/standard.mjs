@@ -229,6 +229,17 @@ async function validateSkillActivationPilot(evals) {
     'ACTIVATION PILOT: missing evaluation or safety protocol');
 }
 
+function ownedMarkdownSection(markdown, title) {
+  const lines = markdown.split(/\r?\n/);
+  const heading = '## ' + title;
+  const first = lines.indexOf(heading);
+  if (first < 0 || lines.indexOf(heading, first + 1) >= 0) return '';
+  let end = lines.findIndex((line, i) => i > first && /^## /.test(line));
+  if (end < 0) end = lines.length;
+  return lines.slice(first + 1, end).join('\n');
+}
+
+// L0 source guard: detects specific reversed policy directives, not arbitrary Markdown meaning.
 async function validateGoalStopAndGitHubReliability() {
   const [root, sop, toolContract, evidence, continuity] = await Promise.all([
     readFile(join(ROOT, 'AGENTS.md'), 'utf8'),
@@ -237,20 +248,33 @@ async function validateGoalStopAndGitHubReliability() {
     readFile(join(ROOT, '.agent-standard/core/evidence-and-recovery.md'), 'utf8'),
     readFile(join(ROOT, '.agent-standard/core/context-and-session-continuity.md'), 'utf8')
   ]);
-  ensure(root.includes('Keep the user goal fixed') && root.includes('optional polish') && root.includes('STOP'),
-    'GOAL STOP: missing root scope and terminal stop guidance');
-  ensure(sop.includes('## Goal lock, scope guard and terminal STOP') &&
-    ['REQUIRED_FOR_ACCEPTANCE','BLOCKER_OR_CONFLICT','OPTIONAL_OR_UNRELATED','DONE'].every(s => sop.includes(s)),
-    'GOAL STOP: missing required, blocked, optional or terminal classification');
-  ensure(toolContract.includes('## ChatGPT-GitHub operational preflight and commit reconciliation') &&
-    ['PARTIAL_SOURCE_CHANGE','UNKNOWN_OUTCOME','expected-SHA'].every(s => toolContract.includes(s)),
-    'GITHUB RELIABILITY: missing concurrency/partial/unknown-outcome contract');
-  ensure(evidence.includes('## Goal acceptance before STOP') &&
-    evidence.includes('Specification') && evidence.includes('Standards') && evidence.includes('DONE → STOP'),
-    'GOAL STOP: source acceptance and two-axis proof gate missing');
-  ensure(continuity.includes('## Keep the primary goal across long prompting') &&
-    continuity.includes('resurrect') && continuity.includes('DONE → STOP'),
-    'GOAL STOP: long-session goal continuity missing');
+  const work = ownedMarkdownSection(root, 'Work discipline');
+  const goalLine = work.split('\n').find(line => line.startsWith('- **Keep the user goal fixed:**')) || '';
+  ensure(goalLine.includes('optional polish') && goalLine.includes('**not** authorization for more work'),
+    'GOAL STOP: root must deny automatic scope expansion');
+  const goal = ownedMarkdownSection(sop, 'Goal lock, scope guard and terminal STOP');
+  const optionalLine = goal.split('\n').find(line => line.startsWith('- **OPTIONAL_OR_UNRELATED:**')) || '';
+  const terminalLine = goal.split('\n').find(line => line.startsWith('**Terminal STOP decision:**')) || '';
+  ensure(goal.includes('**REQUIRED_FOR_ACCEPTANCE:**') && goal.includes('**BLOCKER_OR_CONFLICT:**') &&
+    optionalLine.includes('**Do not implement or automatically queue them.**') &&
+    terminalLine.includes('set the scoped work `DONE`, report actual proof, and **STOP**'),
+    'GOAL STOP: missing required/blocked classification, optional prohibition or terminal decision');
+  const github = ownedMarkdownSection(toolContract, 'ChatGPT-GitHub operational preflight and commit reconciliation');
+  ensure(github.includes('PARTIAL_SOURCE_CHANGE') && github.includes('expected-SHA/fast-forward guard') &&
+    github.includes('UNKNOWN_OUTCOME') && github.includes('first inspect the actual remote branch/commit/file state'),
+    'GITHUB RELIABILITY: partial/unknown writes must require remote reconciliation');
+  const acceptance = ownedMarkdownSection(evidence, 'Goal acceptance before STOP');
+  ensure(acceptance.includes('**Specification**') && acceptance.includes('**Standards**') &&
+    acceptance.includes('**DONE → STOP**') && acceptance.includes('NOT_EXECUTED'),
+    'GOAL STOP: missing two-axis acceptance and honest proof ceiling');
+  const context = ownedMarkdownSection(continuity, 'Keep the primary goal across long prompting');
+  ensure(context.includes('DONE → STOP') &&
+    context.includes('Do not reclassify successive optional polish suggestions as mandatory work'),
+    'GOAL STOP: long context may not promote agent polish into user work');
+  const integrity = ownedMarkdownSection(evidence, 'Evidence integrity: observations, inferences and meaningful checks');
+  ensure(integrity.includes('OBSERVED') && integrity.includes('INFERRED') &&
+    integrity.includes('TEST_AUTHORED_NOT_RUN') && integrity.includes('negative control'),
+    'EVIDENCE INTEGRITY: missing observation, causality or negative-control boundary');
 }
 
 async function validateMethodRegistry(evals) {

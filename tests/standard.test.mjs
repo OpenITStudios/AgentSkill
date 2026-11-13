@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 230 normative cases validate', () => {
+test('canonical source, skill metadata and 236 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /230 normative cases/);
+  assert.match(r.stdout, /236 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -216,13 +216,43 @@ test('static validator detects loss of terminal goal-stop guard', async () => {
     await writeFile(file, current.replace('OPTIONAL_OR_UNRELATED', 'ALWAYS_CONTINUE_POLISH'));
     const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
     assert.notEqual(bad.status, 0);
-    assert.match(bad.stderr, /GOAL STOP: missing required, blocked, optional or terminal classification/);
+    assert.match(bad.stderr, /GOAL STOP: missing required\/blocked classification, optional prohibition or terminal decision/);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
 });
 
-test('offline package creates verifiable byte-identical bundle, and drift fails', async () {
+test('inverted optional-work directive is rejected despite preserved route labels', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-inverted-stop-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, '.agent-standard/core/execution-sop.md');
+    const original = await readFile(file, 'utf8');
+    assert.match(original, /Do not implement or automatically queue them/);
+    await writeFile(file, original.replace('Do not implement or automatically queue them.', 'Implement or automatically queue them.'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /GOAL STOP: missing required\/blocked classification, optional prohibition or terminal decision/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
+test('reversed unknown-GitHub-write recovery is rejected without deleting markers', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-inverted-recovery-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, '.agent-standard/core/tool-contracts-and-reliability.md');
+    const original = await readFile(file, 'utf8');
+    assert.match(original, /first inspect the actual remote branch\/commit\/file state/);
+    await writeFile(file, original.replace('first inspect the actual remote branch/commit/file state', 'skip inspecting the actual remote branch/commit/file state'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /GITHUB RELIABILITY: partial\/unknown writes must require remote reconciliation/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
+});
+
+test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {
   const parent = await mkdtemp(join(tmpdir(), 'oits-agent-standard-'));
   const target = join(parent, 'bundle');
   try {

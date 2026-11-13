@@ -19,6 +19,7 @@ A release version records a **meaningful approved milestone**, not every feature
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Author six normative evidence-integrity cases (GOV-231–GOV-236), two negative inversion tests, and repair one malformed test declaration; all tests NOT_EXECUTED.
 - Author 10 normative goal-closure/GitHub reliability cases (GOV-221–GOV-230) and two static regression-source tests; NOT_EXECUTED.
 - Author three regression tests for the frozen pilot selection, source restrictions and prohibition of invented results; NOT_EXECUTED.
 - Author 10 normative Skill activation cases (GOV-211–GOV-220) and three source regression tests; NOT_EXECUTED.

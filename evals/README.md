@@ -70,3 +70,7 @@ Ten additional **normative, not executed** cases cover selecting the right core 
 ## Frozen Skill activation evaluation (not executed)
 
 [Machine-readable pilot](skill-activation-pilot.json) reuses GOV-211–GOV-220 without duplicating them; [pilot and observation protocol](skill-activation-pilot.md) defines fair baseline/candidate comparison, host receipts, eligible FN/FP denominators, safety/integrity gates and blocked/unverified exclusions. **No real host test or metric has been measured.**
+
+## Evidence integrity and negative source inversion (GOV-231–GOV-236)
+
+Six normative, **not executed** cases distinguish observed source from inferred causes, disallow source-only runtime PASS, and preserve the origin of instructions through session recovery. Two negative regression-source tests preserve the route marker but reverse the operative STOP and GitHub recovery directive. Even when executed, this is a narrow L0 check; it does not certify arbitrary Markdown semantics or real agent behavior.
