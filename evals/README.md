@@ -78,3 +78,7 @@ Six normative, **not executed** cases distinguish observed source from inferred 
 ## Result-first communication and next-step integrity (GOV-237–GOV-242)
 
 Six additional **normative, not executed** scenarios cover clear actor/action/object sentences, scannable completed work, evidence limits, a visible final next step or terminal STOP, legitimate approval blockers, simple-answer abstention, and preservation of the user's language despite English source documentation. These cases are expected outcomes only; no user comprehension, host behavior or response-time study has been run.
+
+## Visual-first comprehension and readability (GOV-243–GOV-248)
+
+Six additional **normative, not executed** scenarios require the response format to match the information task: comparison tables, short directional process diagrams, charts only for sourced comparable numerical data, no visuals for simple facts, evidence-first audit tables and accessible text alternatives. These cases do not assert faster reading, successful rendering or improved host behavior. The communication rubric remains `NORMATIVE_NOT_MEASURED`.

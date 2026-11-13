@@ -20,14 +20,20 @@
     {
       "id": "visual_fit",
       "type": "quality",
-      "question": "Does the diagram/table help this request, or add work?",
-      "evidence": "Meaningful workflows get a clear start-to-end visual when useful; simple tasks do not."
+      "question": "Does the answer choose a table, flow diagram, numeric chart or no visual according to the reader's actual information task?",
+      "evidence": "Compares alternatives in aligned tables, presents processes as small directional flows, charts real numeric patterns only, and avoids decoration for simple answers."
     },
     {
       "id": "diagram_accuracy",
       "type": "hard_gate",
-      "question": "Are all diagram stages and arrows grounded and understandable?",
-      "evidence": "No invented transitions; one reading order and readable labels."
+      "question": "Do diagrams and numerical charts preserve real relationships, values, units and essential uncertainty?",
+      "evidence": "No invented transitions or chart values; decisions have labels, charts have scale/units/source and complex visuals retain a readable text explanation."
+    },
+    {
+      "id": "visual_scanability",
+      "type": "quality",
+      "question": "Can the user understand the main visual at a glance on a narrow or large screen?",
+      "evidence": "One main visual, descriptive headings, few comparable columns, readable labels/units, no color-only meaning, accessible text equivalent where appropriate."
     },
     {
       "id": "factual_integrity",
@@ -84,7 +90,11 @@
       "actor_action_object_identification",
       "completed_work_identification",
       "next_step_locatability",
-      "invented_followup_rate"
+      "invented_followup_rate",
+      "visual_selection_accuracy",
+      "time_to_identify_main_relationship",
+      "correct_value_or_relation_extraction",
+      "visual_misinterpretation_count"
     ],
     "safeguards": [
       "Blind review where possible",
@@ -93,7 +103,10 @@
       "Use the same factual source/evidence for both answer styles",
       "Any misleading claim or omitted critical limit is a hard failure",
       "Keep source documentation in clear English while user-facing replies follow the user's language",
-      "Do not require a report template or Next step heading for simple answers"
+      "Do not require a report template or Next step heading for simple answers",
+      "Never fabricate missing numbers or relationships to justify a visual",
+      "Provide meaningful text equivalents for informative graphics and charts",
+      "Do not force a chart or table when a short answer is clearer"
     ],
     "costNote": "Word count and reading time estimates are proxies; no reduction claim until actual comparable evidence exists."
   }

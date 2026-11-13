@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 242 normative cases validate', () => {
+test('canonical source, skill metadata and 248 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /242 normative cases/);
+  assert.match(r.stdout, /248 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -441,6 +441,37 @@ test('communication validator rejects an invented next-step directive', async ()
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
+});
+
+test('visual-first communication preserves chart evidence and no-visual abstention', async () => {
+  const [policy, examples, rubricText] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/user-facing-communication.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/examples/user-facing-answer-patterns.md'), 'utf8'),
+    readFile(join(ROOT, 'evals/communication-rubric.json'), 'utf8')
+  ]);
+  assert.match(policy, /Visual-first selection — match the information structure/);
+  assert.match(policy, /Do not invent numbers simply to produce a graph/);
+  assert.match(policy, /correct visual choice may be \*\*none\*\*/);
+  assert.match(examples, /Visual-first examples — one view per information task/);
+  const rubric = JSON.parse(rubricText);
+  assert.equal(rubric.status, 'NORMATIVE_NOT_MEASURED');
+  assert.ok(rubric.dimensions.some(d => d.id === 'visual_scanability' && d.type === 'quality'));
+});
+
+test('visual guidance validator rejects fabricated-chart permission with heading intact', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-visual-guidance-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const path = join(snapshot, '.agent-standard/core/user-facing-communication.md');
+    const policy = await readFile(path, 'utf8');
+    const directive = 'Do not invent numbers simply to produce a graph';
+    assert.ok(policy.includes(directive));
+    await writeFile(path, policy.replace(directive, 'Invent numbers simply to produce a graph'));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /COMMUNICATION VISUAL: missing appropriate-format, data-integrity or readability guidance/);
+  } finally { await rm(parent, { recursive: true, force: true }); }
 });
 
 test('method registry remains pinned and preserves one Karpathy/Ponytail default pass', async () => {

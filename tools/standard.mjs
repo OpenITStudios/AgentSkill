@@ -398,6 +398,14 @@ async function validateCanonical() {
     reportRules.includes('**"Next step: None — STOP."**') &&
     reportRules.includes('not a mandatory report template'),
     'COMMUNICATION FORMAT: material update or justified next-step contract missing');
+  const visualRules = ownedMarkdownSection(communication, 'Visual-first selection — match the information structure');
+  ensure(visualRules.includes('**one primary representation**') &&
+    visualRules.includes('**Compact comparison table**') &&
+    visualRules.includes('**Data chart**') &&
+    visualRules.includes('Do not invent numbers simply to produce a graph') &&
+    visualRules.includes('**short text equivalent**') &&
+    visualRules.includes('The correct visual choice may be **none**'),
+    'COMMUNICATION VISUAL: missing appropriate-format, data-integrity or readability guidance');
   const rubric = await readJson('evals/communication-rubric.json');
   ensure(rubric && rubric.schemaVersion === 1 && rubric.status === 'NORMATIVE_NOT_MEASURED' && rubric.standardPath === communicationPath, 'invalid communication rubric identity');
   ensure(Array.isArray(rubric.dimensions) && rubric.dimensions.length >= 6, 'insufficient communication quality dimensions');
@@ -408,6 +416,8 @@ async function validateCanonical() {
     ensure(['hard_gate','quality'].includes(dimension.type) && typeof dimension.question === 'string' && dimension.question.length > 10 && typeof dimension.evidence === 'string' && dimension.evidence.length > 10, 'invalid communication rubric criteria');
   }
 
+  ensure(rubric.dimensions.some(d => d.id === 'visual_scanability' && d.type === 'quality'),
+    'COMMUNICATION VISUAL: missing readability rubric');
   const mandatoryCommunicationDimensions = new Map([
     ['actor_action_clarity', 'quality'],
     ['completed_work_visibility', 'quality'],
