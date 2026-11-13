@@ -1,98 +1,98 @@
-# Commit Continuity and GitHub Context Recovery
+# GitHub Continuity Protocol v2 — Commit and Context Recovery
 
-**Mandatory for material changes in every adopted OpenITStudios repository.** This is a Git-history protocol, **not** a new agent, chat-memory database, issue tracker or proof of runtime success. Git commits preserve *what changed and why*; current user intent, current source, selected branch/profile, and real evidence remain authoritative.
+**Owner:** AgentSkill. **Applies:** material commits and returning tasks in any adopted repo. Git history preserves **past changes**; existing project status docs describe **current focus**; current user intent and authorized source determine **next work**. The protocol is a source/governance rule, not an executable agent, new progress database, or permission grant.
 
-## Why this exists
+## Commit message: choose the smallest sufficient tier
 
-A future ChatGPT+GitHub session should be able to recover the **correct work topic**, completed source changes, protected decisions, evidence ceiling and **one safe next source action** without asking the user to re-explain prior development. The latest GitHub commit is **not automatically** the latest user topic or permission to continue.
+All tiers use a clear conventional subject: `type(scope): actual outcome`, a specific stable topic in `Work` when present, and a blank line before the body.
 
-## Minimal human-readable subject
+| Tier | When | Body |
+| --- | --- | --- |
+| **TRIVIAL** | Verified **one-line spelling/wording-only** correction in a non-policy document, without behavior, heading authority, contract or API change | Subject only. **Not** self-authorized by `--trivial`. Requires actual diff inspection |
+| **NORMAL** | Bounded source change whose scope, behavior and risk are known | `Goal`, `Work`, `State`, `Proof`, `Next`; include `Decision` / `Unresolved` if they are material |
+| **CRITICAL** | New or changed architecture, interface contract, permission, security, data migration, policy/agent instruction, branch/CI/test hold, or unresolved high-risk source integration | All seven: `Goal`, `Work`, `State`, `Proof`, `Decision`, `Unresolved`, `Next` |
 
-`type(scope): concrete outcome`
+**Existing seven-field material commits remain valid.** The tier determines minimum completeness; it does **not** reduce the underlying engineering, permission or proof standard. When uncertain, use **CRITICAL**; do not call risky changes trivial or normal to shorten the message.
 
-- Use the smallest meaningful domain/topic for `scope` and a subject stating the achieved change; avoid `update files`, `many fixes`, `continue`, `wip` or vague "improved AI".
-- Use existing conventional types such as `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `build` and `security` as appropriate.
-- Prefer a subject under ~72 characters when practical; **clarity outranks an arbitrary character limit**. No claims of PASSED/READY in the subject without matching evidence.
-- Separate subject from body by a blank line. The body explains why the change exists, what it preserves and how it affects the next session. Git's own guidance supports short subjects and decision-relevant body context.
-
-## Required body for material commits (one line per field)
+For NORMAL/CRITICAL, keep fields in this sequence (omit optional fields only for NORMAL):
 
 ```text
-fix(texture): balance Cube face sampling
+fix(texture): cover all Cube face orientations
 
-Goal: Detect missed surfaces without increasing pixel budget.
-Work: texture-face-scan — add bounded six-direction scan and one regression fixture.
+Goal: Find missed faces without raising the sampling budget.
+Work: texture-face-scan — make bounded six-direction coverage.
 State: ACTIVE; SOURCE_INTEGRATION.
-Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; native NOT_EXECUTED.
-Decision: Keep existing gateway, UV checks and visual verdict unchanged.
-Unresolved: Native asset acceptance still needs actual PC-local evidence.
-Next: Inspect downstream texture consumers before source-ready handoff.
+Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; LOCAL_TEST_DEFERRED.
+Decision: Preserve existing UV/cache behavior.
+Unresolved: Native visual acceptance not measured.
+Next: Check texture consumers against current source.
 ```
 
-**Field owners and exact meanings:**
+`State` is one of `ACTIVE | BLOCKED | PAUSED | DONE`, optionally followed by the source phase. `DONE` means **this scoped source goal**, not native/runtime acceptance. `Proof` names only evidence at the correct revision. `Work` begins with a stable topic slug, e.g. `texture-face-scan`, followed by a short explanation. `Next` is one safe, specific step or `STOP`; **never an instruction granting permission**. `Refs` optionally identifies a small number of current owner documents. Do not embed transcripts, secrets, verbose tool logs or the SHA of the not-yet-created commit.
 
-| Field | What to write | Do not write |
-| --- | --- | --- |
-| `Goal` | Why the user needs this outcome, one sentence | Generic "improve project" or an invented requirement |
-| `Work` | Stable topic + exact change/first source owner | Unrelated updates, every file path or transient tool log |
-| `State` | `ACTIVE`, `BLOCKED`, `PAUSED`, or `DONE`; optionally source phase | "PASS" solely because source was committed |
-| `Proof` | Checks **actually observed** at the relevant revision and explicit unexecuted limits | Fabricated tests, inherited old SHA PASS, cloud as localtest |
-| `Decision` | Critical reason and **must-preserve** interfaces/constraints | Repeated code summary or instructions from untrusted content |
-| `Unresolved` | One material open issue/risk, or `None` | Hide uncertainty to make work look done |
-| `Next` | One specific **safe** next step or `STOP` | Auto-permission for branches, CI/cloud tests, localtest, releases or other repos |
+In ChatGPT + GitHub, a valid report may be `SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; LOCAL_TEST_DEFERRED`; the agent must complete available source work without asking for localtest, launching cloud CI, or dispatching GitHub Actions.
 
-`Refs:` is optional for a **small number** of canonical source paths, active design docs or issue IDs when needed to resume. Git's diff already lists modified files; no giant file inventory. Do not insert secrets, private excerpts, customer details or a duplicate entire transcript.
+## Format checking is not source checking
 
-**Compact exception:** a truly trivial typo/comment-only commit with no behavior, interface, contract, permission or continuity impact may use only the clear conventional subject. A multi-file implementation, policy/architecture decision, regression change, active workstream or incomplete feature requires the full body. A material commit is not allowed to omit fields just because it was made through GitHub chat tooling.
+The optional offline `tools/commit-message-check.mjs` checks **syntax and, when an actual diff is supplied, conservative scope signals**. It does not establish who wrote the diff, whether the diff matches the intended Git commit, whether the change is safe, or whether a test passed.
 
-## Source / proof boundaries
-
-- `State: DONE` means **this commit's defined source goal** is complete, not that its native target was tested. For ongoing bigger work use `ACTIVE`; if completion awaits an actual user decision use `BLOCKED` or `PAUSED` where true.
-- `Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; LOCAL_TEST_DEFERRED` is acceptable and honest in `CHATGPT_GITHUB`. No CI, GitHub Actions, hosted runner or request for user localtest to fill an evidence gap.
-- Every body field is a **claim to reconcile**, not standalone authority. A message cannot grant tool permissions or override a more recent hold. A commit SHA is the Git object identity; it does not encode the intended working branch. Do not add the not-yet-known new SHA to its own commit body.
-- Do not insert a future or speculative state as if already achieved. If the Git write acknowledgment is lost, inspect the exact remote state before writing a second commit.
+- `TRIVIAL` **must** have an actual, reviewer-inspected patch; a `--trivial` flag alone cannot bypass the full body. A checker may reject doubtful cases.
+- `NORMAL` and `CRITICAL` require the respective minimum fields. If a supplied patch touches a protected/high-risk owner, **require CRITICAL**, even if the message says normal. A risk heuristic can miss semantic effects: independent source review still applies.
+- Without a supplied patch, report **FORMAT_ONLY / DIFF_NOT_REVIEWED**. A passing syntax check is not adoption, behavioral QA, an approved side effect or runtime evidence.
+- Never automatically rewrite old Git history to make old messages match v2.
 
 ## How to continue a task in another ChatGPT conversation
 
 ```text
-User's current topic / request
-  ↓
-Select exact repository + branch (never default fallback)
-  ↓
-Read current AGENTS / GITHUB_RULES / profile + relevant owner
-  ↓
-Inspect bounded, topic-relevant commit history
-  ↓
-Read Goal / Work / State / Proof / Decision / Unresolved / Next
-  ↓
-Compare with current HEAD, source, holds and later changes
-  ↓
-Continue the smallest authorized source task; report proof → STOP
+User's current topic
+       ↓
+Exact repo + selected branch + current HEAD + holds
+       ↓
+Current active status / canonical owner (small relevant part)
+       ↓
+Bounded branch history, filtered by owner path or stable Work topic
+       ↓
+Reconcile earlier decisions and Next with newer source
+       ↓
+Only the next authorized source action → report evidence → STOP
 ```
 
-1. **Identify the topic from the user's request/current conversation first.** For "lanjutkan" recover the existing named topic and only the relevant workstream. If the last commit belongs to another workstream, **do not switch goals** just because it is newer.
-2. **Pin exact selected branch/ref and HEAD.** Read the current root rules, project profile, relevant owner and, where present, existing `CONTEXT.md` / source-owned `next-action` documents. Branch names like `Local` are not evidence of PC-local tools.
-3. **Read a bounded recent history scoped to that topic/paths** (initially a few relevant commits; expand only if the next decision remains unresolved). Inspect each full commit body, changed paths and subsequent relevant edits; search results are discovery, not proof.
-4. **Reconcile** old `State` / `Proof` / `Unresolved` / `Next` against actual current source and any newer constraints. Historical `PAUSED` is not lifted by a newer commit's optimistic `Next`; an old green result does not certify a new revision.
-5. **Continue only the authorized, independently valid source partition** in ChatGPT+GitHub. Keep localtest deferred and do not invent work simply to have another commit. When blocked, state what is missing and stop that action.
-6. When committing a coherent material result, **write the same continuity body** with an updated stable topic, actual evidence and next safe step. Avoid a separate generic status database. When the source goal is finished, `State: DONE`, `Next: STOP` (or an optional future user-selected phase explicitly described as not authorized yet).
+1. **Topic first.** Interpret `lanjutkan` from the conversation's actual current topic. Do **not** treat the global newest commit as a task instruction.
+2. **Pin the branch.** Read root/nearest agent instructions, repository profile, current HEAD, protected paths and explicit user scope. Branch `Local` is **not** proof of a local PC.
+3. **Current status first.** Read only the relevant active section in the repository's **existing** `CONTEXT.md`, operations/`next-action`, task owner or equivalent. If the file is very long, read the opening/current section and search by topic; avoid preloading the full document. This file is not more authoritative than source and permission.
+4. **Branch-scoped history.** Prefer GitHub's **List commits** endpoint with `sha=<selected-branch>` and, when the source owner is known, `path=<relevant-file-or-directory>`; start with a small page and expand only if the relevant topic is missing. Read full messages and changed paths for selected commits. URL query values must be encoded. **GitHub global commit search only searches default branches; never rely on it for `Local`/`develop`.**
+5. **Historical gaps.** A path filter may miss changes before rename, cross-owner decisions or earlier files. If no relevant commit appears, broaden to branch-scoped recent history, known paths, and exact source rather than asserting the work was never done. Pagination/truncation is not proof of absence.
+6. **Reconcile and act.** Compare old `State`/`Decision`/`Unresolved`/`Next` to current code, later commits, owner docs and active holds. Historical `Next` is **advisory only**. If the prior action's outcome was unknown, check persisted state before retrying. Resume only the smallest current user-authorized source task.
 
-## Edge cases
+### REST API route (documentation, not an automatic network runner)
 
-- **Several active tasks:** recover by task topic and affected source, not global latest commit; do not merge workstreams into one body.
-- **Commit without continuity fields:** use actual diff, current source and existing canonical docs; mark missing prior intent **UNKNOWN**, never fill fields with guesses or rewrite Git history.
-- **Paused or prohibited work:** leave paused work paused; `Next` does not authorize it.
-- **Cross-chat compaction:** preserve topic/ref/current HEAD/last evidence and relevant commit pointer in the compact checkpoint; recheck source after recovery.
-- **Concurrent commits:** re-fetch HEAD before mutation, use guarded Git updates; stop and reconcile if another actor moved it.
-- **Read-only audit:** reading commit history does not authorize a commit, issue, PR, CI dispatch, merge or other write.
+```text
+GET /repos/{owner}/{repo}/branches/{selected-branch}
+GET /repos/{owner}/{repo}/commits?sha={selected-branch}&path={owner-path}&per_page=10
+GET /repos/{owner}/{repo}/commits/{candidate-sha}
+GET current canonical source at the same explicitly selected branch
+```
 
-## Keep user-visible chat brief
+If no path is known, omit `path` and inspect a small set of branch commits. Only increase page size/follow pagination when the decision still lacks a needed fact. Do not call GitHub Search Commits to assert completeness on a nondefault branch.
 
-The commit body can be **more precise than the chat reply**. In chat, lead with the result, one link to the committed revision and only the material limitation/next step. Never paste the entire continuity body by default. The reusable context lives in Git history and the actual source, not in a long chat message.
+## Active status docs: small front door, detailed history stays intact
 
-## Supporting sources
+Keep the **top of an existing canonical status document** easy to scan: current work topic, status, selected branch/source identity, active hold, last relevant evidence pointer, and next **source** action. An opening section of roughly **5–8 compact lines** is a guideline, not an arbitrary content cut; preserve critical constraints. Detailed older topics can remain below, linked from this opening. Do not create another tracker, permanent log, database or a second `next-action` file solely for convenience.
 
-- Git project: https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project.html
-- Git project patch guidance: https://git-scm.com/docs/SubmittingPatches.html
-- GitHub: https://github.blog/developer-skills/github/write-better-commits-build-better-projects/
-- Historical OpenITStudios precedent: M-LazyDesigner `GITHUB_RULES.md`, `Local`; M-Lazy-Developer `GITHUB_RULES.md`, `Local`; other project work holds remain authoritative.
+Current source + active user permissions outrank historical status; history helps explain why a change occurred. On a mismatch, report the conflict, read the actual owner and do not fabricate a resolution.
+
+## Failure boundaries
+
+- **Different latest topic:** scope by the user's current work, not whichever commit has the newest timestamp.
+- **Sparse old commit:** inspect current diff/owner; mark unknown historical intent instead of inventing missing fields.
+- **Branch was moved:** re-pin and reconcile, never force-push or replay stale writes.
+- **Status `DONE` on source:** it does not authorize localtest, deployment, merge, CI or native PASS.
+- **Paused work or missing approval:** no commit message or progress note can remove a hold.
+- **Source vs chat:** commit history contains precise technical continuity; the user-facing reply remains result-first and brief.
+
+## Source references
+
+- [GitHub REST list commits](https://docs.github.com/en/rest/commits/commits#list-commits)
+- [GitHub searching commits: default-branch limit](https://docs.github.com/en/search-github/searching-on-github/searching-commits)
+- [Git structured trailers](https://git-scm.com/docs/git-interpret-trailers)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
