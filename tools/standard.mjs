@@ -237,7 +237,7 @@ async function validateGoalStopAndGitHubReliability() {
     readFile(join(ROOT, '.agent-standard/core/evidence-and-recovery.md'), 'utf8'),
     readFile(join(ROOT, '.agent-standard/core/context-and-session-continuity.md'), 'utf8')
   ]);
-  ensure(root.includes('Keep the user goal fixed') && root.includes('OPTIONAL') && root.includes('STOP'),
+  ensure(root.includes('Keep the user goal fixed') && root.includes('optional polish') && root.includes('STOP'),
     'GOAL STOP: missing root scope and terminal stop guidance');
   ensure(sop.includes('## Goal lock, scope guard and terminal STOP') &&
     ['REQUIRED_FOR_ACCEPTANCE','BLOCKER_OR_CONFLICT','OPTIONAL_OR_UNRELATED','DONE'].every(s => sop.includes(s)),
