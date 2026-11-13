@@ -18,6 +18,14 @@ Choose the path for your task. Reading these files does not authorize changes to
 
 For source work, identify the selected repository, branch, exact HEAD, and requested outcome. Read the applicable rules and only the relevant owner documents. A GitHub URL or Skill source file does not prove that an agent host loaded those instructions.
 
+## Example: review AgentSkill source in ChatGPT
+
+With a GitHub connection available in ChatGPT, submit this **read-only** request:
+
+> Review OpenITStudios/AgentSkill on branch `main`. Pin the current HEAD and inspect `AGENTS.md`, `GITHUB_RULES.md`, `.agent-standard/profile.json`, `README.md`, and `package.json`. Check whether the commands described in the README match the source. Do not modify files, invoke tests, or dispatch CI. Report observed source facts, anything not verified, and a clear STOP decision.
+
+**Expected result:** a report identifying the observed branch/commit, relevant source findings, and honest limits such as `NOT_EXECUTED` for unrun tests. This prompt does not guarantee that a GitHub connection is installed, that a test passed, or that the model loaded repository rules automatically. For README changes, see the [source review workflow](docs/standards/repository-readme.md#review-workflow).
+
 ## What this repository contains
 
 - **Portable rules:** `AGENTS.md`, `GITHUB_RULES.md`, and `.agent-standard/core/` define shared governance and source-work boundaries.

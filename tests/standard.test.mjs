@@ -31,6 +31,8 @@ test('README standard documents source-grounded onboarding and package commands'
   assert.match(readme, /^# OpenITStudios AgentSkill/m);
   assert.match(readme, /## Start here/);
   assert.match(readme, /## Verification and evidence/);
+  assert.match(readme, /## Example: review AgentSkill source in ChatGPT/);
+  assert.match(readme, /docs\/standards\/repository-readme\.md#review-workflow/);
   assert.match(readme, /docs\/standards\/repository-readme\.md/);
   assert.match(standard, /## Claim verification and freshness/);
   assert.match(standard, /read-only by default/i);
@@ -58,6 +60,33 @@ test('README validator rejects a nonexistent local link and an invented command'
     const badCommand = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
     assert.notEqual(badCommand.status, 0);
     assert.match(badCommand.stderr, /README COMMANDS:/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('README validator rejects broken heading anchors and reference-style targets', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-readme-anchor-review-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, 'README.md');
+    const original = await readFile(file, 'utf8');
+    const good = 'docs/standards/repository-readme.md#review-workflow';
+    assert.ok(original.includes(good));
+    await writeFile(file, original.replace(good, 'docs/standards/repository-readme.md#missing-anchor'));
+    const anchor = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(anchor.status, 0);
+    assert.match(anchor.stderr, /README ANCHOR MISSING:/);
+
+    await writeFile(file, original + '\n[Read this][invalid-target]\n\n[invalid-target]: docs/standards/missing-target.md\n');
+    const reference = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(reference.status, 0);
+    assert.match(reference.stderr, /README LINK MISSING:/);
+
+    await writeFile(file, original + '\n```markdown\n[Illustrative link](docs/not-a-real-file.md)\n```\n');
+    const fenced = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.equal(fenced.status, 0, fenced.stderr);
   } finally {
     await rm(parent, { recursive: true, force: true });
   }

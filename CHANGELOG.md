@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Add a concrete read-only ChatGPT/GitHub review example and strengthen README source checks for package version, executable npm scripts, reference links and simple heading anchors without adding a Markdown engine or running held tests.
 - Establish a reader-first README quality standard; simplify AgentSkill's README, define safe adoption and source ownership, and author checks for missing local links and documented-command drift.
 - Put each material ChatGPT report's brief result on its heading line, including “Next step — STOP/CONTINUE”; synchronize policy, examples, Custom Instructions, rubric and authored static guards.
 - Make material ChatGPT updates use three brief scannable summaries (Current status, Explanation and final STOP/CONTINUE) while preserving detailed audits on request and minimal plain answers; synchronize the copy-ready account instructions.

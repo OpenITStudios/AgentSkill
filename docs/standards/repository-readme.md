@@ -40,7 +40,7 @@ Treat claims as statements to check, not as text to polish:
 ## Navigation and writing quality
 
 - Use a clear H1, descriptive headings, short active sentences, consistent terms, and meaningful link text. Write shared AgentSkill documents in clear English; respect a project's intended audience.
-- Prefer repository-relative links; check destination existence and relevant anchors when possible. A valid path does not prove current or correct content.
+- Prefer repository-relative links; check destination existence and relevant anchors when possible. A valid path does not prove current or correct content. GitHub supports multiple link forms and heading fragments; use the real Markdown destination rather than checking only that a filename appears.
 - Keep examples copyable, include required prerequisites and language identifiers, and distinguish sample output from observed output.
 - Add tables, diagrams, screenshots, badges, and contents lists only if they help a real reader task. Provide alt text or a text alternative where the visual carries information.
 - Avoid unqualified language such as “fully functional,” “always current,” “production ready,” or “tested” without matched evidence.
@@ -51,7 +51,7 @@ Treat claims as statements to check, not as text to polish:
 2. **Find readers and source owners:** identify the main reader task, real entrypoint, toolchain, active status, and policy owners. Preserve domain-specific documentation.
 3. **Check claims and consumers:** compare product descriptions, commands, limitations, current status, and links against actual source. Do not infer runtime behavior.
 4. **Write a useful entry:** present purpose and first action before long internal history. Link deeper procedures rather than deleting important detail or duplicating ownership.
-5. **Review with proportionate evidence:** inspect relative-link targets and documented commands. Static checks establish only their stated coverage; authored but unrun tests remain `TEST_AUTHORED_NOT_RUN`.
+5. **Review with proportionate evidence:** inspect relative-link targets, applicable heading anchors, and executable command definitions. AgentSkill's lightweight source guard covers ordinary inline/full/collapsed reference links, simple GitHub-style Markdown heading anchors, and fenced `npm run`/`npm test` commands. It is not a complete GitHub Flavored Markdown parser or an external-URL checker; complex syntax and content accuracy still need review. Static checks establish only stated coverage; authored but unrun tests remain `TEST_AUTHORED_NOT_RUN`.
 6. **STOP:** record the source revision, changed scope, observed proof, and material limitations. Do not begin cross-repository rewrites or indefinite polishing.
 
 **Revisit the README when a reader-facing contract changes:** identity, supported behavior, setup, entrypoint, CLI command, permissions, data boundary, or source/acceptance claim. An unrelated internal refactor does not automatically require a README rewrite.

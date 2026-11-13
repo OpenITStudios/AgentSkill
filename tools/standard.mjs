@@ -357,29 +357,118 @@ async function validateMethodRegistry(evals) {
   ensure(procedure.includes('.agent-standard/methods.json') && procedure.includes('Karpathy + Ponytail'), 'METHOD REGISTRY: source owner not linked');
 }
 
+function readmeProseOutsideFences(markdown) {
+  const visible = [];
+  let fence = null;
+  for (const line of markdown.split(/\r?\n/)) {
+    const match = line.match(/^\s{0,3}(\x60{3,}|~{3,})/);
+    if (match) {
+      if (fence === null) fence = match[1];
+      else if (match[1][0] === fence[0] && match[1].length >= fence.length) fence = null;
+      continue;
+    }
+    if (fence === null) visible.push(line);
+  }
+  return visible.join('\n');
+}
+
+function readmeLinkDestinations(readme) {
+  const prose = readmeProseOutsideFences(readme);
+  const definitions = new Map();
+  const normalize = label => label.trim().replace(/\s+/g, ' ').toLowerCase();
+  const definition = /^\s{0,3}\[([^\]\n]+)\]:\s*(?:<([^>\n]+)>|([^\s\n]+))/gm;
+  for (const match of prose.matchAll(definition)) {
+    const label = normalize(match[1]);
+    if (!definitions.has(label)) definitions.set(label, match[2] || match[3]);
+  }
+  const content = prose.replace(definition, '');
+  const destinations = [];
+  for (const match of content.matchAll(/!?\[[^\]\n]+\]\((<[^>\n]+>|[^\s)\n]+)(?:\s+["'][^"']*["'])?\)/g)) {
+    const raw = match[1];
+    destinations.push(raw.startsWith('<') ? raw.slice(1, -1) : raw);
+  }
+  // Full and collapsed reference links; complex or shortcut Markdown is not certified.
+  for (const match of content.matchAll(/!?\[([^\]\n]+)\]\[([^\]\n]*)\]/g)) {
+    const label = normalize(match[2] || match[1]);
+    ensure(definitions.has(label), 'README REFERENCE UNRESOLVED: ' + label);
+    destinations.push(definitions.get(label));
+  }
+  return destinations;
+}
+
+function readmeHeadingAnchors(markdown) {
+  const anchors = new Set();
+  const duplicates = new Map();
+  const prose = readmeProseOutsideFences(markdown);
+  for (const line of prose.split('\n')) {
+    const heading = line.match(/^\s{0,3}#{1,6}\s+(.+?)\s*#*\s*$/);
+    if (!heading) continue;
+    const clean = heading[1].replace(/<[^>]*>/g, '').replace(/[\x60*_~]/g, '').toLowerCase().trim();
+    const slug = clean.replace(/[^\p{L}\p{N}_ -]/gu, '').replace(/ /g, '-');
+    if (!slug) continue;
+    const suffix = duplicates.get(slug) || 0;
+    anchors.add(suffix === 0 ? slug : slug + '-' + suffix);
+    duplicates.set(slug, suffix + 1);
+  }
+  for (const match of prose.matchAll(/<a\s+(?:name|id)=["']([^"']+)["'][^>]*>/gi)) {
+    anchors.add(match[1]);
+  }
+  return anchors;
+}
+
 async function validateRepositoryReadme() {
   const readme = await readFile(join(ROOT, 'README.md'), 'utf8');
   const standard = await readFile(join(ROOT, 'docs/standards/repository-readme.md'), 'utf8');
   const pkg = await readJson('package.json');
   ensure(readme.startsWith('# OpenITStudios AgentSkill\n') &&
-    readme.includes('## Start here') && readme.includes('## Verification and evidence') &&
+    readme.includes('## Start here') &&
+    readme.includes('## Example: review AgentSkill source in ChatGPT') &&
+    readme.includes('## Verification and evidence') &&
     readme.includes('docs/standards/repository-readme.md') &&
     standard.includes('## Claim verification and freshness') &&
     standard.includes('## Review workflow'),
-    'README CONTRACT: entry or quality standard missing');
-  ensure(readme.includes(pkg.version) &&
-    pkg.scripts?.check === 'node tools/standard.mjs validate' &&
-    pkg.scripts?.test === 'node --test tests/standard.test.mjs tests/commit-snapshot.test.mjs' &&
-    readme.includes('npm run check') && readme.includes('npm test'),
-    'README COMMANDS: version or documented scripts differ from package.json');
-  // Bounded path-presence check only; not an anchor, content, or runtime audit.
-  for (const [, href] of readme.matchAll(/\]\(([^)]+)\)/g)) {
-    if (/^(?:https?:\/\/|mailto:|#)/i.test(href)) continue;
-    const local = decodeURIComponent(href.split('#')[0].split('?')[0]).replace(/^\.\//, '');
-    if (!local) continue;
+    'README CONTRACT: entry, workflow example or quality standard missing');
+
+  const status = readme.match(/^\*\*Status:\*\*\s*\x60([^\x60]+)\x60/m);
+  ensure(status && status[1] === pkg.version, 'README VERSION: current status differs from package.json');
+
+  // Only check simple npm commands in shell fences, not incidental words in prose.
+  const commands = [];
+  for (const block of readme.matchAll(/^\s{0,3}\x60{3}(?:bash|sh|shell)\s*\n([\s\S]*?)^\s{0,3}\x60{3}\s*$/gm)) {
+    for (const line of block[1].split(/\r?\n/)) {
+      const command = line.trim();
+      if (/^npm\s+(?:run\s+|test(?:\s|$))/.test(command)) commands.push(command);
+    }
+  }
+  ensure(commands.includes('npm run check') && commands.includes('npm test'),
+    'README COMMANDS: documented check/test commands must be in shell fences');
+  for (const command of commands) {
+    const run = command.match(/^npm\s+run\s+([a-zA-Z0-9:_-]+)$/);
+    const script = run ? run[1] : command === 'npm test' ? 'test' : null;
+    ensure(script !== null && typeof pkg.scripts?.[script] === 'string',
+      'README COMMANDS: unsupported or undeclared npm command: ' + command);
+  }
+
+  // Current root README: ordinary inline/full/collapsed links and simple heading fragments.
+  // This does not validate remote URLs, arbitrary HTML, or every GFM link form.
+  for (const destination of readmeLinkDestinations(readme)) {
+    if (/^(?:https?:\/\/|mailto:|\/\/)/i.test(destination)) continue;
+    ensure(!/^[a-z][a-z0-9+.-]*:/i.test(destination),
+      'README LINK SCHEME UNSUPPORTED: ' + destination);
+    const [beforeFragment, encodedFragment] = destination.split('#', 2);
+    const rawPath = beforeFragment.split('?')[0];
+    const unescaped = decodeURIComponent(rawPath);
+    const local = unescaped.replace(/^\.\//, '').replace(/^\//, '') || 'README.md';
     const path = safeRelativePath(local);
-    ensure((await pathExists(join(ROOT, path))) !== null,
-      'README LINK MISSING: ' + path);
+    const state = await pathExists(join(ROOT, path));
+    ensure(state !== null, 'README LINK MISSING: ' + path);
+    if (!encodedFragment) continue;
+    ensure(state.isFile() && /\.md$/i.test(path),
+      'README ANCHOR UNSUPPORTED: ' + path);
+    const fragment = decodeURIComponent(encodedFragment);
+    const target = path === 'README.md' ? readme : await readFile(join(ROOT, path), 'utf8');
+    ensure(readmeHeadingAnchors(target).has(fragment),
+      'README ANCHOR MISSING: ' + path + '#' + fragment);
   }
 }
 
