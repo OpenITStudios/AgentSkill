@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Reconcile all 11 adopted `M-` repositories to the canonical startup instruction that explicitly loads the real project-local policy; verify branch ancestry, two-file scope and root/lock source identity, and document the source-only results without running held tests.
 - Make root startup explicitly load target-local `.agent-standard/project-policy.md` when present or required, before Skill routing or side effects; add two normative fail-closed cases and an authored source negative control. Preserve host-loading and test NOT_EXECUTED boundaries.
 - Document the authorized 11-repository `M-` source adoption in a privacy-safe dated aggregate audit. Reconcile README and adoption instructions without disclosing private repository metadata, changing a package version, or claiming effective host loading.
 - Align the static continuity validator with the current canonical owner path and unversioned document title; remove the stale `GitHub Continuity Protocol v2` text dependency. Authored tests remain NOT_EXECUTED under the hold.

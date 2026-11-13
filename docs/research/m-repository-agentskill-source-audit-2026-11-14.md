@@ -32,3 +32,16 @@
 5. This is a fixed **dated evidence snapshot**, not a second central operations ledger or monitoring service. Target commits and on-ref profiles remain authoritative for each project. Re-pin before later work.
 
 **Evidence ceiling:** GitHub source and object inspection only. No blanket behavioral parity, model benchmark, native QA, downstream installer, release, automated sync or automatic rollout is asserted.
+
+## Follow-up: mandatory local policy loading (2026-11-14)
+
+The initial adoption snapshot above refers to the original portable source `d726ee745a7b38bfadaff2a5475cd875f41d5bea`. A subsequent source-only correction closed a material startup ambiguity: the root `AGENTS.md` now expressly requires reading the actual target-local `.agent-standard/project-policy.md` before selecting a Skill or taking action. A profile note, archived prior root or source lock cannot substitute for the local policy's contents. Source SHA: `44ab44a981f5ad036643bd5df3bbfc5cd2402664`.
+
+**Observed target reconciliation:** all **11/11** previously adopted target repositories were updated on their respective authorized development branches. Each follow-up GitHub commit has the observed preceding branch HEAD as its parent; the only changed paths are `AGENTS.md` and `.agent-standard/standard.lock.json`. On all 11 targets:
+
+- Current branch HEAD agrees with the verified follow-up commit.
+- Updated root Git blob identity matches the canonical AgentSkill blob `5642d7fc99b71447d62ab4c3a99deed155b796c9`.
+- Lock `sourceCommit` is `44ab44a981f5ad036643bd5df3bbfc5cd2402664`; root SHA-256 entry is `ec1b33e8efefb156c020a735b6dd1d945c2fc7ace327152640d4d9076a03a18e`; all 24 portable paths remain declared.
+- This follow-up did not change the other 23 portable source files, project-owned Skills, local profiles, holds, CI configuration, product code or archived original root policies. Earlier Git-object identity checks for those unchanged files remain applicable at these descendant commits.
+
+**Current source conclusion:** `11/11 PORTABLE_SOURCE_PARITY_OBSERVED` at the revised canonical source SHA, with **`HOST_LOAD_NOT_VERIFIED`** and **`TEST_NOT_EXECUTED`**. The post-adoption edit and lock reconciliation are not model compliance, executed static tests, evidence of remote/cloud CI suppression, or native product acceptance. No installed host was driven or evaluated as part of this follow-up. This addendum is a fixed historical evidence receipt, not automatic future monitoring or a new registry.
