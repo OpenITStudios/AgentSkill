@@ -14,6 +14,8 @@ AgentSkill has **one product/release version**, currently `0.1.0-draft`. Do not 
 
 Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-communication.md). The evaluation rubric is [communication-rubric.json](evals/communication-rubric.json). Both are **source-level standards**; improvements in user reading time have not yet been measured.
 
+Copy-ready ChatGPT account instructions: [ChatGPT Custom Instructions](docs/templates/chatgpt-custom-instructions.md). This is documentation only and does not apply settings or replace current repository policy.
+
 ## GitHub commit continuity for ChatGPT
 
 **Write only what future work needs.** A trivial verified wording fix needs a clear subject; new normal changes use one `Surface` plus five continuity fields; high-risk changes keep `Surface` plus all seven. Older commits without `Surface` have no verified execution identity. `Goal / Work / State / Proof / Next` preserve a stable task topic and real proof limit. `Decision / Unresolved` remain mandatory when risk is critical.
