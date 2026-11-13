@@ -14,6 +14,14 @@
 
 When original project Skill and centralized method guidance overlap, keep the domain owner and preserve any stricter permissions or useful behavior. Treat the original maintainer's current source as research evidence to review, not automatically executable code. Verify provenance, exact ref and relevant path, license, negative triggers and host compatibility before proposing a change. When in doubt, preserve the existing asset and mark the conflict unresolved.
 
+## Original Skill identity and actual-use proof
+
+Do not claim an upstream Skill is "original and active" because `AGENTS.md`, a method registry or a remote `SKILL.md` refers to it. Follow `engineering-and-review-methods.md` provenance levels: first verify publisher-owned repository, exact source commit/path/blob and bundled dependencies; **separately** verify the actual target-host installed content, effective instruction loading, relevant tool capability and task execution. Preserve license/attribution obligations for any permitted copies.
+
+Original source `SKILL.md` alone may be incomplete: required reference files, datasets, Python scripts or MCP servers are distinct assets. A legitimate host-specific install from an official publisher may transform file paths; inspect its real output rather than guessing equivalence. Reworded internal instructions are an **adaptation**, not the unmodified publisher Skill. Do not assert an official install when a community mirror or similarly named repository is all that was inspected.
+
+If host filesystem or instruction traces are inaccessible in `CHATGPT_GITHUB`, report `SOURCE_ONLY` and `HOST_INSTALL_NOT_VERIFIED` honestly; do not demand localtest, trigger CI, run installers or silently replace an existing project Skill.
+
 ## Minimal skill contract
 1. YAML `name` and `description` with explicit scope.
 2. Positive trigger (when to load) and negative trigger (when **not** to load).

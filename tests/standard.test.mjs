@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 200 normative cases validate', () => {
+test('canonical source, skill metadata and 210 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /200 normative cases/);
+  assert.match(r.stdout, /210 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -56,6 +56,35 @@ test('categorized policy keeps method and shared Skill identities and pins upstr
   assert.deepEqual(methods.methods.map(x => x.id), ['karpathy-guidelines', 'ponytail', 'pstack-poteto', 'harness2', 'deepseek-harness', 'rea', 'ui-ux-pro-max', 'matt-pocock']);
   assert.equal(manifest.entries.filter(x => x.kind === 'skill').length, 3);
   assert.equal(manifest.version, '0.1.0-draft');
+});
+
+
+test('original upstream REA and UI UX references remain source-only and pinned', async () => {
+  const [registryText, policy, skillPolicy, report, manifestText] = await Promise.all([
+    readFile(join(ROOT, 'registry/methods.json'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/engineering-and-review-methods.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/skill-authoring.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/research/upstream-original-skill-authenticity-2026-11-13.md'), 'utf8'),
+    readFile(join(ROOT, 'registry/standard.manifest.json'), 'utf8')
+  ]);
+  const reg = JSON.parse(registryText), manifest = JSON.parse(manifestText);
+  for (const [id, repo, sha] of [
+    ['rea','morluto/rea','54906fdb1fc735b507961b2954f6968775cae4f6'],
+    ['ui-ux-pro-max','nextlevelbuilder/ui-ux-pro-max-skill','6ae86f61f520d6ca229d2f40e070410638c908c5']
+  ]) {
+    const m = reg.methods.find(x => x.id === id);
+    assert.equal(m.provenance.repository, repo);
+    assert.equal(m.provenance.revision, sha);
+    assert.equal(m.state, 'POLICY_ADAPTED_SOURCE_ONLY');
+    assert.equal(m.provenance.copyPolicy, 'REFERENCE_PATTERN_ONLY_REVIEW_LICENSE_BEFORE_COPY');
+  }
+  assert.match(policy, /REFERENCE_ONLY/);
+  assert.match(policy, /INSTALLED_SOURCE_VERIFIED/);
+  assert.match(policy, /HOST_LOAD_VERIFIED/);
+  assert.match(skillPolicy, /host filesystem or instruction traces are inaccessible/);
+  assert.match(report, /original repository/i);
+  assert.equal(manifest.version, '0.1.0-draft');
+  assert.equal(manifest.entries.filter(x => x.kind === 'skill').length, 3);
 });
 
 test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {

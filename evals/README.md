@@ -58,3 +58,7 @@ Twenty source-only normative cases cover adaptive depth, older targeted history,
 ## Non-destructive rule categories and upstream provenance (GOV-191–GOV-200)
 
 Ten additional **normative, not executed** scenarios cover preserving existing installed Skills/agents, method-versus-Skill ownership, selective upstream freshness, community attribution, relevant file/blob comparison, permission/injection resistance and no automatic version bump. They are not evidence of actual host conformance or continuous monitoring.
+
+## Original upstream Skill identity and effective host evidence (GOV-201–GOV-210)
+
+Ten additional **normative, not executed** cases distinguish reference-only methods from publisher-owned original source, authentic installed files, host-selected instruction paths, real MCP/CLI capability and task-use receipts. They also prevent false claims based on mirrored repositories, missing assets, transformed installers, newer instructions with older runtime servers, or a source-only GitHub session. No external original Skill was installed and no behavioral agent trial was executed.

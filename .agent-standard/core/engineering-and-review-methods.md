@@ -17,6 +17,28 @@ The eight registry methods are **reference-guided engineering approaches**. They
 
 A live upstream update check is a **conditional source-read step**, not a continuous background watcher. It does not demonstrate that the target host actually loaded the updated instructions. Maintain one authoritative local procedure owner and classify conflicts instead of installing a second method runner.
 
+## Original Skill authenticity — distinct from method guidance
+
+**Reference is not installation or execution.** A method adapted into `.agent-standard/methods.json` is `REFERENCE_ONLY`, even when its upstream repository and Skill have been verified. Do **not** describe the reference-only Karpathy, Ponytail, REA or UI UX Pro Max methods as "the original upstream Skill is installed/loaded/used".
+
+For any claim about an **original** third-party Skill, establish the appropriate separate evidence:
+
+| Evidence level | Required observation | What it does not establish |
+| --- | --- | --- |
+| `ORIGINAL_SOURCE_VERIFIED` | Publisher-owned original repository, exact commit, canonical Skill path, Git blob SHA, relevant references and license inspected | Installed or executed Skill |
+| `INSTALLED_SOURCE_VERIFIED` | On the actual selected host/target, inspect installed Skill path, content digest and required scripts/data; match an original source revision or an authenticated publisher-owned installer distribution | Effective instruction loading or tool access |
+| `HOST_LOAD_VERIFIED` | Actual host/version confirms the effective Skill path, precedence and activation on this task; no shadowing | External MCP/CLI/tool readiness |
+| `TOOL_READY_VERIFIED` | Required real tool/server, permissions, schemas and relevant dependencies observed available for the task | The tool was called or an outcome accepted |
+| `TASK_USE_VERIFIED` | Actual host execution trace and revision-matched output show selected Skill/tool procedure was used | Other platforms or unrelated task success |
+
+An official installer may transform generated host paths or templates. In that case record the **verified official installer/package revision and transformation receipt**; do not claim byte-for-byte source parity unless actual bytes match. If the file is copied from an unverified mirror, forked, partially summarized, missing required assets, or modified without explicit source mapping, classify it `ADAPTED_OR_UNVERIFIED`, not an installed upstream original. **Do not use source GitHub access as evidence of access to the user's PC.**
+
+**REA original:** `morluto/rea` owns `.agents/skills/reverse-engineer-anything/SKILL.md`. Installing instructions alone does not register REA MCP or native providers. Only actual server/tool discovery and target evidence can establish tool availability/use. The setup/CLI is a separate, explicitly authorized action.
+
+**UI UX Pro Max original:** `nextlevelbuilder/ui-ux-pro-max-skill` owns `.claude/skills/ui-ux-pro-max/SKILL.md` with required search script, data and references. A method summary or bare `SKILL.md` without its assets is not the complete skill. The project's `ui-ux-pro-max-cli` / `uipro init` or Claude Marketplace installation may generate host-specific destination paths; verify that installed output and actual loaded file instead of assuming the source path equals the host path.
+
+**On unavailable access:** label `REFERENCE_ONLY` / `ORIGINAL_SOURCE_VERIFIED` as supported, and the host installation/load/use as `NOT_VERIFIED`. Existing installed project Skills/agents are never removed or overwritten as part of source authentication; all installation, update or release actions remain separately authorized.
+
 ## Default for material source changes
 
 **Karpathy + Ponytail = ONE engineering pass**, not two agents or two rounds of review:

@@ -227,9 +227,9 @@
       },
       "provenance": {
         "repository": "morluto/rea",
-        "revision": "560674e2de851cec3f670be8297d28835009247a",
+        "revision": "54906fdb1fc735b507961b2954f6968775cae4f6",
         "reviewedPath": ".agents/skills/reverse-engineer-anything/SKILL.md",
-        "url": "https://github.com/morluto/rea/blob/560674e2de851cec3f670be8297d28835009247a/.agents/skills/reverse-engineer-anything/SKILL.md",
+        "url": "https://github.com/morluto/rea/blob/54906fdb1fc735b507961b2954f6968775cae4f6/.agents/skills/reverse-engineer-anything/SKILL.md",
         "copyPolicy": "REFERENCE_PATTERN_ONLY_REVIEW_LICENSE_BEFORE_COPY"
       }
     },
@@ -262,9 +262,9 @@
       },
       "provenance": {
         "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
-        "revision": "b7d5353e0130feb8c5574ef1251f8a1db1873ccb",
+        "revision": "6ae86f61f520d6ca229d2f40e070410638c908c5",
         "reviewedPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
-        "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/b7d5353e0130feb8c5574ef1251f8a1db1873ccb/.claude/skills/ui-ux-pro-max/SKILL.md",
+        "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/6ae86f61f520d6ca229d2f40e070410638c908c5/.claude/skills/ui-ux-pro-max/SKILL.md",
         "copyPolicy": "REFERENCE_PATTERN_ONLY_REVIEW_LICENSE_BEFORE_COPY"
       }
     },

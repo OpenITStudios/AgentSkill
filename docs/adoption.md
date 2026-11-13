@@ -6,6 +6,12 @@
 
 Move historical Karpathy, Ponytail, Pstack/Poteto, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock **general working principles** to the single byte-identical `.agent-standard/methods.json` and shared engineering procedure. Preserve local project skill taxonomy, source owner, workstream holds and actual tool permissions. Remove duplicated generic method blocks from older AGENTS only **after** their restrictions are mapped and adoption is explicitly authorized. Do not change existing project repositories as a side effect of maintaining AgentSkill.
 
+## Original upstream Skill acceptance (not automatic adoption)
+
+Distinguish centrally adapted method references from original installed Skills and effective host use. A `registry/methods.json` upstream URL/commit is **source provenance only**. To claim an original REA, UI UX Pro Max or other external Skill is installed in an authorized project, inspect the **actual target** Skill location, verify its content and required references/scripts/data against publisher-owned Git source or a reviewed publisher-owned installer manifest, preserve the license, and check host-specific selection precedence. To claim it ran, collect real host loaded-path/tool-call evidence at the selected revision. A GitHub-only inspection cannot satisfy these host steps.
+
+Do not copy a single original `SKILL.md` and call the full bundle installed when original operation requires additional assets or MCP tools. Preserve every already installed Skill/agent, nested AGENTS instructions, profile holds and existing data. Any installation/update is a **separate explicit per-repository action**; this central source audit authorizes none. Never execute a third-party installer to establish authenticity during ChatGPT/GitHub source review.
+
 ## GitHub continuity and context recovery adoption
 
 Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identically. New material commits use **NORMAL (five fields)** or **CRITICAL (seven fields)**; a **TRIVIAL** subject-only exception is allowed only after an actual safe single-word docs diff has been reviewed. Do not rewrite old history or delete its valid decisions.
