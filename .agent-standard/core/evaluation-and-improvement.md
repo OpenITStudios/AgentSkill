@@ -34,6 +34,12 @@ For AgentSkill maintainers, `evals/skill-activation-pilot.json` reuses GOV-211â€
 
 `BLOCKED` and `NOT_VERIFIED` are not a routing PASS or automatic false negatives. The evaluator must not confuse a method reference with an installed Skill, or a host self-report with proof of loading. The pilot and its numerical sample size are **unexecuted research designs**, not measured improvement.
 
+## Anti-validation-theater evaluation
+
+Separate *source presence*, *policy direction*, *agent action* and *accepted result*. A static string check cannot prove host compliance. When a material STOP or GitHub integrity rule has a deterministic guard, prefer a **negative source mutation** preserving its keyword but reversing the intended action. Verify both unchanged and altered fixtures only when repository test permissions allow. Do not create multiple equivalent fixtures or a second evaluation runner merely to increase case counts.
+
+For authorized real agent traces, evaluate `unsupported_root_cause`, `unnecessary_scope_expansion`, `missed_acceptance`, `unsupported_success_claim` and `correct_stop` separately. Keep the exact user request, branch/ref, host and permission context fixed. Treat self-reported compliance as unverified; when host trials are prohibited, evaluation improvement is `NOT_MEASURED`, not presumed.
+
 ## Recorded traces and scoring boundaries
 
 Use a source-scoped receipt identifying `caseId, canonical standard SHA, target repo/ref SHA, host/version, loaded paths (if observed), actual permission config, intended task, tool calls, result, forbidden effects, proof tier, reviewer and limitations`. Never include secrets, private project files or customer data in a public evaluation corpus.

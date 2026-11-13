@@ -5,6 +5,9 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Tighten source evidence with OBSERVED/INFERRED/UNKNOWN distinctions, negative validation controls and long-session goal provenance; record publisher-source research and repair one malformed test declaration.
+
+
 - Make the existing SOP enforce goal-scoped acceptance and terminal STOP; classify required corrections, material blockers and out-of-scope polish without adding agent runners or statuses.
 - Tighten ChatGPT-GitHub operational preflight, concurrent/partial/unknown writes, and truthful source-only acceptance evidence in existing owner modules.
 - Freeze a ten-case source-only Skill activation pilot with real-host receipts, separate false-negative/false-positive denominators and hard safety gates; no host run or new agent/runner.

@@ -32,6 +32,16 @@ The receipt is a reporting schema, not a command to create a separate status dat
 
 A completed source change may be `SOURCE_COMMITTED + NOT_EXECUTED`; that is a legitimate bounded result when execution is unavailable. Mark remaining evidence explicitly.
 
+## Evidence integrity: observations, inferences and meaningful checks
+
+For a **material source claim** retain the smallest decisive facts: `CLAIM | OBSERVED_SOURCE/RECEIPT | REVISION | COVERAGE | LIMIT`. Distinguish `OBSERVED` (actual GitHub/tool result), `INFERRED` (a plausible but not uniquely established explanation) and `UNKNOWN` (source/evidence unavailable). An assistant's assertion, commit message, passing text search or created test is not independent proof that the user's outcome works. Bounded known-owner fixes do not need a new report, database or ceremony.
+
+When the cause is non-obvious, compare expected versus observed behavior, name one plausible alternative, and inspect the **smallest discriminating source evidence** before calling a hypothesis the root cause. Inspect the first wrong owner and necessary affected consumers; avoid inventing a cross-system refactor on a guess. After mutation, re-read the exact branch HEAD/commit and changed owner before claiming `SOURCE_REVIEWED`; do not carry old evidence across materially changed revisions.
+
+**Validation of validation:** checking `includes("STOP")`, required headings or counts verifies structural presence **only**, not policy direction or model behavior. For an existing material static gate, author a *small negative control* that keeps the label but removes or inverts the operative prohibition; a useful validator should reject it **when executed**. Include the unchanged positive case where relevant. Avoid duplicate checks with no additional decision value. Never use text/regex checks as a security enforcement boundary.
+
+Under a test hold, an authored negative test is `TEST_AUTHORED_NOT_RUN`, not `EXECUTED_TEST_PASS`. Static source inspection can establish that the check was written; only a permitted actual execution can show it rejects the fixture. Host Skill selection, native behavior and prompt-injection resistance require separate observed evidence.
+
 ## Goal acceptance before STOP
 
 Check **two independent axes** against the user's scoped result: **Specification** (the requested behavior/output and affected consumers are complete) and **Standards** (branch/permissions, safety, compatibility, absence of material regressions and truthful proof). A clean diff, passing formatting check, large number of files changed, or apparent progress cannot substitute for the actual requested result.

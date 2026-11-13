@@ -51,6 +51,12 @@ An official installer may transform generated host paths or templates. In that c
 
 Skip the coding pass entirely for simple factual discussion, ordinary non-code writing or read-only status that does not need engineering design.
 
+## Evidence-led diagnosis without excessive process
+
+For nontrivial defects, record the observed mismatch and the matching source revision. Distinguish a hypothesis from verified root cause with one competing explanation and the **smallest decision-changing check**. If evidence is insufficient, label the cause `INFERRED` and limit changes to what the source justifies. Verify the required callers and invariants, not merely a clean-looking diff. For a simple known-owner correction, do **not** require a diagnosis document, extra review agent or repeated investigation.
+
+A correct engineering outcome must satisfy both the user's specification and the relevant preservation/security requirements at the available proof ceiling. Do not turn an optional concern into a new development round after acceptance is achieved.
+
 ## Conditional methods — one decision-changing trigger only
 
 The registry contains six optional approaches:
