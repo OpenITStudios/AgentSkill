@@ -2,22 +2,26 @@
 
 This index is a **selector**, not a new agent/router. Shared root `AGENTS.md` defines entry and current profile defines restrictions. Open only the module needed for a material decision. All modules are canonical **1:1 distribution files**.
 
-| Owner document | Trigger / question it answers | Load rule |
+## Responsibility categories — routing only
+
+Categories are a **navigation map**, not new agent instances, Skill files or competing policy authorities. Select the relevant category, then load only its canonical owner. Safety/permission and proof checks still apply when required.
+
+| Category | Canonical owner(s) | When relevant |
 | --- | --- | --- |
-| `user-facing-communication.md` | How to answer clearly, briefly and with a useful diagram when needed? | **mandatory for every user-facing answer; root carries the concise rule** |
-| `work-surfaces-and-phase-gates.md` | Are we working in ChatGPT+GitHub source-only, or actual local PC; is localtest admitted yet? | **required at the start of every repository-development session** |
-| `host-identification.md` | What client (ChatGPT/Claude Code/Codex/OpenCode), model and actual tool origin are present? | required for host transitions, local claims or conflicting evidence |
-| `execution-sop.md` | Which mode/stage and how to finish? | for multi-step work; skip full read for obvious bounded tasks |
-| `permission-and-security.md` | Is this particular side effect allowed? | **required before material mutation** or when permissions conflict |
-| `evidence-and-recovery.md` | What can be claimed, and how to recover? | when making completion claims, tests unavailable, or session interrupted |
-| `skill-authoring.md` | How to create/adapt a portable Skill safely? | only for Skill changes |
-| `decision-routing-and-ownership.md` | Which one owner/skill owns the result, and what must not activate? | if intent, owner or skill routing is non-trivial |
-| `context-and-session-continuity.md` | What to load, reuse, exclude and preserve through compaction? | on complex/long tasks or context recovery |
-| `engineering-and-review-methods.md` + `.agent-standard/methods.json` | Which Karpathy/Ponytail baseline checks and conditional methods really apply? | One default pass for source changes; **only load one relevant optional method** |
-| `commit-continuity-and-recovery.md` | Which commit tier applies and how to recover work on the selected branch? | required for material commits and branch/path-scoped task recovery |
-| `handoff-and-state.md` | How to transfer one specialist's facts to another without duplicate truth? | on cross-owner work, stage transition or UNKNOWN_OUTCOME |
-| `evaluation-and-improvement.md` | How to measure behavioral improvement against frozen baseline? | for agent rules, skill or harness quality work |
-| `tool-contracts-and-reliability.md` | How to diagnose tool capabilities, receipts, errors and retries? | for tool/session design, real side effects or unreliable execution |
+| **01 Code Engineering** | `engineering-and-review-methods.md` + `.agent-standard/methods.json` | Material code development or review; one Karpathy + Ponytail pass |
+| **02 Task Planning & Skill Routing** | `execution-sop.md`, `decision-routing-and-ownership.md`, `skill-authoring.md` | Work scope, primary owner, Skill activation or authoring |
+| **03 Tools & Execution Surface** | `work-surfaces-and-phase-gates.md`, `host-identification.md`, `tool-contracts-and-reliability.md` | GitHub/PC context, external tools, reliability or host transition |
+| **04 Security & Permissions** | `permission-and-security.md` | Every material side effect and authority conflict |
+| **05 Context & Continuity** | `context-and-session-continuity.md`, `commit-continuity-and-recovery.md`, `handoff-and-state.md` | Return to work, compaction, cross-owner handoff |
+| **06 Quality, Evidence & Evaluation** | `evidence-and-recovery.md`, `evaluation-and-improvement.md` | Completion claims, verification, agent behavior comparisons |
+| **07 Communication & Documentation** | `user-facing-communication.md` | Every response; concise rule is already in root `AGENTS.md` |
+| **08 Release & Adoption** | `GITHUB_RULES.md` + **local profile**; central `docs/adoption.md` | Only when release, publishing or project-specific standard adoption is authorized |
+
+**Always-loaded gates:** root rules, actual selected branch and target profile determine authority. Work-surface boundaries apply to repository development. The communication contract applies to every answer. Do not force all eight categories into a task.
+
+**Preservation rule:** Existing project Skills and agents—including any installed Karpathy/Ponytail Skills—remain owned by their original project. A portable `method` reference is not a replacement for an installed Skill. Inventory and preserve actual assets before any authorized change to a target repository.
+
+**Upstream rule:** The method registry records **reviewed, pinned source**. When a selected method requires current guidance, inspect that method's publisher and relevant file on the live upstream ref if accessible, compare with the pinned revision, and review changes before any adaptation. Do not fetch all eight sources for every task or claim stale references are current.
 
 ## Authority
 

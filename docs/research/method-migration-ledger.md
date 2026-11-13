@@ -29,3 +29,23 @@ Public source examples:
 For each authorized future project adoption, pin its working branch/HEAD and classify old clauses as **CORE**, **METHOD**, **DOMAIN**, **PROFILE/HOLD**, **HISTORY**, or **CONFLICT**. Shared core and methods distribute 1:1. Domain procedures, workstream pauses, private data and branch/CI/localtest policy remain local. Verify actual loaded instructions separately from source parity.
 
 No project repo has been migrated by this research-led method registry commit. External licenses must be reviewed before copying any upstream code or proprietary prompt text.
+
+## Upstream publisher/source freshness inventory — 2026-11-13
+
+**Read-only GitHub source observation.** This is research provenance, not evidence of installed/updated Skills or a blanket adoption. The pinned revisions in `registry/methods.json` remain the **last reviewed references**, not a promise that every latest upstream change was incorporated. Current HEADs were checked on the upstream's actual default branch.
+
+| Method | Upstream repository | Pinned revision | Observed HEAD | Relevant recorded path |
+| --- | --- | --- | --- | --- |
+| Karpathy Guidelines | `multica-ai/andrej-karpathy-skills` (**community adaptation**, not Andrej Karpathy's official project) | `2c606141` | `2c606141` | HEAD unchanged |
+| Ponytail | `dietrichgebert/ponytail` (project publisher) | `96608e07` | `96608e07` | HEAD unchanged |
+| Pstack / Poteto | `cursor/plugins` (Cursor publisher) | `2776ddd2` | `6e359ce0` | Reviewed guide blob unchanged |
+| Harness² | `google-research/harness2` (publisher) | `68688175` | `68688175` | HEAD unchanged |
+| DeepSeek Harness | `deepseek-ai/deepseek-harness` (publisher) | `fcc0ad46` | `e8f7b93a` | Reviewed README blob unchanged; **923** intervening commits, larger compare incomplete |
+| REA | `morluto/rea` (project publisher) | `560674e2` | `54906fdb` | Reviewed `SKILL.md` **changed**; semantic review required before adoption |
+| UI UX Pro Max | `nextlevelbuilder/ui-ux-pro-max-skill` (project publisher) | `b7d5353e` | `6ae86f61` | Reviewed `SKILL.md` **changed**; semantic review required |
+| Matt Pocock | `mattpocock/skills` (author repository) | `4ae2317d` | `5863806d` | Reviewed code-review Skill blob unchanged |
+
+**Limits:** A matching reviewed-file blob does not rule out related changes in other upstream files, dependencies or runtime behavior. The REA compare spanned 781 commits and exposed only the first 300 changed files; DeepSeek spanned 923 commits with a first-page 300-file limit. This table is a bounded spot check, not a complete review of all upstream changes. REA's changed description now includes Linux desktop app environments; UI UX Pro Max's description reflects 120 UX guidelines instead of 119. **No new source guidance was copied or accepted**, and no upstream update is installed in any downstream project.
+
+**Process:** Check only the method selected for the task; compare the exact owned source path and relevant dependencies against the pinned reference. Record what changed and why, preserve all local Skills/agents and restrictions, then propose the smallest useful adaptation. Do not mistake a source HEAD change for an instruction to update automatically.
+

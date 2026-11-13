@@ -8,6 +8,12 @@
 - A skill is a procedure, not a permission authority or new runtime/agent. The root rules and local project profile own routing and safety boundaries.
 - Keep one canonical owner per behavior. Do not add a second conductor/router, duplicate core skill name or shadowing `.opencode/skills` / `.claude/skills` ID.
 
+## Preservation during categorization and upstream research
+
+**Non-destructive by default:** categorizing Agent Rules, consolidating general methods, refreshing external references or packaging an AgentSkill bundle must **not remove, rename, disable, replace or silently shadow** existing project Skills, agents, their activation rules or native/domain procedures. This includes independently installed Karpathy, Ponytail and similarly named assets. Enumerate actual project Skills/agent directories and nested instructions before any separately authorized target migration; make a lossless owner/conflict mapping. A reference method in the central registry is **not** proof that a project's installed Skill was migrated.
+
+When original project Skill and centralized method guidance overlap, keep the domain owner and preserve any stricter permissions or useful behavior. Treat the original maintainer's current source as research evidence to review, not automatically executable code. Verify provenance, exact ref and relevant path, license, negative triggers and host compatibility before proposing a change. When in doubt, preserve the existing asset and mark the conflict unresolved.
+
 ## Minimal skill contract
 1. YAML `name` and `description` with explicit scope.
 2. Positive trigger (when to load) and negative trigger (when **not** to load).

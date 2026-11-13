@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 190 normative cases validate', () => {
+test('canonical source, skill metadata and 200 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /190 normative cases/);
+  assert.match(r.stdout, /200 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -35,6 +35,27 @@ test('context recovery is an unversioned policy and source version remains draft
   assert.match(rules, /## Version and release discipline/);
   assert.equal(JSON.parse(pkgText).version, '0.1.0-draft');
   assert.equal(JSON.parse(manifestText).version, '0.1.0-draft');
+});
+
+
+test('categorized policy keeps method and shared Skill identities and pins upstream sources', async () => {
+  const [index, engineering, skillPolicy, registryText, manifestText] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/INDEX.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/engineering-and-review-methods.md'), 'utf8'),
+    readFile(join(ROOT, '.agent-standard/core/skill-authoring.md'), 'utf8'),
+    readFile(join(ROOT, 'registry/methods.json'), 'utf8'),
+    readFile(join(ROOT, 'registry/standard.manifest.json'), 'utf8')
+  ]);
+  for (const category of ['Code Engineering', 'Task Planning', 'Tools & Execution', 'Security & Permissions', 'Context & Continuity', 'Quality, Evidence', 'Communication', 'Release & Adoption']) {
+    assert.ok(index.includes(category), 'missing category: ' + category);
+  }
+  assert.match(engineering, /upstream branch HEAD/i);
+  assert.match(skillPolicy, /not remove, rename, disable, replace or silently shadow/i);
+  const methods = JSON.parse(registryText);
+  const manifest = JSON.parse(manifestText);
+  assert.deepEqual(methods.methods.map(x => x.id), ['karpathy-guidelines', 'ponytail', 'pstack-poteto', 'harness2', 'deepseek-harness', 'rea', 'ui-ux-pro-max', 'matt-pocock']);
+  assert.equal(manifest.entries.filter(x => x.kind === 'skill').length, 3);
+  assert.equal(manifest.version, '0.1.0-draft');
 });
 
 test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {

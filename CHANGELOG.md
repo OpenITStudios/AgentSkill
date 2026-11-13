@@ -5,10 +5,13 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Group existing policies under eight responsibilities without creating new agents or deleting Skills; make original-publisher provenance and selective upstream freshness review mandatory for active methods.
+- Add non-destructive Skill/agent preservation and record current upstream source checks, with REA and UI UX Pro Max changes deferred pending semantic review.
 - Add adaptive workstream context recovery: cumulative 30/50/100 branch metadata, targeted older decisions, ref ancestry, supersession and completeness gates.
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Author 10 additional normative preservation/upstream cases (GOV-191–GOV-200) and source regression assertions; NOT_EXECUTED.
 - Author 20 normative recovery/release cases (GOV-171–GOV-190) and regression source; **not executed**. No host/native behavior or downstream adoption claimed.
 
 ## [0.1.0-draft] — 2026-11-13

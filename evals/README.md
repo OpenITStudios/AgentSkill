@@ -54,3 +54,7 @@ The source-backed pilot examines actual selected branch snapshots, topic-specifi
 ## Adaptive workstream recovery and release discipline (GOV-171–GOV-190)
 
 Twenty source-only normative cases cover adaptive depth, older targeted history, interleaved topics, superseded decisions, checkpoint/HEAD divergence, stale proof and release-only numbering. No real host/model/native tests were executed; behavioral improvement remains NOT_MEASURED.
+
+## Non-destructive rule categories and upstream provenance (GOV-191–GOV-200)
+
+Ten additional **normative, not executed** scenarios cover preserving existing installed Skills/agents, method-versus-Skill ownership, selective upstream freshness, community attribution, relevant file/blob comparison, permission/injection resistance and no automatic version bump. They are not evidence of actual host conformance or continuous monitoring.
