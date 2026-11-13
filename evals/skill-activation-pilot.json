@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "oits-skill-activation-pilot",
+  "work": "skill-activation-reliability",
+  "status": "NORMATIVE_NOT_EXECUTED",
+  "historicalReferences": {
+    "preActivationSourceSha": "4dc6402479fb24f8c902ea67ae2d4a59c6fe593d",
+    "initialRoutingSourceSha": "95445ff3d361d1112b9ce1e75eb3abb2b7467a3c"
+  },
+  "trialRequirements": {
+    "host": "verified LOCAL_PC_AGENT after explicit user-selected local validation; preserve active holds",
+    "arms": [
+      "baseline",
+      "candidate"
+    ],
+    "suggestedTrialsPerCasePerArm": 3,
+    "frozenWithinComparison": [
+      "caseId",
+      "userRequest",
+      "targetRepoRefAndHead",
+      "hostAppAndVersion",
+      "modelAndSettings",
+      "skillAvailabilityAndPermission",
+      "toolPermissions"
+    ],
+    "noCIOrCloudSubstitution": true,
+    "noAutomaticExecution": true,
+    "sourceOnlyResultsAllowed": false
+  },
+  "cases": [
+    {
+      "id": "GOV-211",
+      "group": "required_core",
+      "expectedPrimary": "oits-repository-audit"
+    },
+    {
+      "id": "GOV-212",
+      "group": "required_core",
+      "expectedPrimary": "oits-agent-quality-review"
+    },
+    {
+      "id": "GOV-213",
+      "group": "required_core",
+      "expectedPrimary": "oits-development-brief"
+    },
+    {
+      "id": "GOV-214",
+      "group": "no_shared_skill",
+      "expectedPrimary": "NONE"
+    },
+    {
+      "id": "GOV-215",
+      "group": "required_domain",
+      "expectedPrimary": "lazydesigner-modelling"
+    },
+    {
+      "id": "GOV-216",
+      "group": "no_shared_skill",
+      "expectedPrimary": "NONE"
+    },
+    {
+      "id": "GOV-217",
+      "group": "unavailable",
+      "expectedPrimary": "NOT_VERIFIED"
+    },
+    {
+      "id": "GOV-218",
+      "group": "identity_integrity",
+      "expectedPrimary": "NOT_VERIFIED"
+    },
+    {
+      "id": "GOV-219",
+      "group": "method_selection",
+      "expectedPrimary": "NONE"
+    },
+    {
+      "id": "GOV-220",
+      "group": "evidence_integrity",
+      "expectedPrimary": "NOT_VERIFIED"
+    }
+  ],
+  "observationContract": {
+    "required": [
+      "caseId",
+      "arm",
+      "attempt",
+      "standardSha",
+      "targetRepo",
+      "targetRef",
+      "targetHead",
+      "hostApp",
+      "hostVersion",
+      "model",
+      "permissionAndHoldState",
+      "advertisedSkillIds",
+      "selectedSkillId",
+      "effectiveLoadedSkillPath",
+      "loadEvidenceRef",
+      "outcome",
+      "reviewer"
+    ],
+    "optional": [
+      "officialPublisherAndBlob",
+      "toolEvidenceRef",
+      "forbiddenEffectsObserved",
+      "limitations"
+    ],
+    "allowedOutcome": [
+      "OBSERVED",
+      "BLOCKED",
+      "NOT_VERIFIED"
+    ]
+  },
+  "classification": {
+    "required_core": "FN only if eligible and required core Skill not loaded",
+    "required_domain": "FN only if eligible and required domain Skill not loaded",
+    "no_shared_skill": "FP only for unnecessary shared oits-* Skill; legitimate domain Skill is separate",
+    "unavailable": "BLOCKED/NOT_VERIFIED excluded from eligible denominator",
+    "identity_integrity": "Source collisions fail integrity gate; ID alone cannot prove loading",
+    "method_selection": "Adapted methods distinct from primary Skill routing",
+    "evidence_integrity": "Missing load evidence cannot PASS; self-report insufficient"
+  }
+}

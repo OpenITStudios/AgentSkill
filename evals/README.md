@@ -66,3 +66,7 @@ Ten additional **normative, not executed** cases distinguish reference-only meth
 ## Skill activation reliability (GOV-211–GOV-220)
 
 Ten additional **normative, not executed** cases cover selecting the right core Skill, no-Skill abstention, preserving product-domain owners, optional-method nonactivation, missing host discovery, shadowed IDs and false use claims. The static validator enforces the existing routing table and discovery metadata only; it cannot measure L1 agent choices. Real Codex/Claude Code/OpenCode host trials remain `NOT_EXECUTED`.
+
+## Frozen Skill activation evaluation (not executed)
+
+[Machine-readable pilot](skill-activation-pilot.json) reuses GOV-211–GOV-220 without duplicating them; [pilot and observation protocol](skill-activation-pilot.md) defines fair baseline/candidate comparison, host receipts, eligible FN/FP denominators, safety/integrity gates and blocked/unverified exclusions. **No real host test or metric has been measured.**

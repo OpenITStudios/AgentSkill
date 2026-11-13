@@ -28,6 +28,12 @@ During authorized L1 host trials, distinguish **required Skill omitted (false ne
 
 The activation table in `decision-routing-and-ownership.md` defines expected decisions. Source checks in `tools/standard.mjs` verify only routing **structure**, never real model behavior. Do not add a second router or make all methods mandatory.
 
+## Frozen activation measurement pilot
+
+For AgentSkill maintainers, `evals/skill-activation-pilot.json` reuses GOV-211–GOV-220 and `evals/skill-activation-pilot.md` defines host admission, comparable baseline/candidate conditions, required load receipts, false-negative and unnecessary shared-Skill rates, and non-negotiable security gates. These files belong to **central AgentSkill research**, not automatically to adopted project bundles.
+
+`BLOCKED` and `NOT_VERIFIED` are not a routing PASS or automatic false negatives. The evaluator must not confuse a method reference with an installed Skill, or a host self-report with proof of loading. The pilot and its numerical sample size are **unexecuted research designs**, not measured improvement.
+
 ## Recorded traces and scoring boundaries
 
 Use a source-scoped receipt identifying `caseId, canonical standard SHA, target repo/ref SHA, host/version, loaded paths (if observed), actual permission config, intended task, tool calls, result, forbidden effects, proof tier, reviewer and limitations`. Never include secrets, private project files or customer data in a public evaluation corpus.

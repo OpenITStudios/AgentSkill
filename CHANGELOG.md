@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Freeze a ten-case source-only Skill activation pilot with real-host receipts, separate false-negative/false-positive denominators and hard safety gates; no host run or new agent/runner.
 - Add a source-owned seven-route Skill activation table, concise positive/negative metadata for the three existing shared Skills, host-specific activation evidence guidelines, and static validation in the existing tool.
 - Require original upstream Skill identity, file/dependency provenance, installed-source and effective host/tool evidence before claiming a referenced Skill was actually used; pin reviewed REA and UI UX Pro Max original-source revisions without installing them.
 - Group existing policies under eight responsibilities without creating new agents or deleting Skills; make original-publisher provenance and selective upstream freshness review mandatory for active methods.
