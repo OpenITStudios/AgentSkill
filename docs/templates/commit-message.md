@@ -1,20 +1,41 @@
-# Commit Body Template — For Material Work
+# Commit message templates — GitHub Continuity v2
 
-Paste only the template **values that reflect observed work**. Do not invent evidence. This is a source-authoring template, **not a required extra repository file**.
+**Use the smallest tier justified by the actual change.** See `.agent-standard/core/commit-continuity-and-recovery.md` for authority. These are templates, not proof that a change was committed or tested.
+
+## TRIVIAL — only with an actual reviewed single-word documentation typo
 
 ```text
-type(scope): concrete outcome
-
-Goal: <user outcome; why this change matters>
-Work: <stable-topic> — <actual change and affected source owner>
-State: ACTIVE | BLOCKED | PAUSED | DONE; <phase if relevant>
-Proof: <observed source/test evidence and unexecuted limits>
-Decision: <important constraint or must-preserve behavior>
-Unresolved: <one material open issue, or None>
-Next: <one safe authorized next source action, or STOP>
-Refs: <optional current canonical paths or issue ID>
+docs(readme): correct misspelled heading
 ```
 
-Good default for ChatGPT+GitHub: `SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; LOCAL_TEST_DEFERRED` **only if those descriptions accurately match the work**. Never run or request localtest to fill in the field.
+No `--trivial` shortcut without a reviewed patch. If unsure, use NORMAL.
 
-Read `.agent-standard/core/commit-continuity-and-recovery.md` for when full metadata is required and how to recover the correct topic.
+## NORMAL — bounded feature or bug fix
+
+```text
+fix(scope): concrete result
+
+Goal: <why the user needs this>
+Work: <stable-topic> — <actual source change>
+State: ACTIVE | BLOCKED | PAUSED | DONE; <phase if useful>
+Proof: <actual evidence; NOT_EXECUTED when not run>
+Next: <one safe source step or STOP>
+```
+
+Optional `Decision` / `Unresolved` go between `Proof` and `Next` if they materially affect continuation.
+
+## CRITICAL — architecture, security, policy, contract or high-risk work
+
+```text
+feat(scope): concrete result
+
+Goal: <actual user objective>
+Work: <stable-topic> — <change and owner>
+State: ACTIVE | BLOCKED | PAUSED | DONE; <source phase>
+Proof: <actual revision-matched evidence and limitations>
+Decision: <must-preserve invariant or rationale>
+Unresolved: <material unknown, or None if truly resolved>
+Next: <one authorized safe step or STOP>
+```
+
+An optional `Refs` field can point to a small number of current owners. A commit is history, not permission for the future agent to execute its `Next` automatically.

@@ -213,6 +213,14 @@ async function validateCanonical() {
   const rootPolicy = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
   const continuity = await readFile(join(ROOT, continuityPath), 'utf8');
   ensure(githubPolicy.includes('## Commit quality and cross-chat continuity') && rootPolicy.includes('## Commit continuity') && continuity.includes('## How to continue a task in another ChatGPT conversation'), 'COMMIT CONTINUITY: source policies not linked');
+  ensure(continuity.includes('## Commit message: choose the smallest sufficient tier') &&
+    continuity.includes('## Active status docs: small front door') &&
+    githubPolicy.includes('**TRIVIAL**') && githubPolicy.includes('**CRITICAL**') &&
+    rootPolicy.includes('GitHub Continuity Protocol v2'), 'COMMIT CONTINUITY V2: tiered format or scoped recovery missing');
+  const checkerText = await readFile(join(ROOT,'tools/commit-message-check.mjs'),'utf8');
+  ensure(checkerText.includes('TRIVIAL REQUIRES DIFF') && checkerText.includes('DIFF RISK') &&
+    checkerText.includes('DIFF_NOT_REVIEWED'), 'COMMIT CONTINUITY V2: source scope guards missing');
+
   for (const field of ['Goal','Work','State','Proof','Decision','Unresolved','Next']) {
     ensure(continuity.includes('`' + field + '`') || continuity.includes(field + ':'), 'COMMIT CONTINUITY: missing field ' + field);
   }

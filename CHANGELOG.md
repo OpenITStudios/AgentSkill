@@ -43,3 +43,9 @@
 
 - Add 20 normative commit/recovery evaluation cases (128 total) and author offline format checks (no tests executed).
 - Keep the commit body more precise than the user-facing chat; preserve source and work-topic continuity without another status store.
+
+## 0.1.0-draft — GitHub Continuity Protocol v2
+- Introduce proportional TRIVIAL/NORMAL/CRITICAL commit bodies; preserve the historical seven-field format for high-risk work.
+- Require a real narrowly scoped documentation patch before allowing trivial shorthand; format checks remain evidence-limited.
+- Clarify branch/path-filtered GitHub history lookup for nondefault branches, bounded context loading and current-status precedence.
+- No localtest, GitHub Actions, cloud CI, branch promotion or downstream adoption performed.

@@ -24,11 +24,13 @@ Always respect selected branch and project holds. A repo branch named `Local` ne
 - If the expected SHA moved, **stop and reconcile current history**. No force push or overwrite of concurrent work just to make the action pass.
 - One logical unit per commit; do not create staging branches or CI workflows merely as transport. Never assert a PR exists when working directly on one branch.
 
-## Commit quality and cross-chat continuity — required for material changes
+## Commit quality and cross-chat continuity — GitHub v2
 
-A GitHub commit must help a later ChatGPT session understand **why**, **what**, **what is proven**, and **what is next**. Use `type(scope): concrete outcome`, blank line, then these short fields in this order: `Goal`, `Work`, `State`, `Proof`, `Decision`, `Unresolved`, `Next`. Optional `Refs` may point to one or two current canonical documents. The `Work` field includes a stable topic for scoped history recovery. `State` uses `ACTIVE | BLOCKED | PAUSED | DONE`; `Proof` distinguishes exact source evidence and `NOT_EXECUTED`. For a trivial typo-only commit, a clear subject may suffice.
+For every coherent change, use `type(scope): concrete outcome`. Commit body depends on **actual change risk**: **TRIVIAL** only for a diff-reviewed small documentation typo, **NORMAL** requires `Goal / Work / State / Proof / Next`, and **CRITICAL** (architecture, security, permissions, agent policy, contracts, migrations or high-risk integration) requires all seven including `Decision / Unresolved`. Existing fuller seven-field messages remain valid. Never use `--trivial` alone to skip a body.
 
-**Do not write a long transcript or duplicate a status database.** For "lanjutkan", recover the **current user topic**, selected branch and pinned HEAD first; then inspect only relevant recent commit bodies and current source/holds. Never choose the newest unrelated commit as a new goal. `Next` is a suggestion, not user approval. If the commit message is incomplete, recover from actual diff/source instead of inventing fields or rewriting history. Refer to `.agent-standard/core/commit-continuity-and-recovery.md` for the full contract and examples.
+`Work` names a **stable topic**; `Proof` matches actual evidence at the source revision; `Next` is only a safe suggestion, **never** authorization. Use `.agent-standard/core/commit-continuity-and-recovery.md` for the single authoritative format and recovery flow. Do not copy transcripts or repeat every changed file in the message.
+
+On a new ChatGPT session, recover **user topic → selected branch/HEAD/profile → current relevant status/source → bounded branch-scoped path/topic commit history → reconcile → authorized next source action**. Global GitHub commit search only indexes default branches; prefer List Commits with explicit `sha` and optional `path` for `Local`/`develop`. Never infer work was absent from a truncated or path-filtered result. Preserve current project branch, active holds and no-CI/no-cloud/no-localtest rules.
 
 ## Execution contexts
 - `REMOTE_GITHUB`: exact source read/write and static inspection. No build/test/native proof without a real executor.

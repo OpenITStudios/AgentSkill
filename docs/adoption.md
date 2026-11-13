@@ -6,9 +6,11 @@
 
 Move historical Karpathy, Ponytail, Pstack/Poteto, Harness², DeepSeek Harness, REA, UI UX Pro Max, and Matt Pocock **general working principles** to the single byte-identical `.agent-standard/methods.json` and shared engineering procedure. Preserve local project skill taxonomy, source owner, workstream holds and actual tool permissions. Remove duplicated generic method blocks from older AGENTS only **after** their restrictions are mapped and adoption is explicitly authorized. Do not change existing project repositories as a side effect of maintaining AgentSkill.
 
-## Git continuity in each adopted repository
+## GitHub Continuity Protocol v2 adoption
 
-Distribute `.agent-standard/core/commit-continuity-and-recovery.md` **byte-for-byte**, and preserve current local branch, workstream holds, and existing canonical project notes. New material commits use the seven-field continuity format; **do not rewrite old history** to backfill missing fields. On a new ChatGPT chat, recover by the user's **named topic** and the pinned branch rather than grabbing the global latest commit. A `Next` line is advisory, not authorization for localtest, CI/cloud, cross-repo writes, or branch promotion.
+Distribute `.agent-standard/core/commit-continuity-and-recovery.md` byte-identically. New material commits use **NORMAL (five fields)** or **CRITICAL (seven fields)**; a **TRIVIAL** subject-only exception is allowed only after an actual safe single-word docs diff has been reviewed. Do not rewrite old history or delete its valid decisions.
+
+Each existing repo keeps its own branch, current status owner, workstream holds, private data controls and test policy. For ChatGPT recovery: **topic first**, selected branch/HEAD, current status section, small relevant commits scoped by `sha`/`path`, then current source and permission reconciliation. Old Next text is not a grant. No CI, cloud runner, auto tests, automatic rollout or new state database is part of this migration.
 
 ## Classification before migration
 For every source repository pin the **user-selected working branch and HEAD**; read root/nearest AGENTS, GitHub rules, local skills, permission files, live branch restrictions, test/CI holds, privacy rules and workstream pauses. Classify each directive:

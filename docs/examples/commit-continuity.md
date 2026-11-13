@@ -1,92 +1,55 @@
-# Commit Messages for Continuous Work
+# Clear commit continuity — v2 examples
 
-These are **examples**, not observations of executed tests. Treat values as illustrative; actual GitHub commits must describe real work and matching evidence.
+Illustrative text only; no tests or native runtime are claimed.
 
-## 1. Existing pattern — good foundation
+## TRIVIAL — a verified documentation typo
 
 ```text
-fix(texture): balance bounded face scan across Cube orientations
-
-Work: Address missing face orientations without altering texture budget.
-State: SOURCE_AUTHORED / REGRESSION_AUTHORED_NOT_RUN.
-Proof: SOURCE_REVIEWED; native NOT_EXECUTED.
-Decision: Preserve Gateway and UV checks.
-Unresolved: Native quality acceptance.
+docs(readme): correct misspelled heading
 ```
 
-**Improvement:** add the user's **Goal**, a **stable topic ID**, a clear four-state `State`, and **Next**. The older format remains historical evidence; do not rewrite earlier commits to look compliant.
+The real patch must show one harmless non-policy word correction. The `--trivial` flag **alone** is rejected; if ambiguous, use NORMAL.
 
-## 2. Better material commit (source still in progress)
+## NORMAL — coherent source work
 
 ```text
-fix(texture): cover Cube orientations in face sampling
+fix(texture): cover all Cube face orientations
 
-Goal: Detect missed faces without increasing texture cost.
-Work: texture-face-scan — add six-direction sampling and focused regression.
+Goal: Find missed faces without raising sampling budget.
+Work: texture-face-scan — improve bounded six-direction scanning.
 State: ACTIVE; SOURCE_INTEGRATION.
-Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; native NOT_EXECUTED.
-Decision: Keep original UV/cache checks and visual acceptance boundaries.
-Unresolved: Source integration with asset ingestion; native QA deferred.
-Next: Review texture consumers and complete source-only integration.
-Refs: docs/05-operations/next-action.md
+Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN.
+Next: Review texture callers on the selected branch.
 ```
 
-**Why this helps:** a fresh ChatGPT session can find the exact topic, see that the source task is still active, preserve constraints and continue work without assuming a localtest result.
+Add `Decision` and `Unresolved` when material, between Proof and Next. Major interface or policy changes use CRITICAL.
 
-## 3. Source work complete; localtest intentionally deferred
+## CRITICAL — architecture and permissions
 
 ```text
-feat(routing): complete source-side agent skill selection
+feat(agent): restrict repository write authority
 
-Goal: Select the right primary skill for each project task.
-Work: skill-routing — integrate dispatch, negative cases and domain owners.
-State: DONE; SOURCE_READY_FOR_LOCAL.
-Proof: SOURCE_REVIEWED; TEST_AUTHORED_NOT_RUN; LOCAL_TEST_DEFERRED.
-Decision: Preserve one canonical router and existing project holds.
-Unresolved: Native behavior not verified in a PC-local agent.
-Next: STOP; await a separately selected PC-local validation phase.
+Goal: Keep changes on the user-selected branch.
+Work: permission-routing — tighten project action gates.
+State: ACTIVE; SOURCE_INTEGRATION.
+Proof: SOURCE_REVIEWED; LOCAL_TEST_DEFERRED.
+Decision: Preserve explicit user authorization and existing test holds.
+Unresolved: Effective local agent permission loading remains unverified.
+Next: Inspect current host adapter source only.
 ```
 
-**DONE** describes source scope only. It is not permission to run tests now or claim native acceptance.
-
-## 4. Trivial typo (no body needed)
+## Recovery from another chat
 
 ```text
-docs(readme): correct a misspelled heading
+User: "Lanjutkan pekerjaan tekstur di branch Local"
+       ↓
+Pin Local HEAD and read current profile/status
+       ↓
+List Local commits for texture owner path (small page)
+       ↓
+Compare topic decisions with current source
+       ↓
+Continue source only; no localtest request
 ```
 
-## 5. Anti-patterns
-
-| Bad | Why it fails |
-| --- | --- |
-| `chore: update lots of files` | Cannot locate a topic or outcome |
-| `State: PASS` without an actual run | Misrepresents evidence |
-| `Next: deploy automatically` | Does not have user authorization |
-| `Proof: previous build passed` | May not match new HEAD |
-| A full transcript in commit | Wastes context and risks exposing data |
-| One commit for unrelated fixes | Makes history and rollback ambiguous |
-| `Next` not present on a material in-progress commit | New ChatGPT session cannot identify a safe continuation |
-
-## 6. How ChatGPT should resume when the latest commit belongs to another task
-
-**User:** "Lanjutkan perbaikan texture face scan di branch Local."
-
-**Observed example:** the latest GitHub commit discusses audio assets, while an earlier `Work: texture-face-scan` commit includes `State: ACTIVE`, `Unresolved` and `Next`.
-
-**Correct recovery:**
-
-```text
-User topic: texture-face-scan
-   ↓
-Pin Local HEAD and read root/profile
-   ↓
-Find recent Work: texture-face-scan commits
-   ↓
-Compare their decisions and Next with current texture source
-   ↓
-Continue the permitted texture source owner — not the audio feature
-```
-
-**Example short chat result:** "Saya lanjutkan texture face scan, bukan pekerjaan audio terbaru. Source dan batasan terakhir sudah diperiksa. Pekerjaan selanjutnya adalah menuntaskan integrasi tekstur; pengujian lokal tetap ditunda."
-
-This is a conceptual recovery illustration. It is not a claim that a real client session was resumed or localtest executed.
+If the global newest commit belongs to audio, **do not switch**. If a path was renamed or a response is partial, broaden only as needed. If the old Next conflicts with a hold or newer source, the hold/new source wins. Do not rewrite old Git history merely to add v2 fields.

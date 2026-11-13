@@ -43,9 +43,9 @@ Do not impose a localtest step between source features. In ChatGPT/GitHub, finis
 ## 6. VERIFY using a proof ceiling
 Use `evidence-and-recovery.md`. Source-level inspection can prove source properties only; an authored test cannot prove executable behavior. If tests are held, do not run them. Verify negative cases, preservation of critical invariants and affected consumers at the available level; never dilute a gate.
 
-## Material Git commit
+## Material Git commit and future ChatGPT recovery
 
-For a coherent material source delivery, write the short `Goal / Work / State / Proof / Decision / Unresolved / Next` commit body at the **actual proof ceiling**, with a stable work topic and safe next step. This is a history receipt, not permission for automatic localtest, CI, release, branch creation or background work. See `commit-continuity-and-recovery.md`.
+For material changes, select **NORMAL** (five continuity fields) or **CRITICAL** (seven fields) according to real scope; reserve **TRIVIAL** for proven one-word non-policy documentation edits. Apply `commit-continuity-and-recovery.md` and the existing proof ceiling. A commit history note is not localtest, deployment authorization, or a new user instruction. Recovery is branch- and work-topic-scoped, with current status/source winning over old Next.
 
 ## 7. REPORT and STOP
 **User-facing presentation must follow `user-facing-communication.md`:** answer first; write for the reader, not for the tool log; use a compact start-to-end diagram for complex flows when it is clearer; make technical details optional and never obscure uncertainty or source-only proof.

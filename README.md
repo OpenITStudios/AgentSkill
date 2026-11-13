@@ -12,14 +12,13 @@ Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-co
 
 ## GitHub commit continuity for ChatGPT
 
-Every material commit now documents **why the change exists, what was done, the honest evidence limit, what remains, and one safe next step**. A new ChatGPT session recovers the *user's current topic* from relevant commit history plus current source; it never assumes the latest unrelated commit is the user's goal.
+**Write only what future work needs.** A trivial verified wording fix needs a clear subject; normal changes need five continuity fields; architectural/security/permission changes keep all seven. `Goal / Work / State / Proof / Next` preserve a stable task topic and real proof limit. `Decision / Unresolved` remain mandatory when risk is critical.
 
-- [Commit continuity rules](.agent-standard/core/commit-continuity-and-recovery.md)
-- [Readable before/after examples](docs/examples/commit-continuity.md)
-- [Compact commit template](docs/templates/commit-message.md)
-- Optional, **offline** source-format checker: `tools/commit-message-check.mjs` (reads a text file; does not run Git, CI or tests).
+For a new ChatGPT chat: **current user topic → selected branch → relevant current status/source → branch/path-scoped recent commits → reconcile → safe next step**. The latest unrelated commit is not the current task. No localtest, CI or cloud executor is used for this source workflow.
 
-A material change follows a short `Goal / Work / State / Proof / Decision / Unresolved / Next` body; a trivial typo may use just a clear subject. More detail stays in GitHub, not in long chat responses. **No CI/cloud/localtest required** for this source-only continuity work.
+[Canonical protocol](.agent-standard/core/commit-continuity-and-recovery.md) · [V2 examples](docs/examples/commit-continuity.md) · [Research decisions](docs/research/github-continuity-v2-design.md)
+
+The optional offline `tools/commit-message-check.mjs` validates formatting and *conservative* diff risk signals; it never certifies code correctness or runs tests. Passing `--trivial` alone is not sufficient.
 
 ## Shared engineering methods
 

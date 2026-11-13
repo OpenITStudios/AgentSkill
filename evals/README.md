@@ -38,3 +38,7 @@ The eight legacy methods have positive and negative cases. For material source c
 Source-only cases check meaningful subject + typed material body, truthful Proof and status, stable topic, one safe Next, and topic-scoped continuation in a new ChatGPT chat. No case requires or claims localtest, GitHub Actions or cloud verification.
 
 The offline commit checker validates **message structure**, not whether the code actually works or a prior Next is permitted. A material GitHub commit with truthful values remains subject to source/permission review. A later host evaluation is needed to measure whether cross-chat context recovery improves.
+
+## GitHub Continuity v2 (GOV-129 onward)
+
+Additional normative cases distinguish three commit tiers, safe diffs, nondefault branch recovery, path rename/pagination fallback, current-status precedence, and the inability of a format check to certify source or test correctness. All remain **NOT_EXECUTED** until an authorized PC-local agent measures them.
