@@ -5,6 +5,7 @@ import { mkdtemp, appendFile, mkdir, writeFile, readFile, rm, cp, symlink } from
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { assessCommitMessage } from '../tools/commit-message-check.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const CLI = join(ROOT, 'tools', 'standard.mjs');
@@ -12,11 +13,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 249 normative cases validate', () => {
+test('canonical source, skill metadata and 253 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /249 normative cases/);
+  assert.match(r.stdout, /253 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -576,6 +577,7 @@ test('material commit body validates in the offline syntax checker', async () =>
     const message = [
       'fix(texture): cover previously missed Cube orientations',
       '',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Detect missed faces without increasing the texture pixel budget.',
       'Work: texture-face-scan — add sampling and one regression fixture.',
       'State: ACTIVE; SOURCE_INTEGRATION.',
@@ -600,6 +602,7 @@ test('material Git commit rejects missing Next and fake success status', async (
     await writeFile(target, [
       'fix(texture): cover previously missed Cube orientations',
       '',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Detect missed faces without increasing the texture budget.',
       'Work: texture-face-scan — add bounded diagnostics.',
       'State: PASS.',
@@ -615,6 +618,43 @@ test('material Git commit rejects missing Next and fake success status', async (
   } finally {
     await rm(parent, { recursive: true, force: true });
   }
+});
+
+test('new material commits require Surface, while explicit historical parsing preserves missing identity', () => {
+  const msg=[
+    'fix(context): identify the source execution method','',
+    'Surface: CHATGPT_GITHUB',
+    'Goal: Preserve the execution method for future GitHub source recovery.',
+    'Work: commit-surface-identity — record the real working surface.',
+    'State: DONE; SOURCE_INTEGRATION.',
+    'Proof: SOURCE_REVIEWED; NOT_EXECUTED.',
+    'Next: STOP'
+  ].join('\n');
+  assert.deepEqual(assessCommitMessage(msg).errors, []);
+  assert.equal(assessCommitMessage(msg).surfaceStatus, 'DECLARED_UNVERIFIED');
+  const legacy=msg.replace('Surface: CHATGPT_GITHUB\n','');
+  assert.match(assessCommitMessage(legacy).errors.join(' '), /Missing continuity field: Surface/);
+  assert.deepEqual(assessCommitMessage(legacy,{allowLegacySurface:true}).errors, []);
+  assert.equal(assessCommitMessage(legacy,{allowLegacySurface:true}).surfaceStatus,'UNRECORDED');
+});
+
+test('Surface restricts host IDs without treating a model label as host proof', () => {
+  const source=[
+    'fix(context): identify a verified PC-local agent','',
+    'Surface: LOCAL_PC_AGENT; Host=CODEX_CLI',
+    'Goal: Record the actual local agent application used for source work.',
+    'Work: commit-surface-identity — identify a bounded local session.',
+    'State: DONE; SOURCE_INTEGRATION.',
+    'Proof: SOURCE_REVIEWED; NOT_EXECUTED.',
+    'Next: STOP'
+  ].join('\n');
+  for(const host of ['CODEX_CLI','CLAUDE_CODE','OPENCODE']) {
+    assert.deepEqual(assessCommitMessage(source.replace('CODEX_CLI',host)).errors, []);
+  }
+  for(const bad of ['LOCAL_PC_AGENT','LOCAL_PC_AGENT; Host=CHATGPT','CHATGPT_GITHUB; Host=CODEX_CLI','LOCAL_PC_AGENT; Model=GPT','HOSTED_CLOUD']) {
+    assert.match(assessCommitMessage(source.replace('LOCAL_PC_AGENT; Host=CODEX_CLI',bad)).errors.join(' '),/Surface must be CHATGPT_GITHUB/);
+  }
+  assert.equal(assessCommitMessage(source).surfaceStatus,'DECLARED_UNVERIFIED');
 });
 
 test('v2 trivial requires an actual narrow documentation diff, not merely --trivial', async () => {
@@ -649,6 +689,7 @@ test('repeat co-author trailers do not replace required continuity fields', asyn
     await writeFile(target, [
       'docs(policy): explain safe commit continuity',
       '',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Make the next ChatGPT session recover the intended task.',
       'Work: git-continuity — improve commit metadata and context recovery.',
       'State: DONE; SOURCE_INTEGRATION.',
@@ -667,12 +708,13 @@ test('repeat co-author trailers do not replace required continuity fields', asyn
 });
 
 
-test('v2 NORMAL accepts five fields without pretending diff was checked', async () => {
+test('NORMAL accepts Surface plus five fields without pretending diff was checked', async () => {
   const parent=await mkdtemp(join(tmpdir(),'oits-normal-v2-'));
   try {
     const message=join(parent,'msg.txt');
     await writeFile(message,[
       'fix(texture): cover six Cube face orientations','',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Find missing faces using existing sampling limits.',
       'Work: texture-face-scan — improve source sampling.',
       'State: ACTIVE; SOURCE_INTEGRATION.',
@@ -691,6 +733,7 @@ test('v2 CRITICAL requires Decision and Unresolved', async () => {
     const message=join(parent,'msg.txt');
     const core=[
       'feat(agent): restrict repository permissions','',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Keep all changes within the selected branch.',
       'Work: permission-routing — tighten action gates.',
       'State: ACTIVE; SOURCE_INTEGRATION.',
@@ -718,6 +761,7 @@ test('v2 source-risk diff prevents normal tier for protected policy paths', asyn
     const message=join(parent,'msg.txt'),patch=join(parent,'patch.diff');
     await writeFile(message,[
       'feat(agent): restrict repository permissions','',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Keep changes on the selected user branch.',
       'Work: permission-routing — tighten action gates.',
       'State: ACTIVE; SOURCE_INTEGRATION.',
@@ -765,6 +809,7 @@ test('v2 rejects an empty diff header rather than treating it as verified scope'
     const msg=join(parent,'msg.txt'),patch=join(parent,'empty.diff');
     await writeFile(msg,[
       'fix(texture): preserve source behavior','',
+      'Surface: CHATGPT_GITHUB',
       'Goal: Keep material source changes traceable.',
       'Work: texture-face-scan — record a narrow source change.',
       'State: ACTIVE; SOURCE_INTEGRATION.',

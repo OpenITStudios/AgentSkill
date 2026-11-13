@@ -49,7 +49,24 @@ test('consistent GitHub-like metadata remains explicitly unauthenticated and run
   assert.equal(actual.changedFileCount,1);
   assert.match(actual.origin,/NOT_AUTHENTICATED/);
   assert.match(actual.proof,/NOT_RUNTIME/);
+  assert.equal(actual.surface,null);
+  assert.equal(actual.surfaceStatus,'UNRECORDED');
+  assert.ok(actual.warnings.includes('SURFACE_UNRECORDED_LEGACY'));
 });
+test('snapshot records declared host identity but cannot authenticate actual PC execution',()=>{
+  const declared=criticalMessage.replace('Goal:','Surface: LOCAL_PC_AGENT; Host=CODEX_CLI\nGoal:');
+  const files=[{filename:'AGENTS.md',status:'modified',patch:'@@ -1 +1 @@\n-old\n+new'}];
+  const actual=reviewGitHubCommitSnapshot(record(declared,files));
+  assert.equal(actual.state,'SNAPSHOT_CONSISTENT');
+  assert.equal(actual.surface,'LOCAL_PC_AGENT; Host=CODEX_CLI');
+  assert.equal(actual.surfaceStatus,'DECLARED_UNVERIFIED');
+  assert.match(actual.origin,/NOT_AUTHENTICATED/);
+  const wrong=declared.replace('Host=CODEX_CLI','Host=CHATGPT');
+  const rejected=reviewGitHubCommitSnapshot(record(wrong,files));
+  assert.equal(rejected.state,'REJECTED');
+  assert.match(rejected.errors.join(' '),/Surface must be CHATGPT_GITHUB/);
+});
+
 test('incorrect branch, commit or parent cannot inherit HEAD proof',()=>{
   const mismatch=record();
   mismatch.branchResponse.name='main';

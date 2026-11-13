@@ -10,16 +10,18 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const ORDER = Object.freeze([
-  'Goal','Work','State','Proof','Decision','Unresolved','Next'
+  'Surface','Goal','Work','State','Proof','Decision','Unresolved','Next'
 ]);
 const MINIMUM = Object.freeze({
   trivial: [],
-  normal: ['Goal','Work','State','Proof','Next'],
+  normal: ['Surface','Goal','Work','State','Proof','Next'],
   critical: ORDER
 });
 const EXTRAS = new Set(['Refs','Co-authored-by','Signed-off-by']);
 const SUBJECT = /^(feat|fix|docs|refactor|test|chore|perf|build|security|ci|release|revert)\(([a-z][a-z0-9._-]*)\): (\S.{2,})$/;
 const STATE = /^(ACTIVE|BLOCKED|PAUSED|DONE)(?:[;\s].*)?$/;
+// Surface identifies a claimed work method; its host and origin still require independent evidence.
+const SURFACE = /^(?:CHATGPT_GITHUB|LOCAL_PC_AGENT; Host=(?:CODEX_CLI|CLAUDE_CODE|OPENCODE))$/;
 const EVIDENCE = /\b(SOURCE_REVIEWED|SOURCE_COMMITTED|TEST_AUTHORED_NOT_RUN|EXECUTED_TEST_PASS|EXECUTED_TEST_FAIL|LIVE_TARGET_VERIFIED|NOT_EXECUTED|LOCAL_TEST_DEFERRED|UNKNOWN)\b/;
 const SENSITIVE_PATH = /(?:^AGENTS\.md$|^GITHUB_RULES\.md$|^\.agent-standard\/|^\.github\/|^registry\/|^schemas\/|^tools\/|^tests\/|^docs\/(?:architecture|governance|operations)\/|^package\.json$|^\.gitignore$|(?:^|\/)(?:auth|permissions?|security|migrations?|policies|policy|contracts?|architecture|interfaces?|config|api)(?:\/|\.|-))/i;
 const ORDINARY_DOC = /^(?:README\.md|docs\/(?:examples|guides|tutorials|help|user-guide)\/[A-Za-z0-9._/-]+\.md)$/;
@@ -137,7 +139,13 @@ export function assessCommitMessage(raw, options={}) {
     if(lines.length!==1) errors.push('Trivial commits must use a subject only');
     if(!diff || !trivialCandidate(diff)) errors.push('TRIVIAL REQUIRES DIFF: one reviewed plain-text word typo in an allowed documentation file');
   } else if(MINIMUM[tier]) {
-    for(const key of MINIMUM[tier]) if(!fields.has(key)) errors.push('Missing continuity field: '+key);
+    for(const key of MINIMUM[tier]) {
+      if(key==='Surface' && options.allowLegacySurface===true && !fields.has(key)) continue;
+      if(!fields.has(key)) errors.push('Missing continuity field: '+key);
+    }
+    if(fields.has('Surface') && !SURFACE.test(fields.get('Surface'))) {
+      errors.push('Surface must be CHATGPT_GITHUB or LOCAL_PC_AGENT; Host=CODEX_CLI|CLAUDE_CODE|OPENCODE');
+    }
     if(fields.has('Goal') && fields.get('Goal').length<10) errors.push('Goal is not meaningful');
     if(fields.has('Work') && !/^[a-z][a-z0-9._-]{2,}[ \t]*(?:—|--|\|)[ \t]+\S/.test(fields.get('Work'))) errors.push('Work must begin with stable topic slug and separator');
     if(fields.has('State') && !STATE.test(fields.get('State'))) errors.push('State must start with ACTIVE, BLOCKED, PAUSED or DONE');
@@ -150,9 +158,11 @@ export function assessCommitMessage(raw, options={}) {
   if(options.trivial===true && options.tier && options.tier!=='trivial') errors.push('Contradictory tier flags');
   return {
     tier, errors,
+    surface:fields.get('Surface')??null,
+    surfaceStatus:fields.has('Surface')?'DECLARED_UNVERIFIED':tier==='trivial'?'NOT_APPLICABLE':'UNRECORDED',
     diffStatus:diff ? diff.error?'INVALID_DIFF':'PATCH_STRUCTURE_ONLY' : 'DIFF_NOT_REVIEWED',
     changedPaths:diff?.files?.map(x=>x.path)??[],
-    note:'Format and diff heuristics only. Not proof of source correctness, authorization or tests.'
+    note:'Format and diff heuristics only. Surface is a claim, not proof of host identity, permissions or tests.'
   };
 }
 
@@ -162,6 +172,7 @@ export function lintCommitMessage(raw,options={}) {
 
 function usage() {
   return 'Usage: node tools/commit-message-check.mjs MESSAGE.txt [--tier trivial|normal|critical] [--diff PATCH.txt] [--trivial]\n' +
+    'New NORMAL and CRITICAL commits require Surface; legacy snapshots may omit it.\n' +
     'TRIVIAL requires a real reviewed unified patch; --trivial alone does not bypass metadata.\n';
 }
 
@@ -184,7 +195,7 @@ async function main() {
     process.stderr.write('COMMIT FORMAT FAIL ('+result.tier+'):\n- '+result.errors.join('\n- ')+'\n');
     process.exitCode=1;
   } else {
-    process.stdout.write('COMMIT FORMAT PASS ('+result.tier+'; '+result.diffStatus+
+    process.stdout.write('COMMIT FORMAT PASS ('+result.tier+'; Surface='+result.surfaceStatus+'; '+result.diffStatus+
       '): message structure only; scope, permissions and proof still require review.\n');
   }
 }

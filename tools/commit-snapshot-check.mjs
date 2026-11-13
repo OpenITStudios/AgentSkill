@@ -82,9 +82,11 @@ export function reviewGitHubCommitSnapshot(snapshot) {
   }
   const format=assessCommitMessage(message,{
     tier:subjectOnly?'trivial':risk?'critical':undefined,
+    allowLegacySurface:true, // old commit history can lack Surface
     diffText
   });
   if(format.errors.length) errors.push(...format.errors.map(e=>'MESSAGE: '+e));
+  if(!subjectOnly && !format.surface) warnings.push('SURFACE_UNRECORDED_LEGACY');
   if(/\b(?:EXECUTED_TEST_PASS|LIVE_TARGET_VERIFIED)\b/.test(message)) {
     warnings.push('EXECUTION_RECEIPT_NOT_INSPECTED');
   }
@@ -95,7 +97,8 @@ export function reviewGitHubCommitSnapshot(snapshot) {
     state,repository:snapshot.repository,branch:snapshot.selectedBranch,
     head:branch.commit.sha,commit:commit.sha,
     parent:commit.parents?.[0]?.sha??null,
-    tier:format.tier,changedPaths:paths,changedFileCount:raw.length,
+    tier:format.tier,surface:format.surface,surfaceStatus:format.surfaceStatus,
+    changedPaths:paths,changedFileCount:raw.length,
     riskDetected:risk,errors,warnings,
     origin:'CALLER_SUPPLIED_SNAPSHOT_NOT_AUTHENTICATED',
     proof:'METADATA_ONLY_NOT_RUNTIME_OR_SOURCE_ACCEPTANCE',

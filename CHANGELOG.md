@@ -23,6 +23,7 @@ A release version records a **meaningful approved milestone**, not every feature
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Add four normative execution-identity cases (GOV-250–GOV-253) and targeted source regression fixtures; missing Surface on old snapshots remains explicitly unrecorded. NOT_EXECUTED.
 - Add one normative three-zone separation case (GOV-249) and one negative source regression test; NOT_EXECUTED.
 - Author six normative visual-comprehension cases (GOV-243–GOV-248), one readability rubric dimension and two source regression tests; NOT_EXECUTED.
 - Author six communication cases (GOV-237–GOV-242) and two source-regression checks for scannable updates and non-invented next steps; NOT_EXECUTED.

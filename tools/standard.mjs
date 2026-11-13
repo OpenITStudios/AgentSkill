@@ -369,7 +369,7 @@ async function validateCanonical() {
   ensure(checkerText.includes('TRIVIAL REQUIRES DIFF') && checkerText.includes('DIFF RISK') &&
     checkerText.includes('DIFF_NOT_REVIEWED'), 'COMMIT CONTINUITY V2: source scope guards missing');
 
-  for (const field of ['Goal','Work','State','Proof','Decision','Unresolved','Next']) {
+  for (const field of ['Surface','Goal','Work','State','Proof','Decision','Unresolved','Next']) {
     ensure(continuity.includes('`' + field + '`') || continuity.includes(field + ':'), 'COMMIT CONTINUITY: missing field ' + field);
   }
   await ensureRegularPortableFile(ROOT, 'tools/commit-message-check.mjs');

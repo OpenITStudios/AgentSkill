@@ -86,3 +86,7 @@ Six additional **normative, not executed** scenarios require the response format
 ## Three reading-zone separation (GOV-249)
 
 One **normative, not executed** case specifies how material ChatGPT updates should distinguish Current status, Explanation and a final Next step using restrained headings and a single subtle divider, without colored cards or repeated conclusions. Existing cases continue to cover simple-answer abstention and terminal STOP. The response standard and rubric define the expected presentation, but no ChatGPT renderer or user-comprehension outcome has been measured.
+
+## Execution identity in material commit history (GOV-250–GOV-253)
+
+Four new **normative, not executed** cases distinguish the ChatGPT/GitHub API work method from a separately verified user-PC agent host, prohibit inferred local claims from model/branch names, preserve historical commits without `Surface` as environment-unrecorded, and discourage redundant Git/model metadata. The new-message checker requires the exact `Surface` grammar; the historical snapshot reader may accept legacy messages without granting any execution authority. A syntactically valid field does not prove actual host usage or test execution.
