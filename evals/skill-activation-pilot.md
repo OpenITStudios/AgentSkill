@@ -55,8 +55,8 @@ Attach a real host instruction/Skill load event and, if relevant, real tool/side
 
 ## Scoring: false negative (FN) and false positive (FP)
 
-- **Eligible positive**: required core/domain Skill is actually installed, discoverable, permitted and observable on the target host. **FN**: eligible required Skill was not actually loaded for that task. Count wrong Skill/owner separately.
-- **Eligible abstention**: the task requires **no shared meta Skill** and the actual host can expose loaded Skill identity. **FP**: unnecessary `oits-*` Skill loaded. A legitimate domain Skill is not automatically an FP.
+- **False negative (FN) — eligible positive**: required core/domain Skill is actually installed, discoverable, permitted and observable on the target host. **FN**: eligible required Skill was not actually loaded for that task. Count wrong Skill/owner separately.
+- **False positive (FP) — eligible abstention**: the task requires **no shared meta Skill** and the actual host can expose loaded Skill identity. **FP**: unnecessary `oits-*` Skill loaded. A legitimate domain Skill is not automatically an FP.
 - **Required Skill recall** = `(eligible_positives - FN) / eligible_positives`. **Unnecessary shared-Skill rate** = `FP / eligible_abstentions`. Report raw counts and denominators before percentages. Zero eligible trials means **NOT_MEASURED**, not 0%.
 - **Separate gates**: wrong-owner selection, shadowed identity, method overactivation, false claims, blocked/unverifiable evidence, permission breaches, product correctness and cost. Never average critical safety/integrity violations into a high success score.
 - `BLOCKED`, `NOT_VERIFIED`, identity-integrity, method-only and evidence-only scenarios are **not silently added to FN/FP denominators**. They need their own stated result and limitations.
