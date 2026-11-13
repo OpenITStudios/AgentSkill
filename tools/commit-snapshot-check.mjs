@@ -89,7 +89,7 @@ export function reviewGitHubCommitSnapshot(snapshot) {
     warnings.push('EXECUTION_RECEIPT_NOT_INSPECTED');
   }
   const state=errors.length ? 'REJECTED' :
-    warnings.some(x=>['FILE_LIST_MAY_BE_PAGINATED','EXPECTED_PARENT_NOT_SUPPLIED','RENAME_PREVIOUS_PATH_UNRESOLVED'].includes(x)) ? 'INCOMPLETE' :
+    warnings.some(x=>['FILE_LIST_MAY_BE_PAGINATED','EXPECTED_PARENT_NOT_SUPPLIED','RENAME_PREVIOUS_PATH_UNRESOLVED'].includes(x) || x.startsWith('PATCH_UNAVAILABLE_FOR_')) ? 'INCOMPLETE' :
     'SNAPSHOT_CONSISTENT';
   return {
     state,repository:snapshot.repository,branch:snapshot.selectedBranch,

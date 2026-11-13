@@ -107,3 +107,10 @@ test('new ordinary file is not automatically a high-risk architecture commit',()
   assert.equal(hasRiskyChangedFiles([{path:'src/feature.ts',status:'renamed'}]),true);
   assert.equal(hasRiskyChangedFiles([]),true);
 });
+
+test('a changed file without a readable patch has incomplete evidence',()=>{
+  const missingPatch=record(criticalMessage,[{filename:'assets/model.bbmodel',status:'modified'}]);
+  const observed=reviewGitHubCommitSnapshot(missingPatch);
+  assert.equal(observed.state,'INCOMPLETE');
+  assert.ok(observed.warnings.some(x=>x.startsWith('PATCH_UNAVAILABLE_FOR_')));
+});
