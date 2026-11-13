@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 210 normative cases validate', () => {
+test('canonical source, skill metadata and 220 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /210 normative cases/);
+  assert.match(r.stdout, /220 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -85,6 +85,56 @@ test('original upstream REA and UI UX references remain source-only and pinned',
   assert.match(report, /original repository/i);
   assert.equal(manifest.version, '0.1.0-draft');
   assert.equal(manifest.entries.filter(x => x.kind === 'skill').length, 3);
+});
+
+test('activation routing keeps each shared Skill discoverable under one owner', async () => {
+  const [routing, manifestText] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/decision-routing-and-ownership.md'), 'utf8'),
+    readFile(join(ROOT, 'registry/standard.manifest.json'), 'utf8')
+  ]);
+  const entries = JSON.parse(manifestText).entries.filter(e => e.kind === 'skill');
+  assert.equal(entries.length, 3);
+  for (const entry of entries) {
+    const name = entry.source.split('/')[2];
+    const content = await readFile(join(ROOT, entry.source), 'utf8');
+    assert.ok(routing.includes(String.fromCharCode(96) + name + String.fromCharCode(96)));
+    assert.match(content, /^description: .*\b(?:not|skip)\b/im);
+  }
+  assert.match(routing, /\| bounded-change \|/);
+  assert.match(routing, /\| domain-production \|/);
+});
+
+test('validator rejects a missing activation route owner', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-skill-route-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, '.agent-standard/core/decision-routing-and-ownership.md');
+    const source = await readFile(file, 'utf8');
+    assert.match(source, /\| repository-audit \|/);
+    await writeFile(file, source.replace('| repository-audit |', '| invalid-audit-id |'));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /SKILL ROUTING: unknown\/duplicate route/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('validator rejects vague Skill discovery metadata', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-skill-discovery-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: file => !file.includes('node_modules') && !file.includes('.git') });
+    const file = join(snapshot, 'skills/core/oits-repository-audit/SKILL.md');
+    const source = await readFile(file, 'utf8');
+    await writeFile(file, source.replace(/^description: .*$/m, 'description: Helpful assistance with repository and coding topics.'));
+    const bad = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(bad.status, 0);
+    assert.match(bad.stderr, /SKILL ROUTING: description lacks concise positive\/negative/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
 });
 
 test('offline package creates verifiable byte-identical bundle, and drift fails', async () => {

@@ -62,3 +62,7 @@ Ten additional **normative, not executed** scenarios cover preserving existing i
 ## Original upstream Skill identity and effective host evidence (GOV-201–GOV-210)
 
 Ten additional **normative, not executed** cases distinguish reference-only methods from publisher-owned original source, authentic installed files, host-selected instruction paths, real MCP/CLI capability and task-use receipts. They also prevent false claims based on mirrored repositories, missing assets, transformed installers, newer instructions with older runtime servers, or a source-only GitHub session. No external original Skill was installed and no behavioral agent trial was executed.
+
+## Skill activation reliability (GOV-211–GOV-220)
+
+Ten additional **normative, not executed** cases cover selecting the right core Skill, no-Skill abstention, preserving product-domain owners, optional-method nonactivation, missing host discovery, shadowed IDs and false use claims. The static validator enforces the existing routing table and discovery metadata only; it cannot measure L1 agent choices. Real Codex/Claude Code/OpenCode host trials remain `NOT_EXECUTED`.

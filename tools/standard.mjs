@@ -129,6 +129,56 @@ function validateSkill(text, entry, seen) {
 }
 
 
+async function validateActivationContracts(manifest) {
+  const routing = await readFile(join(ROOT, '.agent-standard/core/decision-routing-and-ownership.md'), 'utf8');
+  const section = routing.split('## Activation decision table\n')[1]?.split('\n## ')[0];
+  ensure(typeof section === 'string', 'SKILL ROUTING: missing activation decision table');
+  const lines = section.split(/\r?\n/).filter(line => line.startsWith('| '));
+  ensure(lines.length >= 3 && lines[0] === '| Route ID | Positive trigger | Primary selection | Negative trigger / abstain |',
+    'SKILL ROUTING: invalid activation table header');
+  const expected = new Map([
+    ['repository-audit', 'oits-repository-audit'],
+    ['agent-quality', 'oits-agent-quality-review'],
+    ['complex-development', 'oits-development-brief'],
+    ['bounded-change', 'NONE'],
+    ['domain-production', 'DOMAIN_LOCAL'],
+    ['validation-only', 'NONE'],
+    ['release-intent', 'NONE']
+  ]);
+  const available = new Set(manifest.entries.filter(e => e.kind === 'skill').map(e => e.source.split('/')[2]));
+  const seen = new Set(), selected = new Set();
+  for (const line of lines.slice(2)) {
+    const cells = line.split('|').slice(1, -1).map(cell => cell.trim().replaceAll(String.fromCharCode(96), ''));
+    ensure(cells.length === 4, 'SKILL ROUTING: invalid route column count');
+    const [id, positive, primary, negative] = cells;
+    ensure(expected.has(id) && !seen.has(id), 'SKILL ROUTING: unknown/duplicate route ' + id);
+    seen.add(id);
+    ensure(primary === expected.get(id), 'SKILL ROUTING: wrong owner for ' + id);
+    ensure(positive.length > 35 && negative.length > 35, 'SKILL ROUTING: incomplete positive/negative trigger for ' + id);
+    if (primary.startsWith('oits-')) {
+      ensure(available.has(primary) && !selected.has(primary), 'SKILL ROUTING: missing/shadowed primary Skill ' + primary);
+      selected.add(primary);
+    }
+  }
+  ensure(seen.size === expected.size, 'SKILL ROUTING: missing required route');
+  ensure(selected.size === available.size, 'SKILL ROUTING: a shared Skill lacks a primary route');
+  const root = await readFile(join(ROOT, 'AGENTS.md'), 'utf8');
+  ensure(root.includes('decision-routing-and-ownership.md') && root.includes('Abstain when no Skill adds value'),
+    'SKILL ROUTING: root missing selective routing/abstention');
+  for (const entry of manifest.entries.filter(e => e.kind === 'skill')) {
+    const content = await readFile(join(ROOT, entry.source), 'utf8');
+    const description = content.match(/^description:\s*(.+)$/m)?.[1]?.trim() ?? '';
+    ensure(description.length >= 45 && description.length <= 320 &&
+      /\b(use|when)\b/i.test(description) && /\b(not|skip|avoid)\b/i.test(description),
+      'SKILL ROUTING: description lacks concise positive/negative conditions: ' + entry.source);
+  }
+  for (const name of ['codex-cli', 'claude-code', 'opencode']) {
+    const doc = await readFile(join(ROOT, 'docs/adapters/' + name + '.md'), 'utf8');
+    ensure(doc.includes('## Skill activation evidence (real host only)') && doc.includes('NOT_VERIFIED'),
+      'SKILL ROUTING: missing host activation evidence boundary: ' + name);
+  }
+}
+
 async function validateMethodRegistry(evals) {
   const data = await readJson('registry/methods.json');
   const schema = await readJson('schemas/method-registry.schema.json');
@@ -252,6 +302,7 @@ async function validateCanonical() {
 
   ensure(manifest.entries.filter(e => e.kind === 'adapter').length === 3, 'three canonical agent host adapters required');
   await ensureCompletePortableInventory(manifest);
+  await validateActivationContracts(manifest);
 
   const schema = await readJson('schemas/repository-profile.schema.json');
   ensure(schema && schema.properties && schema.properties.holds && schema.properties.branchPolicy, 'profile schema missing guards');
