@@ -69,7 +69,7 @@ export function reviewGitHubCommitSnapshot(snapshot) {
   }
   if(raw.length>=300) warnings.push('FILE_LIST_MAY_BE_PAGINATED');
   const risk=hasRiskyChangedFiles(observed);
-  const message=commit.commit.message;
+  const message=commit.commit.message.trimEnd();
   const subjectOnly=!message.includes('\n');
   let diffText;
   if(subjectOnly && raw.length===1) {
@@ -89,7 +89,7 @@ export function reviewGitHubCommitSnapshot(snapshot) {
     warnings.push('EXECUTION_RECEIPT_NOT_INSPECTED');
   }
   const state=errors.length ? 'REJECTED' :
-    warnings.some(x=>x==='FILE_LIST_MAY_BE_PAGINATED') ? 'INCOMPLETE' :
+    warnings.some(x=>['FILE_LIST_MAY_BE_PAGINATED','EXPECTED_PARENT_NOT_SUPPLIED','RENAME_PREVIOUS_PATH_UNRESOLVED'].includes(x)) ? 'INCOMPLETE' :
     'SNAPSHOT_CONSISTENT';
   return {
     state,repository:snapshot.repository,branch:snapshot.selectedBranch,
