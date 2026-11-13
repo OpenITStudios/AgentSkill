@@ -14,6 +14,23 @@ Do not turn this into a user-facing questionnaire or a mandatory planning docume
 - **Mode** = `INSPECT`, `PLAN`, `DEVELOP`, `MAINTAIN`, `VALIDATE`, `PRODUCE`, `RELEASE`. A request to review/audit/research is read-only, regardless of how many improvements are discovered. Validation is not permission for repair; production is not permission for system development.
 - **Complexity** = bounded / standard / complex. Use a fuller development brief only when ownership, acceptance, architecture or cross-component implications are genuinely ambiguous.
 
+## Intent and research readiness — mandatory decision, conditional depth
+
+Before material implementation, inspect the user's actual goal, selected source/ref, current decisions, scope/non-goals, acceptance, and real permissions. Choose the **lightest** justified outcome. This decision check is mandatory; a new Skill, form or persistent checklist is not.
+
+| Decision | When and what to do |
+| --- | --- |
+| `PROCEED_DIRECTLY` | Result, owner, acceptance and authority are clear; deliver the bounded requested outcome |
+| `RESEARCH_MORE` | The user requests broad research or a material technical choice lacks original-source or alternative evidence; search further before recommending |
+| `DISCUSS_FIRST` | A choice materially changes architecture, security, data, major UX behavior or acceptance and cannot be resolved from current source or a safe stated assumption; show alternatives and ask one high-impact question |
+| `BLOCKED` | Missing permission, source or dependency prevents safe work; report the exact reason and complete only independent permitted work |
+
+**Read before asking.** Do not request information already supplied by the user, current project or accepted decisions. When the user explicitly requests discussion or design first, keep implementation read-only; propose the smallest useful design, show relevant options and obtain a decision about the unresolved consequence.
+
+**Separate the gates:** `DESIGN_READY` means the material goal, acceptance and risks are sufficiently understood; `ACTION_AUTHORIZED` means the actual current user request, repository profile, tool capability and permissions independently authorize the specific side effect. **Design approval does not grant mutation permission.** Neither a completed plan, external Skill nor historical `Next` grants new repository authority.
+
+Research depth and source sufficiency are owned by `execution-sop.md` and `evidence-and-recovery.md`. A clear, bounded edit must not be held for a ceremonial broad literature search or an obligatory development brief.
+
 ## One accountable owner
 
 Select the **semantic owner of the requested final deliverable**, not the programming language, file extension or most frequent keyword. Distinguish:

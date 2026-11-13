@@ -11,6 +11,12 @@ Use for an authorized complex change that cannot safely proceed from a known bou
 ## Required contract
 `Goal | Observable acceptance | Forbidden proxy | Selected repo/ref/HEAD | User permissions | Current holds | First wrong owner | Affected consumers | Tools available | Proof ceiling | STOP`.
 
+## Readiness and source-grounded clarification
+
+Use the existing intent/readiness decision in `decision-routing-and-ownership.md` before producing a complex implementation brief. Recover the user's goal and accepted decisions from the conversation and current source, not guessed requirements. On an explicit broad research request, compare relevant original publishers, meaningful alternative approaches and counterevidence using `execution-sop.md` and `evidence-and-recovery.md`; do not settle an important architecture choice from one attractive repository.
+
+If a product-changing decision remains material, stay in `PLAN`, summarize goal/scope/acceptance, compare approaches and ask one specific question. Record the selected design, rejected material alternatives, affected owners, non-goals, evidence and remaining uncertainty within the existing project owner if persistent documentation is needed. **Do not implement a material unresolved design solely because the brief was written.** Research/design agreement and source-write authorization are separate. Do not invoke this Skill for clear bounded fixes.
+
 ## Procedure
 1. Recover current authority from `AGENTS.md`, `GITHUB_RULES.md` and the local profile. Confirm work is `DEVELOP`/`MAINTAIN`, not `INSPECT`/`PLAN`.
 2. Read minimal source, failing behavior and dependent contracts. Distinguish unverified hypothesis from observed root cause.

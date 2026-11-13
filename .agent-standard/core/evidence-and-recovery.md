@@ -42,6 +42,16 @@ When the cause is non-obvious, compare expected versus observed behavior, name o
 
 Under a test hold, an authored negative test is `TEST_AUTHORED_NOT_RUN`, not `EXECUTED_TEST_PASS`. Static source inspection can establish that the check was written; only a permitted actual execution can show it rejects the fixture. Host Skill selection, native behavior and prompt-injection resistance require separate observed evidence.
 
+## Research coverage, source quality and sufficiency
+
+For a material research-backed recommendation, capture the smallest useful coverage summary: `QUESTION | ORIGINAL_SOURCE/REF | SOURCE_FAMILIES | ALTERNATIVES | COUNTEREVIDENCE | RECOMMENDATION | GAPS`. Broad research means **independent relevant approaches**, not a quota of URLs.
+
+**Breadth and depth are separate.** Breadth should cover the current project's source, relevant original upstream publishers, competing implementations, and independent standards/empirical/community findings when useful. Depth should inspect the decisive original files, versions, implementation assumptions, dependencies and failure reports. Mirrors, snippets and community rewordings are weaker evidence than a verified original file. Follow references and related implementations to uncover materially different approaches when appropriate.
+
+**Do not stop after the first favorable or convenient source.** Compare credible alternatives and seek conflicting evidence rather than only support for the first hypothesis. Continue while another relevant source could materially change architecture, acceptance, risk or cost. End when coverage of the relevant source families and major alternatives is sufficient to make a defensible choice and further search brings little new decision value. This is an **adaptive saturation judgment**, not proof of exhaustive global coverage.
+
+Source quantity alone is not a quality metric. Distinguish `OBSERVED`, `INFERRED`, `UNKNOWN` and `RESEARCH_INCOMPLETE`. State exact publisher/path/commit when relevant and accessible, privacy and licensing limits, and missing evidence without invented confidence. No original Skill installation, PC runtime behavior, full repository coverage or user acceptance can be inferred from source research.
+
 ## Goal acceptance before STOP
 
 Check **two independent axes** against the user's scoped result: **Specification** (the requested behavior/output and affected consumers are complete) and **Standards** (branch/permissions, safety, compatibility, absence of material regressions and truthful proof). A clean diff, passing formatting check, large number of files changed, or apparent progress cannot substitute for the actual requested result.

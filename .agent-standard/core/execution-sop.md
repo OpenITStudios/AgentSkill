@@ -33,6 +33,19 @@ Resolve first wrong semantic owner. Read root/profile, relevant canonical docume
 ## 4. DEFINE a decision-complete contract
 `Goal → observable acceptance → forbidden shortcuts → selected owner → inputs/evidence → allowed actions → verification → STOP`. Record assumptions that affect implementation; do not manufacture requirements. For complex work add non-goals, architecture boundaries, affected consumers and rollback conditions.
 
+## Clarification and broad research — before material implementation
+
+Use the `decision-routing-and-ownership.md` readiness decision after examining **already available** user context and current source; do not start with a generic questionnaire.
+
+1. **Interpret:** identify the intended result, existing problem, limits/non-goals, affected owner, acceptance and permission. Distinguish user instruction, current repo source, external evidence and agent inference.
+2. **Inspect before asking:** read the selected source/ref and relevant callers when warranted; reuse previously approved decisions and do not ask the user to repeat available information.
+3. **Research when material or explicitly requested:** search relevant original maintainer repositories and exact files, official vendor/standards documents, and genuinely independent alternatives. On an explicit broad/deep research request, **expand beyond the first credible answer** to other implementations, maintainer discussions, empirical or community evidence where they may affect the design. Look for contradictions, known limits and counterevidence. Search results and mirrors are discovery, not original-source proof.
+4. **Synthesize:** compare serious approaches on applicability, tradeoffs, actual source evidence, safety/compatibility and remaining gaps. Prefer a decision-oriented comparison over a large undifferentiated link list; do not claim an exhaustive or up-to-date survey without supporting coverage.
+5. **Discuss material unknowns only:** offer a concrete interpretation and meaningful alternatives. Ask **one decision-changing question per turn** only when the answer changes the deliverable and context cannot settle it. If the user requested design discussion first, remain in `PLAN` until the design decision is clear.
+6. **Gate and stop:** continue searching while a plausible relevant source family, alternative or conflict could change the decision. **Do not stop after the first convenient result.** Stop when the significant original and alternative sources have been considered, their key contradictions addressed or disclosed, and further targeted searching has little decision value. If critical access remains missing, state `RESEARCH_INCOMPLETE`, not `FULLY_RESEARCHED`; choose `DISCUSS_FIRST` or `BLOCKED` as appropriate.
+
+**Do not implement a materially ambiguous design merely because sources were found.** A mature research summary is not an implementation authorization. Conversely, do not delay an already clear small fix with broad research, unnecessary interviews or new plan files. Preserve ChatGPT/GitHub source-only and test-on-hold restrictions.
+
 ## Goal lock, scope guard and terminal STOP
 
 **Canonical owner of goal completion.** At task start, retain a small internal decision contract: `USER_GOAL | REQUIRED_RESULT | ACCEPTANCE | SCOPE/NON-GOALS | AUTHORIZED_ACTIONS | PROOF_CEILING | STOP`. Derive it from actual user intent and current project source; do not make every small task a new spec, checklist, issue or user questionnaire. In long conversations, preserve this contract through compaction rather than replacing the original goal with the newest interesting detail.

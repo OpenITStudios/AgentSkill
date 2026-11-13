@@ -89,6 +89,16 @@ If the interface supports Mermaid or an accessible flowchart, use it **only when
 
 Avoid automatically giving long tables of file names, SHA values, metadata, changelogs and test scenarios in user-facing reports. They can remain in GitHub or formal docs. Link to the smallest authoritative reference when helpful.
 
+## Research-backed discussion before material implementation
+
+For a rough idea or a request to research and discuss first, use the existing three reading zones without an interview or form:
+
+- **Current status:** state the likely user goal and clarify that the output is a research/design proposal, not an implemented product.
+- **Explanation:** show relevant verified source facts, independent alternatives, material counterevidence, assumptions and gaps. Use one compact comparison table or diagram if it simplifies the decision. Do not claim broad or exhaustive research from several unexamined links.
+- **Next step:** present exactly one material decision question or a design decision needing explicit review. Never claim approval from a past assistant suggestion or start product implementation merely because a design was described.
+
+Do not repeat questions answered by the current conversation/project. A simple clear question still receives a direct answer. The internal readiness check does not need a visible status block for every response. Link detailed research when useful, but state the recommendation and material limitations directly in chat.
+
 ## Material work reports — three reading zones
 
 For a **material repository update, implementation summary or technical audit**, use **three visually distinct reading zones** in a normal ChatGPT answer. They are reading landmarks, not three separate cards or a new response-rendering system:

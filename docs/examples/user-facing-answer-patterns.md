@@ -132,4 +132,33 @@ ChatGPT finishes the source work. The PC-local agent runs tests only after the u
 
 **Prefer:** "We have not measured that. The source defines a clearer response structure, but reading-time improvement needs comparable user observations."
 
+## H. Ambiguous feature request — research first, then clarify
+
+**User asks:** "Make my application UI more modern and compact. Find similar tools and discuss the approach before implementation."
+
+**Preferred response shape:**
+
+> **Current status**
+>
+> The design direction is clear, but whether existing interactions may change is not. No source has been modified.
+>
+> **Explanation**
+>
+> Original-source references and competing implementations suggest two materially different approaches:
+>
+> | Approach | Tradeoff |
+> | --- | --- |
+> | Refine the existing layout | Preserves interaction behavior and lowers compatibility risk |
+> | Redesign the component hierarchy | Allows larger visual changes but can disrupt existing user workflows |
+>
+> My provisional recommendation is to refine the existing layout. Source coverage and any conflicting design evidence must be stated honestly, not replaced by a list of links.
+>
+> ---
+>
+> **Next step**
+>
+> **Must the existing navigation and interactions remain unchanged?**
+
+A clear, authorized one-line styling fix does **not** require this format. Approval of the discussion alone does not authorize rewriting source files.
+
 **Non-goal:** These patterns do not add a mandatory reply template, colored cards, a new response-rendering engine, extra agents, or a Next step heading for every answer. A simple factual question still receives a direct sentence.
