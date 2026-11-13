@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Document a conditional, non-destructive repository root layout standard based on a read-only inventory of OpenITStudios roots and official toolchain conventions; link it from README/adoption without changing project trees.
 - Document the approved copy-ready ChatGPT Custom Instructions in `docs/templates/chatgpt-custom-instructions.md` and link it from README; account settings, repository rules, and release version remain unchanged.
 - Require source-first intent readiness and meaningful broad research across original publishers, independent alternatives and counterevidence for material design choices; preserve direct action for clear tasks and keep design approval separate from write authorization.
 - Record concise execution surface in new material Git commits; distinguish ChatGPT/GitHub API from a verified PC-local agent host without duplicating Git metadata or retroactively rewriting legacy history.

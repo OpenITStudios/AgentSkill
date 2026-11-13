@@ -72,6 +72,8 @@ An `AGENTS.md` cannot grant capabilities, overwrite platform instructions or sil
 
 ## Repository layout
 
+**Root placement standard:** [Repository Root Layout](docs/standards/repository-root-layout.md). It defines conditional ownership, framework-required exceptions and non-destructive checks; it does not mandate a fixed tree or migrate projects automatically. [Cross-repository source audit](docs/research/repository-root-layout-audit-2026-11-13.md) records the public-source evidence and limits.
+
 - `AGENTS.md`, `GITHUB_RULES.md` — portable baseline used by any adopted repo.
 - `.agent-standard/core/user-facing-communication.md` — **mandatory answer contract** for short, plain-language and diagram-assisted responses.
 - `.agent-standard/core/INDEX.md` — canonical selector for execution surfaces, host identity, routing, context, handoff, evaluation and tools; load other modules only when needed.

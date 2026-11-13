@@ -22,6 +22,12 @@ Each repository retains its own branch, active status owner, holds, domain skill
 
 For any future adoption, pin actual target branch/HEAD, then read **Get Commit** for material changed-file and parent evidence. A locally supplied JSON snapshot or format-check result alone is not source authentication. Preserve the existing status owner, authorization and the two work surfaces; do not install snapshot tools, enable CI, force tests or rewrite old project histories. For the concrete read-only source pilot see `docs/research/continuity-readonly-pilot-2026-11-13.md` in AgentSkill.
 
+## Root layout review — non-destructive by default
+
+For proposed root-level file or directory changes, consult [Repository Root Layout Standard](standards/repository-root-layout.md) and its [read-only evidence review](research/repository-root-layout-audit-2026-11-13.md). This standard is **conditional** and does not automatically reclassify current project root entries as errors.
+
+At the selected authorized branch/HEAD, inspect actual root consumers, framework/toolchain discovery requirements, README, local layout policy, relevant `.gitignore` and nested/domain ownership. Classify root entries as `KEEP_ROOT`, `DOMAIN_OWNED`, `LOCAL_OR_GENERATED` or `REVIEW_EXCEPTION`. A root move must preserve imports, scripts, README links, installers, GitHub workflows, user data and existing Skills/agents. Respect local names and stricter rules. An audit or adoption discussion does **not** authorize migration or deletion.
+
 ## Classification before migration
 For every source repository pin the **user-selected working branch and HEAD**; read root/nearest AGENTS, GitHub rules, local skills, permission files, live branch restrictions, test/CI holds, privacy rules and workstream pauses. Classify each directive:
 - `CORE` — belongs in AgentSkill shared policy, identical for all.
