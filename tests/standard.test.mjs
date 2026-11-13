@@ -229,6 +229,10 @@ test('categorized policy keeps method and shared Skill identities and pins upstr
     assert.ok(index.includes(category), 'missing category: ' + category);
   }
   assert.match(engineering, /upstream branch HEAD/i);
+  assert.match(engineering, /First-pass code fit — contracts before edit/);
+  assert.match(engineering, /Verify the owning contract and affected consumers before writing code/);
+  assert.match(engineering, /Do not weaken a test, assertion or contract solely to make a check pass/);
+  assert.match(engineering, /Stop a correction strategy after two attempts without new discriminating evidence/);
   assert.match(skillPolicy, /not remove, rename, disable, replace or silently shadow/i);
   const methods = JSON.parse(registryText);
   const manifest = JSON.parse(manifestText);
@@ -238,7 +242,25 @@ test('categorized policy keeps method and shared Skill identities and pins upstr
 });
 
 
-test('original upstream REA and UI UX references remain source-only and pinned', async () => {
+test('engineering guard rejects weakening a failed acceptance gate for speed', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-first-pass-correction-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/engineering-and-review-methods.md');
+    const original = await readFile(file, 'utf8');
+    const directive = '**Do not weaken a test, assertion or contract solely to make a check pass.**';
+    assert.ok(original.includes(directive));
+    await writeFile(file, original.replace(directive, '**Weaken an assertion whenever it makes a check pass.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /ENGINEERING QUALITY: first-pass contract or evidence-led correction safety missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
+
+test('original upstream REA and UI UX references remain source-only and pinned', async () {
   const [registryText, policy, skillPolicy, report, manifestText] = await Promise.all([
     readFile(join(ROOT, 'registry/methods.json'), 'utf8'),
     readFile(join(ROOT, '.agent-standard/core/engineering-and-review-methods.md'), 'utf8'),

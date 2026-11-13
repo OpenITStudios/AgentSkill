@@ -51,9 +51,21 @@ An official installer may transform generated host paths or templates. In that c
 
 Skip the coding pass entirely for simple factual discussion, ordinary non-code writing or read-only status that does not need engineering design.
 
+## First-pass code fit — contracts before edit
+
+**Verify the owning contract and affected consumers before writing code.** For material coding work, make one bounded source map using the actual selected revision: the first responsible function/module; its input/output types, schemas or tool contracts; the relevant callers and downstream consumers; existing reusable helpers; and the required positive and negative behavior. Start from the entrypoint, symbol, or observed failure and follow only decision-relevant references. A repository-wide file dump, new index, long design brief or separate review agent is not required for a known-owner fix.
+
+Before the first edit, answer only what changes the implementation: **Which behavior must change, what must remain unchanged, and which consumers will break if the interface changes?** When a material contract is unknown, inspect the smallest discriminating source or request the one decision that affects acceptance; do not invent a signature or public behavior and repair it through repeated guesses. When the contract is clear, reuse the existing implementation first and add a helper or abstraction only when the accepted behavior or necessary consumers justify it.
+
+Prepare the smallest **coherent** source change, including truly affected callers, schema/docs or regression fixtures where needed. Do not generate a test, abstraction, report or second owner only to demonstrate activity. Review the changed source against the accepted specification and preservation requirements before a commit. In `CHATGPT_GITHUB`, label any authored but unrun tests `TEST_AUTHORED_NOT_RUN`; no CI or cloud runner substitutes for a user-PC native check.
+
 ## Evidence-led diagnosis without excessive process
 
 For nontrivial defects, record the observed mismatch and the matching source revision. Distinguish a hypothesis from verified root cause with one competing explanation and the **smallest decision-changing check**. If evidence is insufficient, label the cause `INFERRED` and limit changes to what the source justifies. Verify the required callers and invariants, not merely a clean-looking diff. For a simple known-owner correction, do **not** require a diagnosis document, extra review agent or repeated investigation.
+
+For a failed source check or reported defect, identify the *first mismatching owner* before editing again: implementation, consumer contract, fixture/assertion, stale source/revision or unavailable execution evidence. Compare the expected result to the observed failure, inspect one plausible competing cause, and choose the smallest source observation that distinguishes them. **Do not weaken a test, assertion or contract solely to make a check pass.** If the check is demonstrably wrong, repair its own semantic owner while preserving the original acceptance requirement.
+
+**Stop a correction strategy after two attempts without new discriminating evidence; reclassify the blocker instead of guessing again.** Two retries are not a mandatory quota: stop sooner for a proven blocker, unsupported tool, safety risk or completed result. Continue a correction only when new evidence changes the diagnosis, and recheck the affected consumers rather than restarting a full audit. If only native/runtime proof is unavailable due to a hold, mark `NOT_EXECUTED` and stop at the source proof ceiling instead of repeatedly editing code to obtain an imaginary PASS.
 
 A correct engineering outcome must satisfy both the user's specification and the relevant preservation/security requirements at the available proof ceiling. Do not turn an optional concern into a new development round after acceptance is achieved.
 

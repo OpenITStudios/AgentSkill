@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Improve the existing engineering pass with source-first contract/caller mapping before the first edit and evidence-led correction stopping rules; extend the normative corpus and authored safety checks without a new agent, tool or test runner.
 - Introduce proportional ChatGPT/GitHub FAST/STANDARD/CRITICAL task-cost lanes, safe single-file versus coherent multi-file writes, verified source/commit receipt reuse, and scoped authored regression cases without relaxing branch, security or proof requirements; repair one existing malformed test callback.
 - Add event-driven, verified checkpoints and emergency ChatGPT chat-limit recovery to existing continuity owners; provide an UNSAVED handoff fallback, guard unknown writes and concurrent updates, and author six normative cases and source checks without creating a new state store.
 - Add a concrete read-only ChatGPT/GitHub review example and strengthen README source checks for package version, executable npm scripts, reference links and simple heading anchors without adding a Markdown engine or running held tests.

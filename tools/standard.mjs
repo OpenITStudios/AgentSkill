@@ -355,6 +355,12 @@ async function validateMethodRegistry(evals) {
   ensure(root.includes('.agent-standard/methods.json') && root.includes('Karpathy + Ponytail'), 'METHOD REGISTRY: root is missing mandatory conditional routing');
   const procedure = await readFile(join(ROOT,owner),'utf8');
   ensure(procedure.includes('.agent-standard/methods.json') && procedure.includes('Karpathy + Ponytail'), 'METHOD REGISTRY: source owner not linked');
+  const firstPass = ownedMarkdownSection(procedure, 'First-pass code fit — contracts before edit');
+  const correction = ownedMarkdownSection(procedure, 'Evidence-led diagnosis without excessive process');
+  ensure(firstPass.includes('**Verify the owning contract and affected consumers before writing code.**') &&
+    correction.includes('**Do not weaken a test, assertion or contract solely to make a check pass.**') &&
+    correction.includes('**Stop a correction strategy after two attempts without new discriminating evidence; reclassify the blocker instead of guessing again.**'),
+    'ENGINEERING QUALITY: first-pass contract or evidence-led correction safety missing');
 }
 
 function readmeProseOutsideFences(markdown) {
