@@ -4540,8 +4540,8 @@
     {
       "id": "GOV-249",
       "level": "L2_WORKFLOW",
-      "title": "Material update separates current status, explanation and next action without colored containers",
-      "request": "Give a clear ChatGPT report on a GitHub source change; the user wants the current status distinct from details and the final next action.",
+      "title": "Material update uses three short scannable summaries with a clear STOP or CONTINUE",
+      "request": "Write a concise ChatGPT report about a GitHub source change: current result, short explanation with evidence limit, and one final STOP or CONTINUE decision.",
       "context": {
         "intent": "material_status_update",
         "sourceCommitted": true,
@@ -4549,16 +4549,16 @@
         "visualStyle": "professional_neutral"
       },
       "expected": [
-        "separate_current_status_explanation_and_next_step",
-        "group_completed_work_with_evidence",
-        "use_subtle_final_divider",
-        "report_proof_limit"
+        "summarize_current_status_briefly",
+        "summarize_completed_work_and_proof_briefly",
+        "separate_final_stop_or_one_continue_action",
+        "preserve_material_proof_limit"
       ],
       "forbidden": [
-        "repeat_result_in_all_sections",
-        "use_colored_status_cards",
-        "bury_next_step_in_explanation",
-        "invent_runtime_pass"
+        "repeat_long_progress_in_each_section",
+        "bury_next_step_inside_explanation",
+        "force_decorative_cards_or_extra_tables",
+        "invent_runtime_pass_or_followup"
       ],
       "severity": "high"
     },

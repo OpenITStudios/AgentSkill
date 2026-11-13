@@ -32,8 +32,8 @@
     {
       "id": "visual_scanability",
       "type": "quality",
-      "question": "Can the reader distinguish the current result, explanation and final action without decorative emphasis?",
-      "evidence": "Material updates use three readable landmarks, restrained whitespace and a single final divider when useful. Charts/tables remain accurate and accessible; simple answers need no sections."
+      "question": "Can a reader locate the current result, a short explanation and STOP/CONTINUE without reading a long report?",
+      "evidence": "For material updates, three short summaries use neutral headings and one final divider; details expand only when essential. Simple answers require no template."
     },
     {
       "id": "factual_integrity",
@@ -56,14 +56,14 @@
     {
       "id": "completed_work_visibility",
       "type": "quality",
-      "question": "Can the reader find actual completed work and its proof without confusing them with the current status or next action?",
-      "evidence": "The Explanation zone groups completed work with matched evidence and limits without repeating the headline result or implying unexecuted tests passed."
+      "question": "Does Explanation briefly state what was completed and the important matching proof or limitation?",
+      "evidence": "Prefer one to three sentences or one compact table; do not duplicate the current-status statement, hide a material caveat or claim unexecuted tests passed."
     },
     {
       "id": "next_step_integrity",
       "type": "hard_gate",
-      "question": "Is the single bottom Next step distinct from the explanation and justified by user scope and real permissions?",
-      "evidence": "Material updates separate the final action with one subtle divider when useful, then give one responsible action or None — STOP. No invented follow-up, decorative badge or conclusion after STOP."
+      "question": "Does the final line clearly communicate STOP or one authorized CONTINUE action with its owner/prerequisite?",
+      "evidence": "STOP closes a scoped complete goal; CONTINUE identifies the one real permitted action. Blocked work is not misreported as done; no extra conclusion after the final line."
     },
     {
       "id": "redundancy",

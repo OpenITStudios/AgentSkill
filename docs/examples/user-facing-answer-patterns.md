@@ -36,7 +36,7 @@ Prefer a compact table. Keep aligned criteria side by side; do not write a separ
 
 Do not append headings, a diagram, a next-step panel or an invented task to a simple answer.
 
-## B. Repository update — three distinct reading zones
+## B. Repository update — short three-zone summary
 
 **User asks:** "What did you change?"
 
@@ -44,23 +44,19 @@ Do not append headings, a diagram, a next-step panel or an invented task to a si
 
 > **Current status**
 >
-> **The routing rules are updated** on the selected GitHub branch.
+> The routing update is complete on the selected GitHub branch.
 >
 > **Explanation**
 >
-> **Completed work:** The agent clarified Skill activation rules and preserved existing shared Skills.
->
-> **Evidence and limits:** The current GitHub commit contains the source changes. No local tests ran.
+> I clarified Skill activation and preserved existing shared Skills. The changes are visible in the GitHub commit; local tests have not run.
 >
 > ---
 >
-> **Next step**
->
-> **None — STOP.** The source-only task is complete.
+> **Next step:** None — STOP.
 
-This is a **presentation example**, not a new source verification receipt. Keep the current result, its explanation, and the final action distinct; do not repeat the opening conclusion after STOP.
+The user can identify the result, important proof and terminal decision without reading a repeated progress report. This is a presentation example, **not** a real execution receipt.
 
-## C. Blocked task — show the real prerequisite
+## C. Blocked task — short prerequisite summary
 
 **User asks:** "Can you publish the release now?"
 
@@ -68,21 +64,19 @@ This is a **presentation example**, not a new source verification receipt. Keep 
 
 > **Current status**
 >
-> **The release is not published.** The repository requires separate approval.
+> The release is not published because approval is missing.
 >
 > **Explanation**
 >
-> I prepared the release notes and checked the version against the selected source. No publish action occurred.
+> I reviewed the release notes and source version. No publish action occurred.
 >
 > ---
 >
-> **Next step**
->
-> **The repository owner must approve the release** before any publish action.
+> **Next step:** CONTINUE only after the repository owner approves publication.
 
-A missing approval is a blocker, not completed work. The final action identifies the responsible actor without implying approval.
+A blocker is not a successful release, and the next action must not bypass permission.
 
-## D. Finished goal — stop without follow-up invention
+## D. Finished source goal — short STOP summary
 
 **User asks:** "Is the requested source correction complete?"
 
@@ -90,7 +84,7 @@ A missing approval is a blocker, not completed work. The final action identifies
 
 > **Current status**
 >
-> The requested source correction is complete.
+> The source correction is complete.
 >
 > **Explanation**
 >
@@ -100,7 +94,7 @@ A missing approval is a blocker, not completed work. The final action identifies
 >
 > **Next step:** None — STOP.
 
-**Avoid:** "Next step: Refactor the architecture, add another evaluator, and repeat a full repository audit." The completed source goal does not authorize unrelated polishing.
+**Avoid:** Automatically adding another audit, refactor or testing phase after the authorized source objective has been completed.
 
 ## E. Multi-stage process — use a small diagram
 
