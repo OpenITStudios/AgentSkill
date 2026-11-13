@@ -9,7 +9,7 @@
 ## Default answer order — never an obligatory long template
 
 1. **Answer first:** state the concrete outcome, decision or next action in the first one or two sentences. For repository work, say whether anything was actually changed.
-2. **Explain visually when it helps:** for an ordered process, architecture, dependency, state transition or multi-step decision, prefer a **small diagram** showing the path from start to finish. For a comparison, a compact table may be clearer. For a simple fact, yes/no, brief correction or conversational answer, **no diagram**.
+2. **Choose the appropriate visual before writing a long explanation:** use a compact comparison table for alternatives, a short directional diagram for workflows or dependencies, and an accurately scaled chart for sourced numerical patterns. For a simple factual answer, **no visual is better**. Keep one main visual, readable labels and a brief text interpretation.
 3. **Give only decision-relevant detail:** a necessary reason, constraint, evidence limit or one next step. Place technical specifics, implementation history, file inventories, tool commands and large tables in linked source material or a requested deeper explanation. Do not say "see the report" instead of answering the question.
 4. **Stop:** no repeated conclusions, gratuitous compliments, progress recaps, several alternate formats or generic offers after the task is answered.
 
@@ -37,6 +37,31 @@ Use clear **subject–verb–object** structure when it improves comprehension: 
 - Do **not** mechanically require an object in every sentence. **"The validator failed."**, **"Stop."** and concise headings are valid. Keep the user's language and natural grammar; English documentation does not force English user-facing replies.
 
 A clear sentence should identify **actor → action → object/result**, not add a compulsory metadata field, redundant heading or narration of internal tool calls. The final answer remains shorter than the underlying investigation when that is sufficient for understanding.
+
+## Visual-first selection — match the information structure
+
+**Prefer a visual representation when it lets the reader understand the requested relationship faster and more accurately than prose.** "Visual-first" is a **selection preference**, not a demand for an image, graph or diagram in every answer. Start with the actual answer or decision. Choose **one primary representation** for the reader's main task rather than repeating the same facts across a diagram, table, cards and long paragraphs.
+
+| Reader's question | Preferred format | Do not use when |
+| --- | --- | --- |
+| "How does the process work?" or "What depends on what?" | Short, directional **flow/relationship diagram** with labeled branches | The process is a single obvious step or unknown transitions would be invented |
+| "Which option is better?" or "What differs?" | **Compact comparison table** with consistent criteria, a short conclusion and any material tradeoff | The items are not comparable or a short sentence conveys the difference |
+| "How did this number change?" or "What pattern does the data show?" | **Data chart** with actual numeric evidence, labels, units, scale and source | Values are missing/unreliable, the metric is incomparable, or exact values matter more than a pattern |
+| "What is done, blocked or remaining?" | **Small status table** if several work items need comparison; otherwise a short completed-work summary | A one-line status is sufficient |
+| "What is the answer?" | **One direct sentence or compact paragraph** | Do not make a decorative visual to fill space |
+| "What do these interfaces/configurations mean?" | **Code/schema** or a narrow table when it preserves required exact syntax | A diagram would hide source details or break copyable code |
+
+**One-glance structure:** answer/decision first → the selected visual (if useful) → one concise interpretation or essential caveat → the final justified **Next step** or **STOP** for material work updates. Use descriptive headings that state the point, not generic repeated headings such as "Overview 1/2/3". Place labels and units next to the values they explain; never make users infer what colors, numbers or arrows mean.
+
+**Readable representation:**
+- Keep a flow on one primary reading path, typically three to seven meaningful steps. Label decisions and do not invent transitions.
+- Keep comparison columns few and decision-relevant. Give each column a distinct heading; keep criteria consistent, units explicit and missing values marked **unknown**, not zero. Avoid a wide table when the reader uses a narrow screen; split by topic or use concise labeled text.
+- For charts, use a meaningful baseline and correct units/scales. Distinguish observed measurements from forecasts or estimates, and include the source or evidence. Do not invent numbers simply to produce a graph; use a table for exact numeric lookup when that is clearer.
+- Avoid duplicate visualizations of the same facts, large dashboards, decorative icons, stacked colored callouts, tiny labels, unexplained acronyms and color as the only carrier of meaning.
+- When showing an informative diagram, graphic or chart, include a **short text equivalent** of its essential relationship or result. Complex visuals need a fuller accessible explanation or a readable table of the underlying values where appropriate. If the current host cannot render a visual reliably, use a clear text diagram, Markdown table or short prose instead; **do not claim a render occurred**.
+- Preserve the factual/evidence ceiling, user language and requested technical depth. Visual compression must never conceal a safety condition, ambiguous dependency or essential acceptance limitation.
+
+**Do not force this format onto every turn.** The correct visual choice may be **none**; respond to a simple question without a diagram, table, heading or invented Next step. Do not generate static images solely to illustrate ordinary text. Select or create image-based graphics only when the request and available tools genuinely support them.
 
 ## Diagram-first decision rule — not diagram everywhere
 
@@ -93,6 +118,8 @@ These four sections are **conditional presentation guidance, not a mandatory rep
 - Does each material statement make its actor, action and result clear without forcing unnatural grammar?
 - For a material work update, can the reader scan completed work, evidence and the **final Next step**, or see an explicit STOP when no next action exists?
 - Would a novice understand the main point without interpreting unnecessary jargon?
+- Did I select a table, flow diagram, data chart or no visual according to the reader's information task, rather than by decoration?
+- Is the main visual clear at a glance, with concise labels, comparable criteria or grounded numbers, and an accessible text equivalent?
 - If the request involves a flow, is the diagram shorter/clearer than its prose alternative, with real start/end and no invented edges?
 - Did I preserve the key factual distinction, uncertainty, permission and test status?
 - Did I remove repetition, unnecessary metadata and explanations of work the user did not request?
@@ -106,6 +133,11 @@ Use `evaluation-and-improvement.md` and the communication-specific rubric for ac
 - ASD-STE100 Simplified Technical English: https://www.asd-ste100.org/ — controlled English technical writing; **adapt principles only**.
 - ISO 24495-1 Plain Language: https://www.iso.org/standard/78907.html — information relevant, findable, understandable and usable.
 - Nielsen Norman Group — Progressive Disclosure: https://www.nngroup.com/articles/progressive-disclosure/ — provide necessary information first and show detail on demand.
+- Nielsen Norman Group — Data Tables: https://www.nngroup.com/articles/data-tables/ — support side-by-side comparison with directly comparable values.
+- Nielsen Norman Group — Scannable Headings: https://www.nngroup.com/articles/layer-cake-pattern-scanning/ — lead with informative section labels.
+- GOV.UK Design System — Tables: https://design-system.service.gov.uk/components/table/ — use tables for data comparison, not page layout.
+- W3C WAI — Tables: https://www.w3.org/WAI/tutorials/tables/ — identify headers and data relationships.
+- W3C WAI — Complex Images: https://www.w3.org/WAI/tutorials/images/complex/ — provide equivalent information for meaningful diagrams and charts.
 - W3C WAI Cognitive Accessibility: https://www.w3.org/WAI/WCAG2/supplemental/patterns/o7p02-alternative-content/ — clear alternative forms for complex information.
 
 **Verification ceiling:** this file defines expected responses; only observed user comprehension and task-success evaluations can establish effectiveness.

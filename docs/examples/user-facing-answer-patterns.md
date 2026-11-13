@@ -2,6 +2,30 @@
 
 These examples demonstrate **presentation patterns**, not actual user records, executed tests or evidence of model behavior. The authoritative standard is `.agent-standard/core/user-facing-communication.md`. All documentation examples are in English; the assistant must still answer in the user's language.
 
+## Visual-first examples — one view per information task
+
+**Comparison request:** "Compare three implementation approaches by compatibility, cost and maintenance burden."
+
+Prefer a compact table. Keep aligned criteria side by side; do not write a separate feature paragraph and card for every approach. If a value is unknown, label it **Unknown** rather than guessing.
+
+| Approach | Compatibility evidence | Implementation burden |
+| --- | --- | --- |
+| A | Verified in the selected source | Low |
+| B | Not yet verified | Medium |
+| C | Not yet verified | Unknown |
+
+*Illustrative values only; not a real product assessment.* State the principal tradeoff in one sentence under the table.
+
+**Workflow request:** "Show the source-to-validation handoff." Use a short directional diagram, not a large table of sequential steps. Existing section E demonstrates the source-to-local workflow. Keep arrows true to the actual process and write its essential meaning in one sentence.
+
+**Numeric-trend request:** "Show how failure rate changed over four measured periods." Use a chart **only after retrieving comparable measured values, units and periods**. Add a brief interpretation and, where appropriate, an accessible numeric table. Never draw a chart from invented percentages.
+
+**One-line question:** "Did the tests run?" Say "No. The tests were written but not executed." No chart, table, diagram or Next step is needed.
+
+**Long audit:** Open with the key finding. Use one prioritized table for issues, grounded evidence and ownership, then an explicit final decision. Avoid repeating the same items as cards, a pie chart and another summary.
+
+**Accessibility and small screens:** Use short row/column headers, visible units, meaningful labels beyond color, and a textual equivalent for informative diagrams. For a very wide table, narrow its criteria or split it; do not shrink text until it becomes difficult to read.
+
 ## A. Simple factual answer — no template
 
 **User asks:** "Did the local tests run?"
