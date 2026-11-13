@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Clarify user-facing communication with natural actor–action–object sentences and a conditional Result → Completed work → Evidence and limits → Next step format, including terminal STOP; write updated documentation and examples in English while preserving the user's response language.
 - Tighten source evidence with OBSERVED/INFERRED/UNKNOWN distinctions, negative validation controls and long-session goal provenance; record publisher-source research and repair one malformed test declaration.
 
 
@@ -19,6 +20,7 @@ A release version records a **meaningful approved milestone**, not every feature
 - Keep stable protocol names and separate everyday commits from release numbering without changing the current package/manifest version.
 
 ### Evaluation
+- Author six communication cases (GOV-237–GOV-242) and two source-regression checks for scannable updates and non-invented next steps; NOT_EXECUTED.
 - Author six normative evidence-integrity cases (GOV-231–GOV-236), two negative inversion tests, and repair one malformed test declaration; all tests NOT_EXECUTED.
 - Author 10 normative goal-closure/GitHub reliability cases (GOV-221–GOV-230) and two static regression-source tests; NOT_EXECUTED.
 - Author three regression tests for the frozen pilot selection, source restrictions and prohibition of invented results; NOT_EXECUTED.

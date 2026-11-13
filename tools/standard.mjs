@@ -388,6 +388,16 @@ async function validateCanonical() {
   ensure(rootInstructions.includes('## User-facing communication') && rootInstructions.includes(communicationPath), 'MANDATORY COMMUNICATION POLICY: root instruction missing');
   const communication = await readFile(join(ROOT, communicationPath), 'utf8');
   ensure(communication.includes('Answer first') && communication.includes('ASD-STE100') && communication.includes('Diagram-first'), 'MANDATORY COMMUNICATION POLICY: content incomplete');
+  const sentenceRules = ownedMarkdownSection(communication, 'Sentence clarity — identify the actor and the action');
+  const reportRules = ownedMarkdownSection(communication, 'Material work reports — result, completed work, evidence, next step');
+  ensure(sentenceRules.includes('subject–verb–object') && sentenceRules.includes('Do **not** mechanically require an object'),
+    'COMMUNICATION FORMAT: clear but non-mechanical sentence contract missing');
+  ensure(reportRules.includes('**Completed work:**') && reportRules.includes('**Evidence and limits:**') &&
+    reportRules.includes('**Next step:**') &&
+    reportRules.includes('**Do not invent a next action.**') &&
+    reportRules.includes('**"Next step: None — STOP."**') &&
+    reportRules.includes('not a mandatory report template'),
+    'COMMUNICATION FORMAT: material update or justified next-step contract missing');
   const rubric = await readJson('evals/communication-rubric.json');
   ensure(rubric && rubric.schemaVersion === 1 && rubric.status === 'NORMATIVE_NOT_MEASURED' && rubric.standardPath === communicationPath, 'invalid communication rubric identity');
   ensure(Array.isArray(rubric.dimensions) && rubric.dimensions.length >= 6, 'insufficient communication quality dimensions');
@@ -396,6 +406,16 @@ async function validateCanonical() {
     ensure(dimension && typeof dimension.id === 'string' && !rubricIds.has(dimension.id), 'invalid/duplicate communication dimension');
     rubricIds.add(dimension.id);
     ensure(['hard_gate','quality'].includes(dimension.type) && typeof dimension.question === 'string' && dimension.question.length > 10 && typeof dimension.evidence === 'string' && dimension.evidence.length > 10, 'invalid communication rubric criteria');
+  }
+
+  const mandatoryCommunicationDimensions = new Map([
+    ['actor_action_clarity', 'quality'],
+    ['completed_work_visibility', 'quality'],
+    ['next_step_integrity', 'hard_gate']
+  ]);
+  for (const [id, type] of mandatoryCommunicationDimensions) {
+    ensure(rubric.dimensions.some(d => d.id === id && d.type === type),
+      'COMMUNICATION FORMAT: rubric lacks ' + id);
   }
 
   ensure(manifest.entries.filter(e => e.kind === 'adapter').length === 3, 'three canonical agent host adapters required');

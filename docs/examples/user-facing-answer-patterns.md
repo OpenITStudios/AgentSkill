@@ -1,55 +1,92 @@
-# Examples — Fast Understanding Without Lost Precision
+# Examples — Clear Actions, Visible Results and One Next Step
 
-Illustrative **response patterns**, not user facts or executed evidence. These examples must not override the shared communication policy. Use the style that best fits the question.
+These examples demonstrate **presentation patterns**, not actual user records, executed tests or evidence of model behavior. The authoritative standard is `.agent-standard/core/user-facing-communication.md`. All documentation examples are in English; the assistant must still answer in the user's language.
 
-## A. Simple yes/no (no diagram)
+## A. Simple factual answer — no template
 
-**Question:** Apakah pengujian lokal sudah dilakukan?
+**User asks:** "Did the local tests run?"
 
-**Bad:** "Berdasarkan tahapan implementasi dan mekanisme pengembangan yang sudah kita susun, proses pengujian lokal masih menjadi sebuah agenda yang direncanakan dalam fase berikutnya ..."
+**Avoid:** "Based on the various stages of implementation, the local testing process remains scheduled for a later operational phase."
 
-**Better:** "Belum. Source sudah diperiksa, tetapi pengujian di PC belum dilakukan."
+**Prefer:** "No. I reviewed the source, but nobody has run the tests on your computer."
 
-## B. Complex workflow (small diagram)
+Do not append headings, a diagram, a next-step panel or an invented task to a simple answer.
 
-**Question:** Bagaimana alur pekerjaan dari ChatGPT sampai PC lokal?
+## B. Repository update — completed work and proof
 
-**Bad:** Six paragraphs of architecture names, test engines, branches and runner details.
+**User asks:** "What did you change?"
 
-**Better:**
+**Prefer:**
+
+> The agent updated the routing rules on the selected GitHub branch.
+>
+> **Completed work**
+> - The agent clarified the positive and negative Skill activation conditions.
+> - The agent preserved the existing shared Skills.
+>
+> **Evidence and limits**
+> The current GitHub commit contains the source changes. No local tests ran.
+>
+> **Next step:** None — STOP. The source-only task is complete.
+
+Each sentence identifies an actor, action and result. Do not call the changes "tested" when only GitHub source was reviewed.
+
+## C. Blocked task — explicit next actor
+
+**User asks:** "Can you publish the release now?"
+
+**Prefer:**
+
+> I prepared the release notes, but I did not publish a release.
+>
+> **Completed work:** I checked the version and the release notes against the selected source.
+>
+> **Evidence and limits:** The repository requires explicit release approval.
+>
+> **Next step:** The repository owner must approve the release before any publish action.
+
+A missing approval is a blocker, not a completed release or an invitation to bypass permissions.
+
+## D. Finished goal — do not create follow-up work
+
+**User asks:** "Is the requested source correction complete?"
+
+**Prefer:**
+
+> I corrected the requested source issue and checked the affected files in GitHub. The task is complete at the source-review proof level; runtime tests remain deferred.
+>
+> **Next step:** None — STOP.
+
+**Avoid:** "Next step: Refactor the architecture, add another evaluator, and repeat a full repository audit." A completed goal does not authorize unrelated polishing.
+
+## E. Multi-stage process — use a small diagram
+
+**User asks:** "How does source work move from ChatGPT to a PC-local agent?"
+
+**Prefer:**
 
 ```text
 ChatGPT + GitHub
-   ↓
-Selesaikan arsitektur & source
-   ↓
-Paket siap uji (belum dites)
-   ↓
-PC + AI agent
-   ↓
-Localtest & perbaikan
+       ↓
+Source development and source review
+       ↓
+Source-ready handoff (not tested)
+       ↓
+Separately authorized PC-local validation
 ```
 
-"Di ChatGPT kita selesaikan source. Setelah Anda memilih tahap lokal, agent di PC menjalankan pengujian. GitHub Actions tidak dipakai sebagai pengganti."
+ChatGPT finishes the source work. The PC-local agent runs tests only after the user authorizes that phase. GitHub Actions do not substitute for PC-local tests.
 
-## C. Repository update (result first)
+## F. Expert review — keep the requested depth
 
-**Question:** Apa hasil perbaikannya?
+**User asks:** "Review the API contract, affected callers, migration risk and acceptance evidence."
 
-**Bad:** Lead with a long 20-file list, architecture terms and repeated disclaimers.
+**Prefer:** Start with the decision, then explain the exact API changes, caller impact, compatibility risks and evidence by owner or topic. End with one necessary next action, or a terminal STOP. Do not truncate required technical detail to meet a word-count target.
 
-**Better:** "Aturan inti sudah dirapikan dan disimpan di branch yang disetujui. Alur kerja sekarang memakai satu pemilik keputusan. Pengujian lokal belum dilakukan. [Repository link when available]."
+## G. Unmeasured benefit — no invented percentage
 
-## D. Explicit expert request (retain requested details)
+**User asks:** "Did this communication standard reduce reading time by 60%?"
 
-**Question:** Berikan perubahan kontrak API, contoh kode dan risiko migrasi.
+**Prefer:** "We have not measured that. The source defines a clearer response structure, but reading-time improvement needs comparable user observations."
 
-**Better:** "Ringkasan keputusan" first, then the requested precise schema/code, edge cases, migration steps and matched evidence. Do **not** cut technical content just to satisfy an arbitrary word cap.
-
-## E. No invented measurements
-
-**Question:** Apakah standar ini memang menghemat 60% waktu baca?
-
-**Better:** "Belum bisa dipastikan. Kita sudah menyederhanakan format jawaban, tetapi penghematan waktu baca harus diuji dengan pengguna."
-
-**Non-goal:** these examples do not create a new reply templating engine or force every ChatGPT response to have a title, table and diagram.
+**Non-goal:** These patterns do not introduce a mandatory reply template, a new response-rendering engine, extra agents or an obligation to show a next-step heading in every answer.

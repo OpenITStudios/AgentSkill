@@ -38,8 +38,26 @@
     {
       "id": "action_clarity",
       "type": "quality",
-      "question": "Does the reader know what changed or what they should do next?",
-      "evidence": "Outcome and one genuinely necessary next step are explicit."
+      "question": "Can the reader identify the responsible next actor and concrete action, or a clear STOP when the task is complete?",
+      "evidence": "Material work updates put one justified Next step at the bottom; simple answers do not need a next-step section."
+    },
+    {
+      "id": "actor_action_clarity",
+      "type": "quality",
+      "question": "Do material sentences identify who acted, what action occurred, and the affected object or result?",
+      "evidence": "Uses natural subject–verb–object sentences where helpful; does not force an object into every sentence."
+    },
+    {
+      "id": "completed_work_visibility",
+      "type": "quality",
+      "question": "Can a reader quickly identify which requested work was actually completed?",
+      "evidence": "Material updates summarize completed actions in one scannable section, without an unrelated file inventory."
+    },
+    {
+      "id": "next_step_integrity",
+      "type": "hard_gate",
+      "question": "Is the final Next step justified, visible and consistent with the scope and permission state?",
+      "evidence": "Ends material updates with one distinct responsible action or None — STOP; never invents a follow-up or claims a blocked action completed."
     },
     {
       "id": "redundancy",
@@ -62,14 +80,20 @@
       "correct_next_action",
       "critical_caveat_recall",
       "number_of_clarifying_followups",
-      "subjective_visual_helpfulness"
+      "subjective_visual_helpfulness",
+      "actor_action_object_identification",
+      "completed_work_identification",
+      "next_step_locatability",
+      "invented_followup_rate"
     ],
     "safeguards": [
       "Blind review where possible",
       "Record user experience level without assuming it from demographics",
       "Separate trivial queries from multistep workflows",
       "Use the same factual source/evidence for both answer styles",
-      "Any misleading claim or omitted critical limit is a hard failure"
+      "Any misleading claim or omitted critical limit is a hard failure",
+      "Keep source documentation in clear English while user-facing replies follow the user's language",
+      "Do not require a report template or Next step heading for simple answers"
     ],
     "costNote": "Word count and reading time estimates are proxies; no reduction claim until actual comparable evidence exists."
   }

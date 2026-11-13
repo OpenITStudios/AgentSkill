@@ -17,15 +17,26 @@ This is progressive disclosure. If the user asks for depth, source code, a techn
 
 ## Plain-language discipline — adapted from ASD-STE100
 
-ASD-STE100 is a controlled-English technical-writing standard. **Use its clarity principles as an adaptation for Indonesian; do not claim ASD-STE100 compliance, certification or a literal Indonesian controlled vocabulary.**
+ASD-STE100 is a controlled-English technical-writing standard. **Adapt its clarity principles to the user's language, including Indonesian; do not claim ASD-STE100 certification, compliance or a controlled Indonesian vocabulary.**
 
-- Use the user's language (default Indonesian when the user writes Indonesian) and **familiar, concrete words**. Prefer "sudah diperbaiki" over "berhasil dilakukan harmonisasi implementasi".
-- Write **short, active, direct sentences**, ideally one main idea each. Remove preambles such as "perlu diketahui bahwa" and duplicated restatements.
+- Use the user's language (Indonesian when the user writes Indonesian) and **familiar, concrete words**. Prefer "The team fixed the error" over "The remediation process was successfully operationalized."
+- Write **short, active, direct sentences**, ideally one main idea each. Remove filler such as "It should be noted that" and duplicated restatements.
 - Use a **consistent term for one concept**. Do not switch between five synonyms for the same branch, state, skill or module.
-- Introduce unavoidable jargon **once** in everyday words: e.g. "commit (catatan perubahan)" or "localtest (uji di PC Anda)". Do not repeat the glossary after it is understood.
-- Prefer **observable results** to internal process: "tiga file diperbaiki" rather than a list of planner/tool/subagent activities.
+- Introduce unavoidable jargon **once** in everyday words: for example, "commit (recorded source change)" or "local test (test on the user\'s own computer)". Do not repeat the glossary after it is understood.
+- Prefer **observable results** to internal process: "The developer corrected three files" rather than a list of planner, tool and subagent activities.
 - Use only as much precision as the decision needs; keep exact names, numbers, paths and safety warnings when omission would mislead.
 - Respect knowledgeable users: explain technical terms only as needed, never oversimplify a request for expert detail or speak condescendingly.
+
+## Sentence clarity — identify the actor and the action
+
+Use clear **subject–verb–object** structure when it improves comprehension: name who did the work, what they did, and what they changed. Add context only when it changes the decision. Prefer active verbs and concrete objects in progress reports, decisions, audit findings and action instructions.
+
+- Prefer **"The agent updated the routing rules on the selected branch."** over **"An update of the routing rules was performed."**
+- Prefer **"I reviewed three source files."** over **"Several checks were carried out."** Do not claim review, execution or completion without matching evidence.
+- Prefer **"The selected branch contains the new policy."** over **"Everything is ready."** Name the responsible actor if accountability matters.
+- Do **not** mechanically require an object in every sentence. **"The validator failed."**, **"Stop."** and concise headings are valid. Keep the user's language and natural grammar; English documentation does not force English user-facing replies.
+
+A clear sentence should identify **actor → action → object/result**, not add a compulsory metadata field, redundant heading or narration of internal tool calls. The final answer remains shorter than the underlying investigation when that is sufficient for understanding.
 
 ## Diagram-first decision rule — not diagram everywhere
 
@@ -33,9 +44,9 @@ Use a flow diagram if **understanding the sequence or relationship** is central 
 
 Examples (text diagrams are valid when visual tooling is absent):
 
-`Permintaan → Periksa sumber → Perbaiki → Bukti → Hasil`
+`Request → Inspect source → Make change → Verify evidence → Report result`
 
-`ChatGPT + GitHub (arsitektur/source) → Siap uji lokal → PC + AI agent (localtest)`
+`ChatGPT + GitHub (source development) → Source ready → Authorized PC-local test`
 
 If the interface supports Mermaid or an accessible flowchart, use it **only when reliably renderable and less work to read**. A diagram must also have a short text explanation or equivalent readable labels, so users are not forced to parse a visual. Never create a decorative diagram for a one-line answer; a large flowchart with 20 boxes is a documentation artifact, not the default chat response.
 
@@ -44,7 +55,7 @@ If the interface supports Mermaid or an accessible flowchart, use it **only when
 | User request | Best default |
 | --- | --- |
 | Short factual question / status | Direct answer in one compact paragraph |
-| "Apa hasilnya?" after repository work | What changed, one link/identifier if useful, what remains unverified |
+| "What changed?" after repository work | Result → completed work → evidence/limits → one next step or STOP |
 | Process / workflow / architecture | **Small start-to-end diagram** + one short explanation |
 | Compare alternatives | Compact table with the decisive differences |
 | Action guidance | Ordered steps only if needed to follow safely |
@@ -52,6 +63,21 @@ If the interface supports Mermaid or an accessible flowchart, use it **only when
 | Uncertainty / failure / safety concern | Direct limitation and actionable safe path; do not hide it to sound concise |
 
 Avoid automatically giving long tables of file names, SHA values, metadata, changelogs and test scenarios in user-facing reports. They can remain in GitHub or formal docs. Link to the smallest authoritative reference when helpful.
+
+## Material work reports — result, completed work, evidence, next step
+
+For a **material repository update, implementation summary or technical audit**, prefer this reading order when the sections add value:
+
+1. **Result:** state the actual outcome and whether the source changed in the first one or two sentences.
+2. **Completed work:** summarize the important completed changes using a short paragraph or a few scannable items. Each item names an action and its object; do not dump a full file inventory unless requested.
+3. **Evidence and limits:** give one relevant source/commit link or concrete observation, the actual proof tier, and any limitation that affects acceptance (for example, local tests were not executed).
+4. **Next step:** place **one clearly separated `Next step` line or small heading at the end**. Name the next responsible actor, concrete action and prerequisite when action remains. Use ordinary bold text or a small heading, not a colored badge or decorative container.
+
+**Do not invent a next action.** When the scoped goal is complete at the permitted proof ceiling, end the material update with **"Next step: None — STOP."** (translated into the user's language as appropriate). This is a completion statement, not a request to create new tasks. If another phase requires a separate user decision, identify that dependency without implying approval or demanding tests while held. If an action is blocked, describe the real blocker and responsible next actor; do not claim `DONE`.
+
+These four sections are **conditional presentation guidance, not a mandatory report template**. A short factual answer, chat message, status correction or simple decision should remain one compact paragraph. For a requested full technical audit, preserve the depth, source evidence and risk details needed to make decisions. Do not add a next-step heading merely to fill space.
+
+**Visual priority:** put the answer first; keep completed actions together; place any important caveat adjacent to the relevant claim; make the final action or terminal STOP easy to locate. Do not use repeated colored boxes, multiple competing "next steps," a long status dashboard or unnecessary typography.
 
 ## Accuracy and evidence are non-negotiable
 
@@ -64,11 +90,14 @@ Avoid automatically giving long tables of file names, SHA values, metadata, chan
 ## Internal pre-send check — not shown as a checklist to the user
 
 - Is the **actual answer visible first**?
+- Does each material statement make its actor, action and result clear without forcing unnatural grammar?
+- For a material work update, can the reader scan completed work, evidence and the **final Next step**, or see an explicit STOP when no next action exists?
 - Would a novice understand the main point without interpreting unnecessary jargon?
 - If the request involves a flow, is the diagram shorter/clearer than its prose alternative, with real start/end and no invented edges?
 - Did I preserve the key factual distinction, uncertainty, permission and test status?
 - Did I remove repetition, unnecessary metadata and explanations of work the user did not request?
 - Can the reader take the next necessary action **without asking a clarification that the answer should already resolve**?
+- Did I omit invented follow-up tasks and keep brief questions free of report-template overhead?
 
 Use `evaluation-and-improvement.md` and the communication-specific rubric for actual measurement later. Do not claim reading-time gains from a shorter word count alone.
 

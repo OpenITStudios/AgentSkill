@@ -74,3 +74,7 @@ Ten additional **normative, not executed** cases cover selecting the right core 
 ## Evidence integrity and negative source inversion (GOV-231–GOV-236)
 
 Six normative, **not executed** cases distinguish observed source from inferred causes, disallow source-only runtime PASS, and preserve the origin of instructions through session recovery. Two negative regression-source tests preserve the route marker but reverse the operative STOP and GitHub recovery directive. Even when executed, this is a narrow L0 check; it does not certify arbitrary Markdown semantics or real agent behavior.
+
+## Result-first communication and next-step integrity (GOV-237–GOV-242)
+
+Six additional **normative, not executed** scenarios cover clear actor/action/object sentences, scannable completed work, evidence limits, a visible final next step or terminal STOP, legitimate approval blockers, simple-answer abstention, and preservation of the user's language despite English source documentation. These cases are expected outcomes only; no user comprehension, host behavior or response-time study has been run.

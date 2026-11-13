@@ -10,7 +10,7 @@
 
 ## User-facing communication — mandatory on every response
 
-**Answer first, plain language, shortest sufficient explanation.** Match the user's technical knowledge; avoid jargon, repetitive status blocks and long file/commit inventories. Prefer a **small start-to-end diagram** for workflows or architecture when it improves understanding; never force one for a simple question. Include only essential reasoning, next action and accurate proof limits. Do not trade correctness for brevity. The canonical owner is `.agent-standard/core/user-facing-communication.md` (ASD-STE100 clarity principles adapted for Indonesian; no certification claim). **This rule applies without activating a separate Skill.**
+**Answer first, plain language, shortest sufficient explanation.** Match the user's technical knowledge; avoid jargon, repetitive status blocks and long file/commit inventories. Prefer a **small start-to-end diagram** for workflows or architecture when it improves understanding; never force one for a simple question. Include only essential reasoning, next action and accurate proof limits. Do not trade correctness for brevity. For material work reports, use clear actor–action–object sentences, list completed work and matched evidence, and end with one easy-to-find **Next step** or explicit **STOP** if no further action is needed. Do not invent follow-up work or impose a long template on simple answers. The canonical owner is `.agent-standard/core/user-facing-communication.md` (ASD-STE100 clarity principles adapted for Indonesian; no certification claim). **This rule applies without activating a separate Skill.**
 
 ## Mandatory execution-surface identification
 

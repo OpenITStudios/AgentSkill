@@ -12,11 +12,11 @@ function run(...args) {
   return spawnSync(process.execPath, [CLI, ...args], { encoding: 'utf8' });
 }
 
-test('canonical source, skill metadata and 236 normative cases validate', () => {
+test('canonical source, skill metadata and 242 normative cases validate', () => {
   const r = run('validate');
   assert.equal(r.status, 0, r.stderr);
   assert.match(r.stdout, /VALIDATE PASS/);
-  assert.match(r.stdout, /236 normative cases/);
+  assert.match(r.stdout, /242 normative cases/);
   assert.match(r.stdout, /NO MODEL TESTS RUN/);
 });
 
@@ -411,6 +411,37 @@ test('communication rubric must remain normative and measured claims cannot be p
   }
 });
 
+
+test('communication update has explicit next-step evidence and preserves simple answers', async () => {
+  const [policy, examples, rubricText] = await Promise.all([
+    readFile(join(ROOT, '.agent-standard/core/user-facing-communication.md'), 'utf8'),
+    readFile(join(ROOT, 'docs/examples/user-facing-answer-patterns.md'), 'utf8'),
+    readFile(join(ROOT, 'evals/communication-rubric.json'), 'utf8')
+  ]);
+  const rubric = JSON.parse(rubricText);
+  assert.match(policy, /subject–verb–object/);
+  assert.match(policy, /Do not invent a next action/);
+  assert.match(examples, /Next step:\*\* None — STOP/);
+  assert.match(examples, /Simple factual answer — no template/);
+  assert.ok(rubric.dimensions.some(x => x.id === 'next_step_integrity' && x.type === 'hard_gate'));
+});
+
+test('communication validator rejects an invented next-step directive', async () => {
+  const parent = await mkdtemp(join(tmpdir(), 'oits-next-step-'));
+  const snapshot = join(parent, 'snapshot');
+  try {
+    await cp(ROOT, snapshot, { recursive: true, filter: src => !src.split(/[\\/]/).some(part => part === '.git' || part === 'node_modules') });
+    const file = join(snapshot, '.agent-standard/core/user-facing-communication.md');
+    const source = await readFile(file, 'utf8');
+    assert.match(source, /\*\*Do not invent a next action\.\*\*/);
+    await writeFile(file, source.replace('**Do not invent a next action.**', '**Invent a next action.**'));
+    const result = spawnSync(process.execPath, [join(snapshot, 'tools/standard.mjs'), 'validate'], { encoding: 'utf8' });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /COMMUNICATION FORMAT: material update or justified next-step contract missing/);
+  } finally {
+    await rm(parent, { recursive: true, force: true });
+  }
+});
 
 test('method registry remains pinned and preserves one Karpathy/Ponytail default pass', async () => {
   const parent = await mkdtemp(join(tmpdir(), 'oits-method-gate-'));
