@@ -29,7 +29,7 @@ Every material mutation can invalidate observations of affected artifacts. Reuse
 
 ## Branch-scoped GitHub history and live status
 
-Keep **current active status** short in the *existing* canonical operations/CONTEXT owner. For a returning ChatGPT task, establish **topic, selected branch/ref+HEAD, user permissions, active holds and current relevant owner**, then inspect **bounded GitHub commit history filtered to that branch and known source path**. Search broader only if a rename or a cross-owner change makes the path filter incomplete. Reconcile historical `Work / State / Proof / Next` with the current source; an old commit cannot reopen a hold or become new user authorization.
+Keep **current active status** short in the *existing* canonical operations/CONTEXT owner. Recover user topic and current branch/HEAD, source, permissions and holds first. Scan 30 branch-wide commit metadata and expand cumulative 50/100 only on evidence gaps; trace older Work/path/decision history when necessary. Reconcile current/superseded decisions, checkpoint ancestry and changed source; neither latest commit nor historical Next is authority.
 
 Full procedure: `commit-continuity-and-recovery.md`. Avoid preloading large next-action histories, creating new progress databases, or assuming a link/hash means the necessary content was actually loaded.
 
@@ -37,7 +37,7 @@ Full procedure: `commit-continuity-and-recovery.md`. Avoid preloading large next
 
 Preserve exactly the decision-critical packet:
 
-`GOAL | RESULT | MODE | REPO | SELECTED_REF | LAST_OBSERVED_HEAD | AUTHORIZED_EFFECTS | HOLDS | PRIMARY_OWNER | REQUIRED_SOURCE/REVISIONS | COMPLETED_RECEIPTS | UNKNOWN_OUTCOMES | REQUIRED_PROOF | NEXT_SAFE_STEP`
+`USER_TOPIC | WORK_ID (OBSERVED/INFERRED) | GOAL | RESULT | MODE | REPO | SELECTED_REF | LAST_OBSERVED_HEAD | AUTHORIZED_EFFECTS | HOLDS | PRIMARY_OWNER | CURRENT_DECISIONS+EVIDENCE | SUPERSEDED/CONFLICTS | REQUIRED_SOURCE/REVISIONS | COMPLETED_RECEIPTS | UNKNOWN_OUTCOMES | REQUIRED_PROOF | NEXT_SAFE_STEP`
 
 Checkpoint is a recovery aid, not an alternate truth store. After restarting, re-pin selected ref and verify current source. Reload any mandatory material genuinely lost during compaction; do not pretend a summary contains an unread reference. Never replay a non-idempotent write simply because it appeared as a pending step.
 

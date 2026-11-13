@@ -39,7 +39,7 @@ Source-only cases check meaningful subject + typed material body, truthful Proof
 
 The offline commit checker validates **message structure**, not whether the code actually works or a prior Next is permitted. A material GitHub commit with truthful values remains subject to source/permission review. A later host evaluation is needed to measure whether cross-chat context recovery improves.
 
-## GitHub Continuity v2 (GOV-129 onward)
+## GitHub commit tiers and branch recovery (GOV-129–GOV-150)
 
 Additional normative cases distinguish three commit tiers, safe diffs, nondefault branch recovery, path rename/pagination fallback, current-status precedence, and the inability of a format check to certify source or test correctness. All remain **NOT_EXECUTED** until an authorized PC-local agent measures them.
 
@@ -50,3 +50,7 @@ Additional normative cases distinguish three commit tiers, safe diffs, nondefaul
 The source-backed pilot examines actual selected branch snapshots, topic-specific commits, status-owner precedence, missing Next fields and revision-limited native evidence. New normative scenarios check parent/HEAD mismatch, changed-file scope, pagination, rename fallback, untrusted snapshot origin and old-test-SHA boundaries. The offline snapshot test code is **authored but NOT_EXECUTED**; no model benchmark, localtest or CI was run.
 
 **GOV-169–GOV-170:** exact branch-with-slash recovery when a connector URL fails, and preservation of nested AGENTS before repository adoption. Authored source cases, not executed host checks.
+
+## Adaptive workstream recovery and release discipline (GOV-171–GOV-190)
+
+Twenty source-only normative cases cover adaptive depth, older targeted history, interleaved topics, superseded decisions, checkpoint/HEAD divergence, stale proof and release-only numbering. No real host/model/native tests were executed; behavioral improvement remains NOT_MEASURED.

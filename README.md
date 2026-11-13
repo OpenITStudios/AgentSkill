@@ -4,6 +4,10 @@
 
 AgentSkill is the canonical source for **how OpenITStudios agents work**: portable instructions, reusable core skills, operating procedures, permission boundaries and conformance cases. It is **not** a new multi-agent runtime or a replacement for Codex, OpenCode, repository-specific skills, or the product's testing engine.
 
+## Versioning and changelog
+
+AgentSkill has **one product/release version**, currently `0.1.0-draft`. Do not rename protocols "v1/v2/v3" for each improvement or bump the package on every commit. Record source changes by commit SHA and Work ID, and keep meaningful pending updates under `CHANGELOG.md` **[Unreleased]**. A new version (for example 0.2, represented as `0.2.0` in machine fields) requires an explicitly approved, meaningful and compatibility-reviewed release milestone; no automatic tag, deployment or rollout.
+
 ## How agents must answer users
 
 **Answer first → small diagram when a flow needs one → essential detail → stop.** Write in familiar language, especially for nontechnical readers. Do not repeat information or dump long technical file lists. A diagram is preferred for a real process, **not** for a simple one-line answer. Accuracy, citations, permission and test limitations remain mandatory.
@@ -14,9 +18,9 @@ Canonical rules: [User-Facing Communication](.agent-standard/core/user-facing-co
 
 **Write only what future work needs.** A trivial verified wording fix needs a clear subject; normal changes need five continuity fields; architectural/security/permission changes keep all seven. `Goal / Work / State / Proof / Next` preserve a stable task topic and real proof limit. `Decision / Unresolved` remain mandatory when risk is critical.
 
-For a new ChatGPT chat: **current user topic → selected branch → relevant current status/source → branch/path-scoped recent commits → reconcile → safe next step**. The latest unrelated commit is not the current task. No localtest, CI or cloud executor is used for this source workflow.
+For a new ChatGPT chat: **user topic → branch/HEAD/holds → current owner/status → 30 branch commit metadata → 50/100 only if needed → targeted older Work/path/decision history → reconcile source, proof and permissions → authorized next step**. No count is a hard limit and the latest unrelated commit is not the task. Read only decisive diffs. No localtest/CI/cloud substitute.
 
-[Canonical protocol](.agent-standard/core/commit-continuity-and-recovery.md) · [V2 examples](docs/examples/commit-continuity.md) · [Research decisions](docs/research/github-continuity-v2-design.md)
+[Canonical protocol](.agent-standard/core/commit-continuity-and-recovery.md) · [Commit examples](docs/examples/commit-continuity.md) · [Research decisions](docs/research/github-continuity-v2-design.md)
 
 The optional offline `tools/commit-message-check.mjs` validates formatting and *conservative* diff risk signals; it never certifies code correctness or runs tests. Passing `--trivial` alone is not sufficient.
 
@@ -70,7 +74,7 @@ An `AGENTS.md` cannot grant capabilities, overwrite platform instructions or sil
 - `.agent-standard/core/user-facing-communication.md` — **mandatory answer contract** for short, plain-language and diagram-assisted responses.
 - `.agent-standard/core/INDEX.md` — canonical selector for execution surfaces, host identity, routing, context, handoff, evaluation and tools; load other modules only when needed.
 - `.agent-standard/profile.json` — **this repo's** policy profile, not for copying verbatim.
-- `skills/core/` — the three v1 baseline skills.
+- `skills/core/` — the three baseline skills.
 - `registry/standard.manifest.json` — exact distribution paths and current standard version.
 - `registry/methods.json` — eight source-pinned methods with activation, rejection, safety, and cases; distributed as `.agent-standard/methods.json`.
 - `schemas/repository-profile.schema.json` — reference format for project policy profiles.

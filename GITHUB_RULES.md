@@ -24,17 +24,23 @@ Always respect selected branch and project holds. A repo branch named `Local` ne
 - If the expected SHA moved, **stop and reconcile current history**. No force push or overwrite of concurrent work just to make the action pass.
 - One logical unit per commit; do not create staging branches or CI workflows merely as transport. Never assert a PR exists when working directly on one branch.
 
-## Commit quality and cross-chat continuity — GitHub v2
+## Commit quality and cross-chat continuity
 
 For every coherent change, use `type(scope): concrete outcome`. Commit body depends on **actual change risk**: **TRIVIAL** only for a diff-reviewed small documentation typo, **NORMAL** requires `Goal / Work / State / Proof / Next`, and **CRITICAL** (architecture, security, permissions, agent policy, contracts, migrations or high-risk integration) requires all seven including `Decision / Unresolved`. Existing fuller seven-field messages remain valid. Never use `--trivial` alone to skip a body.
 
 `Work` names a **stable topic**; `Proof` matches actual evidence at the source revision; `Next` is only a safe suggestion, **never** authorization. Use `.agent-standard/core/commit-continuity-and-recovery.md` for the single authoritative format and recovery flow. Do not copy transcripts or repeat every changed file in the message.
 
-On a new ChatGPT session, recover **user topic → selected branch/HEAD/profile → current relevant status/source → bounded branch-scoped path/topic commit history → reconcile → authorized next source action**. Global GitHub commit search only indexes default branches; prefer List Commits with explicit `sha` and optional `path` for `Local`/`develop`. Never infer work was absent from a truncated or path-filtered result. Preserve current project branch, active holds and no-CI/no-cloud/no-localtest rules.
+On a new ChatGPT session: **user topic → exact branch/HEAD → current owner/status → 30 branch commit metadata → 50/100 if incomplete → targeted older Work/path/decision history → verify current source, evidence and permissions → next authorized action**. Do not assume the newest commit or a prior Next is authoritative. Do not load all diffs; global commit search is incomplete for nondefault branches.
 
 ## Real GitHub object verification — before source-level coverage claims
 
 After a material commit or when reconciling old work, read the **actual selected branch HEAD** and **exact GitHub commit object**, check its parent against the observed prior HEAD where applicable, and inspect the returned changed files/status/rename paths. More than 300 changed files may be paginated; missing binary patches or incomplete responses must be marked partial. Source/file metadata can support only **source-level** conclusions, not runtime PASS. Arbitrary patch text or snapshot JSON is **not** proof that GitHub returned those bytes. The canonical decision procedure is `commit-continuity-and-recovery.md`; the source-only pilot is in `docs/research/` of AgentSkill. Do not run localtest, GitHub Actions or cloud CI to compensate.
+
+## Version and release discipline
+
+Use **one meaningful AgentSkill package version**, not a new numbered "v1/v2/v3" for every Skill, protocol or iteration. Current version stays `0.1.0-draft` during ordinary source development. Git SHA and stable Work ID identify individual improvements. Small changes use Git history; noteworthy upcoming changes go under **[Unreleased]** in `CHANGELOG.md`.
+
+Only an **explicitly authorized release** with meaningful scope, compatibility/adoption review and matched evidence may increment package/manifest version. Never bump automatically, tag, publish, deploy or roll out as a side effect of a code change. Human display 0.1 → 0.2 → 0.3 corresponds to SemVer 0.1.0 → 0.2.0 → 0.3.0; 0.31.0 is not 0.3.1.
 
 ## Execution contexts
 - `REMOTE_GITHUB`: exact source read/write and static inspection. No build/test/native proof without a real executor.
