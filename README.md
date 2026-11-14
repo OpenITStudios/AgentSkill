@@ -15,6 +15,7 @@ Choose the path for your task. Reading these files does not authorize changes to
 | Review possible adoption by a project | [Controlled adoption guide](docs/adoption.md), then that project's current rules |
 | Inspect changes and historical decisions | [Changelog](CHANGELOG.md) and [decision record](docs/decisions.md) |
 | Improve a repository README | [README quality standard](docs/standards/repository-readme.md) |
+| Configure the ChatGPT repository workspace | [English Project Instructions](docs/templates/chatgpt-project-workspace-instructions.md) |
 | Browse OpenITStudios projects | [Public repository inventory](docs/repository-inventory.md) (three categories; private identities excluded) |
 
 For source work, identify the selected repository, branch, exact HEAD, and requested outcome. Read the applicable rules and only the relevant owner documents. A GitHub URL or Skill source file does not prove that an agent host loaded those instructions.
@@ -69,6 +70,8 @@ The [evidence policy](.agent-standard/core/evidence-and-recovery.md) distinguish
 | Workstream recovery and commit evidence | [Commit continuity](.agent-standard/core/commit-continuity-and-recovery.md) |
 | Repository root placement | [Root layout standard](docs/standards/repository-root-layout.md) |
 | Accurate README content and maintenance | [README quality standard](docs/standards/repository-readme.md) |
+| ChatGPT Project repository coordination | [Project Instructions](docs/templates/chatgpt-project-workspace-instructions.md) |
+| English technical content | [Technical English convention](docs/standards/technical-english-convention.md) |
 | Architecture and decisions | [Decision record](docs/decisions.md) |
 | Later local-PC acceptance handoff | [Source-to-local handoff](docs/templates/source-to-local-handoff.md) |
 
