@@ -5,6 +5,7 @@ A release version records a **meaningful approved milestone**, not every feature
 ## [Unreleased]
 
 ### Changed
+- Establish a conditional source-grounded HTML_SOURCE_PREVIEW reference for directly reviewing implemented UI in ChatGPT, with strict anti-fabrication, privacy, selected-SHA and native proof boundaries; downstream adoption remains independently owned.
 - Add English-only technical writing guidance and a deeper copy-ready ChatGPT Project repository workspace template, aligned with the approved account instructions; link both from README without changing adopted portable core or disclosing private repository data.
 - Add a privacy-safe, three-category OpenITStudios public repository inventory (5 public names; 11-project aggregate), with README navigation; preserve private repository boundaries and project-local source authority.
 - Reconcile all 11 adopted `M-` repositories to the canonical startup instruction that explicitly loads the real project-local policy; verify branch ancestry, two-file scope and root/lock source identity, and document the source-only results without running held tests.

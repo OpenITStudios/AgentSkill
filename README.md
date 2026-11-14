@@ -15,6 +15,7 @@ Choose the path for your task. Reading these files does not authorize changes to
 | Review possible adoption by a project | [Controlled adoption guide](docs/adoption.md), then that project's current rules |
 | Inspect changes and historical decisions | [Changelog](CHANGELOG.md) and [decision record](docs/decisions.md) |
 | Improve a repository README | [README quality standard](docs/standards/repository-readme.md) |
+| Preview an implemented UI within ChatGPT | [Source-grounded UI preview standard](docs/standards/chatgpt-source-ui-preview.md), then the target UI owner |
 | Configure the ChatGPT repository workspace | [English Project Instructions](docs/templates/chatgpt-project-workspace-instructions.md) |
 | Browse OpenITStudios projects | [Public repository inventory](docs/repository-inventory.md) (three categories; private identities excluded) |
 
